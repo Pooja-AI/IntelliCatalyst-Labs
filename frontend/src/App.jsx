@@ -1,6 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import AboutPlatform from "./components/AboutPlatform";
+import HowItWorks from "./components/HowItWorks";
+import Trends from "./components/Trends";
+import Future from "./components/Future";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
