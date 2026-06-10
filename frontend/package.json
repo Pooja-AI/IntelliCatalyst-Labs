@@ -5,6 +5,7 @@
   "type": "module",
 
   "homepage": "https://Pooja-AI.github.io/AICortex-Studio",
+  
   "scripts": {
   "dev": "vite",
   "build": "vite build",
