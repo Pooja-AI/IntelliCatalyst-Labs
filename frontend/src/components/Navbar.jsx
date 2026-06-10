@@ -6,9 +6,9 @@ function Navbar() {
       <div className="logo">AICortex Studio</div>
 
       <div className="menu">
-        <Link to="/">Home</Link>
-        <Link to="/projects">Projects</Link>
-        <Link to="/about">About</Link>
+        <Link to="/AICortex-Studio/">Home</Link>
+        <Link to="/AICortex-Studio/projects">Projects</Link>
+        <Link to="/AICortex-Studio/about">About</Link>
       </div>
     </nav>
   );
