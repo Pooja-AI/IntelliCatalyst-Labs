@@ -7,6 +7,7 @@ import AboutPlatform from "./components/AboutPlatform";
 import HowItWorks from "./components/HowItWorks";
 import Trends from "./components/Trends";
 import Future from "./components/Future";
+import Projects from "./pages/Projects";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/projects" element={<Projects />} />
         <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>

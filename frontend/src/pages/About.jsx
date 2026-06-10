@@ -4,7 +4,7 @@ function About() {
   return (
     <section className="about">
 
-      {/* HERO SECTION */}
+      {/* HERO */}
       <div className="about-hero">
 
         <img src={profilePic} alt="Pooja Sunkara" className="profile-img" />
@@ -14,76 +14,66 @@ function About() {
           <h2>AI/ML Solution Architect</h2>
 
           <p>
-            10+ years of experience designing enterprise AI systems,
-            Generative AI platforms, Agentic AI solutions, and scalable
-            MLOps architectures across Semiconductor, Energy, Pharma,
-            and Telecom domains.
+            10+ years of experience designing enterprise AI systems.
           </p>
 
           <div className="tags">
-            <span>AI/ML</span>
+            <span>AIML</span>
             <span>GenAI</span>
             <span>Agentic AI</span>
-            <span>LLMOps</span>
             <span>MLOps</span>
-            <span>Azure AI</span>
+            <span>LLMOps</span>
           </div>
         </div>
 
       </div>
 
-      {/* EXPERIENCE */}
-      <div className="grid">
+      {/* SOCIAL LINKS SECTION */}
+      <div className="social-section">
 
-        <div className="card">
-          <h3>🚀 Experience</h3>
-          <p>10+ Years in AI/ML & Enterprise Solutions</p>
+        <h2>Connect With Me</h2>
+
+        <div className="social-grid">
+
+          <a href="mailto:@gmail.com" className="social-card">
+            📧 Email
+            <p>sunkara.pooja226@gmail.com</p>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/pooja-sunkara-873b24ba/"
+            target="_blank"
+            className="social-card"
+          >
+            🔗 LinkedIn
+            <p>View Profile</p>
+          </a>
+
+          <a
+            href="https://github.com/Pooja-AI"
+            target="_blank"
+            className="social-card"
+          >
+            💻 GitHub
+            <p>Projects & Code</p>
+          </a>
+
+          <a
+            href="https://www.youtube.com/@poojasunkara3178"
+            target="_blank"
+            className="social-card"
+          >
+            ▶ YouTube
+            <p>AI Tutorials</p>
+          </a>
+
         </div>
-
-        <div className="card">
-          <h3>🏭 Industries</h3>
-          <p>Semiconductor, Energy, Pharma, Telecom</p>
-        </div>
-
-        <div className="card">
-          <h3>🧠 Expertise</h3>
-          <p>GenAI, LLMs, RAG, Agentic AI, MLOps</p>
-        </div>
-
       </div>
 
-      {/* DETAILED SECTIONS */}
+      {/* DETAILS */}
       <div className="about-details">
 
-        <div className="glass-card">
-          <h2>Professional Summary</h2>
-          <p>
-            Experienced AI/ML Solution Architect specializing in designing
-            and deploying enterprise-grade AI systems using Generative AI,
-            Machine Learning, Deep Learning, and Computer Vision.
-          </p>
-        </div>
-
-        <div className="glass-card">
-          <h2>Technical Expertise</h2>
-          <ul>
-            <li>Generative AI & LLMs (RAG, Prompt Engineering)</li>
-            <li>Agentic AI Systems & Multi-Agent Design</li>
-            <li>Azure ML, Databricks, MLflow</li>
-            <li>MLOps & Model Deployment Pipelines</li>
-            <li>Computer Vision (YOLO, OpenCV)</li>
-          </ul>
-        </div>
-
-        <div className="glass-card">
-          <h2>Leadership Impact</h2>
-          <ul>
-            <li>Led enterprise AI platform development</li>
-            <li>Designed scalable GenAI solutions</li>
-            <li>Delivered production-ready ML systems</li>
-            <li>Mentored AI engineering teams</li>
-          </ul>
-        </div>
+        
 
       </div>
 
