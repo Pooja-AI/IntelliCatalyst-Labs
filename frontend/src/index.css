@@ -457,3 +457,75 @@ body {
   font-size: 14px;
   line-height: 1.6;
 }
+
+.project-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f7f7f7;
+  border-radius: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+.section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.section li {
+  background: #111;
+  color: #00ff88;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.flow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.node {
+  padding: 10px;
+  background: #222;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.node:hover {
+  background: #444;
+}
+
+.info-box {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f2f2f2;
+  border-radius: 10px;
+}
