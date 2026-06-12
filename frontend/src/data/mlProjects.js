@@ -4,6 +4,17 @@ const mlProjects = [
     title: "Customer Churn Prediction System",
     category: "Classification",
     description: "Predict customer churn using ML models like Random Forest and XGBoost.",
+    problemStatement: "Predict whether customers will leave a service based on usage, billing, and behavior data.",
+    architecture: "/architecture/customer-churn.png",
+    workflow: [
+      "Data collection",
+      "Data preprocessing",
+      "Feature engineering",
+      "Model training (Random Forest, XGBoost)",
+      "Model evaluation",
+      "Deployment using FastAPI"
+    ],
+    deployment: "Deployed using FastAPI with REST API and React dashboard.",
     github: "",
     demo: "",
     documentation: "",
@@ -15,6 +26,17 @@ const mlProjects = [
     title: "Credit Risk Assessment Model",
     category: "Classification",
     description: "Assess credit risk of loan applicants using ML models.",
+    problemStatement: "Evaluate loan applicant risk to reduce financial defaults.",
+    architecture: "/architecture/credit-risk.png",
+    workflow: [
+      "Data ingestion",
+      "Data cleaning",
+      "Feature selection",
+      "Model training",
+      "Risk scoring",
+      "Deployment"
+    ],
+    deployment: "API-based scoring system for credit risk evaluation.",
     github: "",
     demo: "",
     documentation: "",
@@ -26,6 +48,16 @@ const mlProjects = [
     title: "Loan Default Prediction Engine",
     category: "Classification",
     description: "Predict probability of loan default using financial data.",
+    problemStatement: "Identify high-risk loan applicants before approval.",
+    architecture: "/architecture/loan-default.png",
+    workflow: [
+      "Data preprocessing",
+      "Feature engineering",
+      "Model training",
+      "Evaluation",
+      "Deployment"
+    ],
+    deployment: "Deployed as REST API for banking systems.",
     github: "",
     demo: "",
     documentation: "",
@@ -37,6 +69,16 @@ const mlProjects = [
     title: "Insurance Premium Prediction System",
     category: "Regression",
     description: "Predict insurance premium based on risk factors.",
+    problemStatement: "Estimate insurance cost based on customer profile.",
+    architecture: "/architecture/insurance.png",
+    workflow: [
+      "Data cleaning",
+      "Feature engineering",
+      "Regression modeling",
+      "Evaluation",
+      "Deployment"
+    ],
+    deployment: "FastAPI-based prediction service.",
     github: "",
     demo: "",
     documentation: "",
@@ -48,6 +90,15 @@ const mlProjects = [
     title: "Fraud Detection using Anomaly Detection",
     category: "Anomaly Detection",
     description: "Detect fraudulent transactions using Isolation Forest.",
+    problemStatement: "Identify abnormal financial transactions in real-time.",
+    architecture: "/architecture/fraud.png",
+    workflow: [
+      "Data preprocessing",
+      "Anomaly detection",
+      "Model training",
+      "Alert generation"
+    ],
+    deployment: "Real-time fraud detection API.",
     github: "",
     demo: "",
     documentation: "",
@@ -59,6 +110,15 @@ const mlProjects = [
     title: "Sales Forecasting using Time Series ML",
     category: "Time Series",
     description: "Forecast sales using ARIMA and Prophet.",
+    problemStatement: "Predict future sales trends for business planning.",
+    architecture: "/architecture/sales-forecast.png",
+    workflow: [
+      "Time series preprocessing",
+      "Trend analysis",
+      "Model training",
+      "Forecasting"
+    ],
+    deployment: "Dashboard-based forecasting system.",
     github: "",
     demo: "",
     documentation: "",
@@ -66,157 +126,23 @@ const mlProjects = [
   },
 
   {
-    id: "demand-forecasting",
-    title: "Demand Forecasting for Retail Inventory",
-    category: "Time Series",
-    description: "Predict product demand for inventory planning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LSTM"]
-  },
-
-  {
     id: "customer-segmentation",
     title: "Customer Segmentation using Clustering",
     category: "Unsupervised Learning",
     description: "Segment customers using K-Means clustering.",
+    problemStatement: "Group customers based on behavior for marketing strategies.",
+    architecture: "/architecture/clustering.png",
+    workflow: [
+      "Data preprocessing",
+      "Feature scaling",
+      "K-Means clustering",
+      "Cluster analysis"
+    ],
+    deployment: "Used in marketing analytics dashboard.",
     github: "",
     demo: "",
     documentation: "",
     tech: ["Python", "K-Means"]
-  },
-
-  {
-    id: "market-basket",
-    title: "Market Basket Analysis",
-    category: "Association Rules",
-    description: "Find product associations using Apriori algorithm.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Apriori"]
-  },
-
-  {
-    id: "employee-attrition",
-    title: "Employee Attrition Prediction System",
-    category: "Classification",
-    description: "Predict employee attrition using HR data.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Random Forest"]
-  },
-
-  {
-    id: "house-price",
-    title: "House Price Prediction Model",
-    category: "Regression",
-    description: "Predict housing prices using regression models.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Linear Regression"]
-  },
-
-  {
-    id: "airline-price",
-    title: "Airline Ticket Price Prediction System",
-    category: "Regression",
-    description: "Predict airline ticket prices based on demand.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "XGBoost"]
-  },
-
-  {
-    id: "recommendation-system",
-    title: "Product Recommendation System",
-    category: "Recommendation",
-    description: "Recommend products using collaborative filtering.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Matrix Factorization"]
-  },
-
-  {
-    id: "spam-classification",
-    title: "Spam Email Classification System",
-    category: "NLP",
-    description: "Classify emails as spam or not spam.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Naive Bayes"]
-  },
-
-  {
-    id: "sentiment-analysis",
-    title: "Sentiment Analysis System",
-    category: "NLP",
-    description: "Analyze sentiment from text data.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "TF-IDF", "Logistic Regression"]
-  },
-
-  {
-    id: "healthcare-risk",
-    title: "Healthcare Disease Risk Prediction",
-    category: "Healthcare",
-    description: "Predict disease risk like diabetes or heart disease.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Scikit-Learn"]
-  },
-
-  {
-    id: "energy-consumption",
-    title: "Energy Consumption Prediction System",
-    category: "Time Series",
-    description: "Predict energy usage for optimization.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LSTM"]
-  },
-
-  {
-    id: "marketing-response",
-    title: "Marketing Campaign Response Prediction",
-    category: "Classification",
-    description: "Predict customer response to marketing campaigns.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "XGBoost"]
-  },
-
-  {
-    id: "loan-eligibility",
-    title: "Loan Eligibility Prediction System",
-    category: "Classification",
-    description: "Check loan eligibility using applicant data.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Decision Trees"]
-  },
-
-  {
-    id: "telecom-analysis",
-    title: "Telecom Usage Pattern Analysis",
-    category: "Analytics",
-    description: "Analyze telecom usage patterns.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Pandas", "EDA"]
   }
 ];
 

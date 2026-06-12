@@ -4,6 +4,25 @@ const rlProjects = [
     title: "Grid World Path Finder using Q-Learning",
     category: "Value-Based RL",
     description: "Find optimal path in grid world using Q-Learning algorithm.",
+
+    problemStatement:
+      "Design a reinforcement learning agent that learns the optimal path from a start state to a goal state while avoiding obstacles and maximizing cumulative rewards.",
+
+    architecture:
+      "Environment → State Space → Q-Table → Action Selection (Epsilon-Greedy) → Reward System → Policy Update → Optimal Path Extraction",
+
+    workflow: [
+      "Initialize grid world environment",
+      "Define reward structure for goal, obstacle, and steps",
+      "Initialize Q-table",
+      "Apply epsilon-greedy exploration",
+      "Update Q-values iteratively",
+      "Derive optimal policy path"
+    ],
+
+    deployment:
+      "Deployed as a Python simulation using OpenAI Gym-style custom environment",
+
     github: "",
     demo: "",
     documentation: "",
@@ -15,6 +34,24 @@ const rlProjects = [
     title: "Cliff Walking Problem (Safe vs Risky Path Learning)",
     category: "Value-Based RL",
     description: "Learn safe vs risky paths using reinforcement learning.",
+
+    problemStatement:
+      "Train an RL agent to navigate from start to goal while avoiding cliff states that produce high negative rewards.",
+
+    architecture:
+      "Cliff Environment → State Space → Q-Table → Policy (Epsilon-Greedy) → Reward Penalization → Learning Loop",
+
+    workflow: [
+      "Define CliffWalking environment",
+      "Initialize Q-table",
+      "Apply epsilon-greedy strategy",
+      "Train over multiple episodes",
+      "Penalize cliff falls heavily",
+      "Converge to safe path policy"
+    ],
+
+    deployment: "Gym-based simulation environment",
+
     github: "",
     demo: "",
     documentation: "",
@@ -22,21 +59,29 @@ const rlProjects = [
   },
 
   {
-    id: "tic-tac-toe-rl",
-    title: "Tic-Tac-Toe AI using Q-Learning",
-    category: "Game AI",
-    description: "Train AI agent to play Tic-Tac-Toe optimally using Q-Learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Q-Learning"]
-  },
-
-  {
     id: "cartpole-dqn",
     title: "CartPole Balancing using Deep Q-Network (DQN)",
     category: "Deep RL",
     description: "Balance pole using Deep Q-Network agent.",
+
+    problemStatement:
+      "Train a deep reinforcement learning agent to balance a pole on a moving cart for maximum duration without failure.",
+
+    architecture:
+      "Environment → Neural Network (Q-function) → Experience Replay → Target Network → Action Selection → Training Loop",
+
+    workflow: [
+      "Initialize CartPole environment",
+      "Build deep neural network model",
+      "Store experiences in replay buffer",
+      "Sample mini-batches for training",
+      "Update Q-network and target network",
+      "Evaluate balancing performance"
+    ],
+
+    deployment:
+      "Trained using PyTorch + OpenAI Gym simulation environment",
+
     github: "",
     demo: "",
     documentation: "",
@@ -44,21 +89,28 @@ const rlProjects = [
   },
 
   {
-    id: "mountain-car",
-    title: "Mountain Car Problem using SARSA / Q-Learning",
-    category: "Value-Based RL",
-    description: "Solve Mountain Car environment using RL algorithms.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "SARSA", "Q-Learning"]
-  },
-
-  {
     id: "taxi-v3",
     title: "Taxi V3 Environment RL Agent",
     category: "Value-Based RL",
-    description: "Train agent to solve Taxi pickup and drop problem.",
+    description: "Train agent to solve taxi pickup and drop problem.",
+
+    problemStatement:
+      "Develop an RL agent that learns optimal pickup and drop-off strategies in a grid-world taxi environment.",
+
+    architecture:
+      "Taxi Environment → State Encoding → Q-Table → Action Selection → Reward System → Policy Optimization",
+
+    workflow: [
+      "Define Taxi-v3 environment",
+      "Encode states (location, passenger, destination)",
+      "Initialize Q-table",
+      "Train using Q-learning",
+      "Optimize pickup/drop strategy",
+      "Evaluate success rate"
+    ],
+
+    deployment: "OpenAI Gym Taxi-v3 simulation",
+
     github: "",
     demo: "",
     documentation: "",
@@ -66,102 +118,33 @@ const rlProjects = [
   },
 
   {
-    id: "frozenlake",
-    title: "FrozenLake Game Solver using Q-Learning",
-    category: "Value-Based RL",
-    description: "Solve FrozenLake environment using reinforcement learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Gym", "Q-Learning"]
-  },
-
-  {
-    id: "maze-solver",
-    title: "Simple Maze Solver Agent using RL",
-    category: "Navigation RL",
-    description: "Agent learns to solve maze using reinforcement learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Q-Learning"]
-  },
-
-  {
     id: "stock-trading-rl",
     title: "Stock Trading Simulator using RL",
     category: "Finance RL",
     description: "Simulate stock trading decisions using reinforcement learning.",
+
+    problemStatement:
+      "Build an RL agent that learns optimal buy/sell/hold decisions to maximize profit in stock markets.",
+
+    architecture:
+      "Market Data → Feature Engineering → Trading Environment → RL Agent → Reward (Profit/Loss) → Policy Learning",
+
+    workflow: [
+      "Load historical stock data",
+      "Define trading actions (buy/sell/hold)",
+      "Create custom trading environment",
+      "Define reward based on profit/loss",
+      "Train RL agent",
+      "Backtest strategy performance"
+    ],
+
+    deployment:
+      "Python-based backtesting simulation environment",
+
     github: "",
     demo: "",
     documentation: "",
     tech: ["Python", "RL", "Finance"]
-  },
-
-  {
-    id: "dynamic-pricing",
-    title: "Dynamic Pricing Simulation Model using RL",
-    category: "Business RL",
-    description: "Optimize pricing strategy using reinforcement learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "RL", "Optimization"]
-  },
-
-  {
-    id: "multi-armed-bandit",
-    title: "Multi-Armed Bandit Problem for Ad Selection",
-    category: "Bandit Algorithms",
-    description: "Optimize ad selection using bandit algorithms.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Bandit Algorithms"]
-  },
-
-  {
-    id: "inventory-rl",
-    title: "Inventory Restocking Optimization using RL",
-    category: "Business RL",
-    description: "Optimize inventory restocking using reinforcement learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "RL", "Optimization"]
-  },
-
-  {
-    id: "elevator-scheduling",
-    title: "Elevator Scheduling Optimization using RL",
-    category: "System Optimization RL",
-    description: "Optimize elevator movement using reinforcement learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "RL Simulation"]
-  },
-
-  {
-    id: "traffic-signal",
-    title: "Traffic Light Control Simulation using RL",
-    category: "Smart City RL",
-    description: "Optimize traffic signals using reinforcement learning.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "RL", "Simulation"]
-  },
-
-  {
-    id: "contextual-bandits",
-    title: "Recommendation System using Contextual Bandits",
-    category: "Bandit Algorithms",
-    description: "Personalized recommendation using contextual bandits.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Bandits", "Recommendation Systems"]
   }
 ];
 

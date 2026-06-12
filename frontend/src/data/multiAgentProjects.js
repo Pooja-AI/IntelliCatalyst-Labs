@@ -3,29 +3,67 @@ const multiAgentProjects = [
     id: "ai-research-team",
     title: "AI Research Team System",
     category: "Multi-Agent Systems",
-    description: "Search Agent + Summarizer Agent + Reporter Agent working together for research automation.",
+    description:
+      "Collaborative agents automate end-to-end research from data collection to structured reporting.",
+    problemStatement:
+      "Researchers spend significant time manually searching, summarizing, and structuring information from multiple sources. This system automates research workflows using multiple coordinated agents.",
+    architecture: "/architecture/multi-agent-research.png",
+    workflow: [
+      "User submits research query",
+      "Search agent gathers relevant data",
+      "Summarizer agent processes raw information",
+      "Reporter agent structures final insights",
+      "Final report is generated and delivered"
+    ],
+    deployment:
+      "Deployed using FastAPI backend with multi-agent orchestration layer and React UI for interaction.",
     github: "",
     demo: "",
     documentation: "",
-    tech: ["Python", "LLMs", "Multi-Agent", "RAG"]
+    tech: ["Python", "LLMs", "Multi-Agent Systems", "RAG"]
   },
 
   {
     id: "business-intelligence-system",
     title: "Autonomous Business Intelligence System",
     category: "Analytics Multi-Agent",
-    description: "Data Agent, Analytics Agent, and Insight Agent collaborate for BI automation.",
+    description:
+      "Multi-agent system that automates business intelligence reporting using data, analytics, and insight agents.",
+    problemStatement:
+      "Business analysts spend excessive time generating reports from raw data. This system automates data-to-insight pipelines using autonomous agents.",
+    architecture: "/architecture/bi-multi-agent.png",
+    workflow: [
+      "Data agent collects raw business data",
+      "Analytics agent processes KPIs",
+      "Insight agent generates business insights",
+      "Final BI report is created automatically"
+    ],
+    deployment:
+      "Deployed as cloud-based analytics service with API integration and dashboard interface.",
     github: "",
     demo: "",
     documentation: "",
-    tech: ["Python", "Pandas", "LLMs", "Agents"]
+    tech: ["Python", "Pandas", "LLMs", "Agentic AI"]
   },
 
   {
     id: "customer-support-multi-agent",
     title: "Customer Support Multi-Agent System",
     category: "Enterprise Support Agents",
-    description: "Triage Agent, Resolution Agent, and Escalation Agent handle support workflows.",
+    description:
+      "Multi-agent support system for ticket classification, resolution, and escalation.",
+    problemStatement:
+      "Customer support teams struggle with high ticket volume and slow resolution times due to manual routing and handling.",
+    architecture: "/architecture/support-multi-agent.png",
+    workflow: [
+      "User submits support ticket",
+      "Triage agent classifies issue",
+      "Resolution agent attempts automated solution",
+      "Escalation agent handles complex cases",
+      "Response sent to user"
+    ],
+    deployment:
+      "Integrated into enterprise support portal using FastAPI and chatbot interface.",
     github: "",
     demo: "",
     documentation: "",
@@ -36,7 +74,19 @@ const multiAgentProjects = [
     id: "devops-monitoring-system",
     title: "AI DevOps Monitoring System",
     category: "DevOps Multi-Agent",
-    description: "Log Agent, Alert Agent, and Fix Suggestion Agent for system monitoring.",
+    description:
+      "Automated monitoring system using agents for logs, alerts, and remediation suggestions.",
+    problemStatement:
+      "DevOps teams face challenges in detecting system failures early and resolving them quickly in complex distributed systems.",
+    architecture: "/architecture/devops-multi-agent.png",
+    workflow: [
+      "Log agent collects system logs",
+      "Monitoring agent detects anomalies",
+      "Alert agent triggers notifications",
+      "Fix agent suggests remediation steps"
+    ],
+    deployment:
+      "Deployed with Kubernetes-based microservices and monitoring dashboard.",
     github: "",
     demo: "",
     documentation: "",
@@ -47,18 +97,42 @@ const multiAgentProjects = [
     id: "intelligent-hiring-system",
     title: "Intelligent Hiring System",
     category: "HR Multi-Agent",
-    description: "Resume Parser, Ranking Agent, and Interview Agent automate hiring process.",
+    description:
+      "Automated recruitment system using resume parsing, ranking, and interview simulation agents.",
+    problemStatement:
+      "HR teams spend significant time manually screening resumes and evaluating candidates.",
+    architecture: "/architecture/hiring-multi-agent.png",
+    workflow: [
+      "Resume parser extracts candidate data",
+      "Ranking agent evaluates candidates",
+      "Interview agent simulates Q&A",
+      "Final hiring recommendation generated"
+    ],
+    deployment:
+      "Deployed as HR automation tool integrated with recruitment portal.",
     github: "",
     demo: "",
     documentation: "",
-    tech: ["Python", "NLP", "LLMs", "Recruitment"]
+    tech: ["Python", "NLP", "LLMs", "Recruitment AI"]
   },
 
   {
     id: "financial-analysis-multi-agent",
     title: "Financial Analysis Multi-Agent System",
     category: "Finance Multi-Agent",
-    description: "Data Collector, Risk Analyst, and Forecast Agent for financial insights.",
+    description:
+      "Multi-agent financial system for data analysis, forecasting, and risk evaluation.",
+    problemStatement:
+      "Financial analysts struggle with analyzing large datasets and generating timely insights.",
+    architecture: "/architecture/finance-multi-agent.png",
+    workflow: [
+      "Data agent collects financial data",
+      "Risk agent evaluates risk factors",
+      "Forecast agent predicts trends",
+      "Final financial report generated"
+    ],
+    deployment:
+      "Deployed in secure financial analytics environment with API-based access.",
     github: "",
     demo: "",
     documentation: "",
@@ -69,7 +143,19 @@ const multiAgentProjects = [
     id: "ecommerce-optimization",
     title: "E-commerce Optimization System",
     category: "Business Multi-Agent",
-    description: "Pricing Agent, Inventory Agent, and Recommendation Agent optimize e-commerce operations.",
+    description:
+      "Multi-agent system for pricing, inventory, and recommendation optimization.",
+    problemStatement:
+      "E-commerce platforms struggle to dynamically optimize pricing, inventory, and recommendations in real time.",
+    architecture: "/architecture/ecommerce-multi-agent.png",
+    workflow: [
+      "Pricing agent optimizes product prices",
+      "Inventory agent tracks stock levels",
+      "Recommendation agent suggests products",
+      "System updates e-commerce strategy"
+    ],
+    deployment:
+      "Deployed as cloud-based e-commerce optimization engine.",
     github: "",
     demo: "",
     documentation: "",
@@ -80,88 +166,23 @@ const multiAgentProjects = [
     id: "smart-travel-planning",
     title: "Smart Travel Planning System",
     category: "Planning Multi-Agent",
-    description: "Itinerary Agent, Booking Agent, and Budget Agent for travel planning.",
+    description:
+      "Multi-agent travel system for itinerary creation, booking, and budget optimization.",
+    problemStatement:
+      "Travel planning requires coordination between itinerary creation, budgeting, and bookings which is time-consuming for users.",
+    architecture: "/architecture/travel-multi-agent.png",
+    workflow: [
+      "Itinerary agent creates travel plan",
+      "Booking agent suggests flights/hotels",
+      "Budget agent optimizes cost",
+      "Final travel plan generated"
+    ],
+    deployment:
+      "Deployed as web-based travel assistant with API integrations.",
     github: "",
     demo: "",
     documentation: "",
     tech: ["Python", "LLMs", "APIs"]
-  },
-
-  {
-    id: "healthcare-multi-agent",
-    title: "Healthcare Assistance Multi-Agent System",
-    category: "Healthcare AI",
-    description: "Symptom Checker, Diagnosis Agent, and Report Agent for healthcare support.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Medical AI"]
-  },
-
-  {
-    id: "content-production-team",
-    title: "AI Content Production Team",
-    category: "Content Multi-Agent",
-    description: "Writer Agent, Editor Agent, and SEO Agent for content creation pipeline.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "SEO AI"]
-  },
-
-  {
-    id: "cybersecurity-threat-system",
-    title: "Cybersecurity Threat Detection System",
-    category: "Security Multi-Agent",
-    description: "Monitor Agent, Detection Agent, and Response Agent for threat analysis.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Cybersecurity AI", "LLMs"]
-  },
-
-  {
-    id: "data-engineering-pipeline",
-    title: "Autonomous Data Engineering Pipeline",
-    category: "Data Multi-Agent",
-    description: "Ingestion Agent, Cleaning Agent, and Transformation Agent automate data pipelines.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "ETL", "LLMs", "Data Engineering"]
-  },
-
-  {
-    id: "project-management-system",
-    title: "AI Project Management System",
-    category: "Productivity Multi-Agent",
-    description: "Planner Agent, Task Agent, and Progress Tracker Agent manage projects.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Workflow Automation"]
-  },
-
-  {
-    id: "sales-growth-optimization",
-    title: "Sales Growth Optimization System",
-    category: "Sales Multi-Agent",
-    description: "Lead Agent, Conversion Agent, and Follow-up Agent optimize sales funnel.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "CRM AI", "LLMs"]
-  },
-
-  {
-    id: "document-intelligence-system",
-    title: "Document Intelligence System",
-    category: "Document AI",
-    description: "Extractor Agent, Classifier Agent, and Summarizer Agent for document processing.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "RAG", "LLMs", "NLP"]
   }
 ];
 

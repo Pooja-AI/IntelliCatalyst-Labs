@@ -3,7 +3,25 @@ const dataScienceProjects = [
     id: "customer-behavior-analytics",
     title: "Customer Behavior Analytics Dashboard",
     category: "Customer Analytics",
-    description: "Analyze customer behavior patterns and generate insights using data visualization.",
+    description:
+      "Advanced analytics dashboard to analyze customer behavior patterns and generate actionable business insights.",
+
+    problemStatement:
+      "Businesses struggle to understand customer behavior patterns across multiple channels. This system provides data-driven insights for better decision making.",
+
+    architecture: "/architecture/customer-behavior.png",
+
+    workflow: [
+      "Data collection from CRM systems",
+      "Data cleaning and preprocessing",
+      "Exploratory data analysis",
+      "Behavior segmentation",
+      "Insight visualization"
+    ],
+
+    deployment:
+      "Deployed using Power BI dashboards integrated with Python analytics backend.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -14,7 +32,25 @@ const dataScienceProjects = [
     id: "sales-performance-analytics",
     title: "Sales Performance Analytics System",
     category: "Sales Analytics",
-    description: "Track and analyze sales performance across regions and products.",
+    description:
+      "System to analyze sales performance across regions, products, and time periods.",
+
+    problemStatement:
+      "Organizations lack visibility into sales performance trends across regions and products.",
+
+    architecture: "/architecture/sales-analytics.png",
+
+    workflow: [
+      "Sales data ingestion",
+      "Data cleaning",
+      "KPI computation",
+      "Trend analysis",
+      "Dashboard visualization"
+    ],
+
+    deployment:
+      "Deployed using Power BI and SQL-based data warehouse.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -23,9 +59,27 @@ const dataScienceProjects = [
 
   {
     id: "kpi-monitoring-platform",
-    title: "Business KPI Monitoring and Insights Platform",
+    title: "Business KPI Monitoring Platform",
     category: "Business Intelligence",
-    description: "Monitor key business KPIs with real-time dashboards.",
+    description:
+      "Real-time KPI monitoring system for business performance tracking.",
+
+    problemStatement:
+      "Businesses need real-time visibility into critical KPIs for faster decision-making.",
+
+    architecture: "/architecture/kpi-dashboard.png",
+
+    workflow: [
+      "Data ingestion pipelines",
+      "KPI calculation engine",
+      "Real-time processing",
+      "Dashboard updates",
+      "Alert generation"
+    ],
+
+    deployment:
+      "Deployed using Power BI with SQL backend for real-time analytics.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -36,7 +90,25 @@ const dataScienceProjects = [
     id: "marketing-campaign-analysis",
     title: "Marketing Campaign Effectiveness Analysis",
     category: "Marketing Analytics",
-    description: "Evaluate performance of marketing campaigns using data analytics.",
+    description:
+      "Analytics system to evaluate marketing campaign performance and ROI.",
+
+    problemStatement:
+      "Marketing teams struggle to measure campaign effectiveness across channels.",
+
+    architecture: "/architecture/marketing-analytics.png",
+
+    workflow: [
+      "Campaign data collection",
+      "Engagement analysis",
+      "Conversion tracking",
+      "ROI computation",
+      "Performance reporting"
+    ],
+
+    deployment:
+      "Deployed using Python analytics pipeline with Power BI dashboards.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -47,7 +119,25 @@ const dataScienceProjects = [
     id: "customer-segmentation-analytics",
     title: "Customer Segmentation using Data Analytics",
     category: "Segmentation",
-    description: "Segment customers based on behavior and demographics.",
+    description:
+      "ML-powered system to segment customers based on behavior and demographics.",
+
+    problemStatement:
+      "Businesses need better segmentation strategies for targeted marketing.",
+
+    architecture: "/architecture/segmentation.png",
+
+    workflow: [
+      "Data preprocessing",
+      "Feature engineering",
+      "K-Means clustering",
+      "Segment analysis",
+      "Visualization"
+    ],
+
+    deployment:
+      "Deployed as batch analytics pipeline using Python and visualization tools.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -56,9 +146,27 @@ const dataScienceProjects = [
 
   {
     id: "product-performance-analysis",
-    title: "Product Performance and Trend Analysis System",
+    title: "Product Performance Analysis System",
     category: "Product Analytics",
-    description: "Analyze product performance and market trends.",
+    description:
+      "System to analyze product performance and market trends.",
+
+    problemStatement:
+      "Companies lack visibility into product-level performance and trends.",
+
+    architecture: "/architecture/product-analytics.png",
+
+    workflow: [
+      "Product data ingestion",
+      "Sales analysis",
+      "Trend detection",
+      "Performance ranking",
+      "Insight reporting"
+    ],
+
+    deployment:
+      "Deployed using Power BI dashboards with SQL backend.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -67,9 +175,27 @@ const dataScienceProjects = [
 
   {
     id: "revenue-forecasting-analytics",
-    title: "Revenue Forecasting and Growth Analytics",
+    title: "Revenue Forecasting System",
     category: "Forecasting",
-    description: "Forecast revenue trends using historical data analysis.",
+    description:
+      "Time series forecasting system for revenue prediction.",
+
+    problemStatement:
+      "Businesses need accurate revenue forecasting for planning and budgeting.",
+
+    architecture: "/architecture/revenue-forecast.png",
+
+    workflow: [
+      "Historical data collection",
+      "Time series preprocessing",
+      "Model training (ARIMA/Prophet)",
+      "Forecast generation",
+      "Visualization"
+    ],
+
+    deployment:
+      "Deployed using Python-based forecasting pipeline.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -78,9 +204,27 @@ const dataScienceProjects = [
 
   {
     id: "retail-inventory-analytics",
-    title: "Retail Store Analytics for Inventory Optimization",
+    title: "Retail Inventory Optimization System",
     category: "Retail Analytics",
-    description: "Optimize inventory levels using retail analytics.",
+    description:
+      "Analytics system to optimize inventory levels in retail stores.",
+
+    problemStatement:
+      "Retailers face challenges in maintaining optimal inventory levels.",
+
+    architecture: "/architecture/inventory.png",
+
+    workflow: [
+      "Inventory data ingestion",
+      "Demand analysis",
+      "Stock prediction",
+      "Optimization logic",
+      "Dashboard reporting"
+    ],
+
+    deployment:
+      "Deployed using SQL + Power BI analytics pipeline.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -91,7 +235,25 @@ const dataScienceProjects = [
     id: "ecommerce-user-journey",
     title: "E-commerce User Journey Analysis",
     category: "User Analytics",
-    description: "Analyze user journey and conversion funnels.",
+    description:
+      "System to analyze user journey and conversion funnel behavior.",
+
+    problemStatement:
+      "E-commerce platforms need better understanding of user drop-off points.",
+
+    architecture: "/architecture/user-journey.png",
+
+    workflow: [
+      "Clickstream data collection",
+      "Session tracking",
+      "Funnel analysis",
+      "Conversion tracking",
+      "Insight visualization"
+    ],
+
+    deployment:
+      "Deployed using Python analytics and Google Analytics integration.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -100,9 +262,27 @@ const dataScienceProjects = [
 
   {
     id: "churn-analytics-dashboard",
-    title: "Churn Analytics and Retention Insights Dashboard",
+    title: "Customer Churn Analytics Dashboard",
     category: "Customer Retention",
-    description: "Analyze customer churn and retention patterns.",
+    description:
+      "Analytics system to detect and analyze customer churn patterns.",
+
+    problemStatement:
+      "Businesses need to identify customers at risk of churn early.",
+
+    architecture: "/architecture/churn.png",
+
+    workflow: [
+      "Data preprocessing",
+      "Feature engineering",
+      "Churn prediction model",
+      "Risk scoring",
+      "Dashboard visualization"
+    ],
+
+    deployment:
+      "Deployed using ML pipeline with Power BI dashboard.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -111,9 +291,27 @@ const dataScienceProjects = [
 
   {
     id: "financial-data-insights",
-    title: "Financial Data Analysis and Risk Insights System",
+    title: "Financial Data Insights System",
     category: "Finance Analytics",
-    description: "Analyze financial data and generate risk insights.",
+    description:
+      "System to analyze financial data and detect risk patterns.",
+
+    problemStatement:
+      "Financial institutions need automated risk analysis from large datasets.",
+
+    architecture: "/architecture/finance.png",
+
+    workflow: [
+      "Financial data ingestion",
+      "Risk modeling",
+      "Anomaly detection",
+      "Insight generation",
+      "Reporting"
+    ],
+
+    deployment:
+      "Deployed using Python analytics and SQL-based storage.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -122,101 +320,31 @@ const dataScienceProjects = [
 
   {
     id: "hr-analytics-dashboard",
-    title: "HR Analytics for Employee Performance Insights",
+    title: "HR Analytics Dashboard",
     category: "HR Analytics",
-    description: "Analyze employee performance and HR metrics.",
+    description:
+      "System to analyze employee performance and HR metrics.",
+
+    problemStatement:
+      "HR teams need insights into employee performance and retention.",
+
+    architecture: "/architecture/hr.png",
+
+    workflow: [
+      "HR data collection",
+      "Performance metrics calculation",
+      "Trend analysis",
+      "Attrition analysis",
+      "Visualization"
+    ],
+
+    deployment:
+      "Deployed using Power BI and Python analytics pipeline.",
+
     github: "",
     demo: "",
     documentation: "",
     tech: ["Python", "Power BI", "Excel"]
-  },
-
-  {
-    id: "time-series-dashboard",
-    title: "Time Series Trend Analysis Dashboard",
-    category: "Time Series",
-    description: "Analyze trends and seasonal patterns in data.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "ARIMA", "Prophet"]
-  },
-
-  {
-    id: "web-traffic-analytics",
-    title: "Website Traffic and User Engagement Analytics",
-    category: "Web Analytics",
-    description: "Analyze website traffic and user engagement patterns.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Google Analytics", "Python", "SQL"]
-  },
-
-  {
-    id: "ab-testing-platform",
-    title: "A/B Testing Analysis and Experimentation Platform",
-    category: "Experimentation",
-    description: "Analyze A/B test results for decision making.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Statistics", "SQL"]
-  },
-
-  {
-    id: "supply-chain-analytics",
-    title: "Supply Chain Analytics and Optimization Insights",
-    category: "Supply Chain",
-    description: "Optimize supply chain operations using analytics.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Optimization", "SQL"]
-  },
-
-  {
-    id: "healthcare-analytics",
-    title: "Healthcare Data Analytics Dashboard",
-    category: "Healthcare Analytics",
-    description: "Analyze healthcare datasets for insights and predictions.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Power BI", "Pandas"]
-  },
-
-  {
-    id: "fraud-pattern-analytics",
-    title: "Fraud Pattern Detection using Data Analytics",
-    category: "Fraud Analytics",
-    description: "Detect fraud patterns using analytics techniques.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Anomaly Detection", "SQL"]
-  },
-
-  {
-    id: "social-media-analytics",
-    title: "Social Media Analytics and Sentiment Insights",
-    category: "Social Analytics",
-    description: "Analyze social media trends and sentiment.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "NLP", "Sentiment Analysis"]
-  },
-
-  {
-    id: "predictive-business-dashboard",
-    title: "Predictive Insights Dashboard for Business Decision Making",
-    category: "Predictive Analytics",
-    description: "Predict business outcomes using data-driven insights.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Machine Learning", "Power BI"]
   }
 ];
 

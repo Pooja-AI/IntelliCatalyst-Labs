@@ -34,24 +34,12 @@ function NLPProjectDetails() {
       {/* TITLE */}
       <h1 className="title">{project.title}</h1>
       <p className="subtitle">{project.description}</p>
-
-      {/* TECH STACK */}
-      <div className="section">
-        <h2>⚙️ Tech Stack</h2>
-        <ul>
-          {project.tech.map((t) => (
-            <li key={t}>{t}</li>
-          ))}
-        </ul>
-      </div>
-
+      
       {/* PROBLEM STATEMENT */}
       <div className="section">
         <h2>📌 Problem Statement</h2>
         <p>
-          Customer churn is a critical problem in telecom industries.
-          This system predicts whether a customer will leave based on
-          behavioral, billing, and usage data.
+          {project.problemStatement}
         </p>
       </div>
 
@@ -60,7 +48,7 @@ function NLPProjectDetails() {
         <h2>🏗️ Architecture Diagram</h2>
 
         <img
-          src="/architecture/churn-architecture.png"
+          src={project.architecture}
           alt="Architecture Diagram"
           style={{
             width: "100%",
@@ -71,28 +59,31 @@ function NLPProjectDetails() {
 
       {/* WORKFLOW */}
       <div className="section">
-        <h2>🔄 End-to-End ML Workflow</h2>
-
+        <h2>🔄 End-to-End Workflow</h2>
         <ol>
-          <li>Data Collection (CRM + Billing Systems)</li>
-          <li>Data Cleaning & Preprocessing</li>
-          <li>Feature Engineering</li>
-          <li>Model Training (Random Forest / XGBoost)</li>
-          <li>Model Evaluation (Accuracy, Precision, Recall, F1)</li>
-          <li>Model Deployment using FastAPI</li>
-          <li>Frontend Integration using React</li>
+          {project.workflow.map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
         </ol>
       </div>
+
+    
 
       {/* DEPLOYMENT */}
       <div className="section">
         <h2>🚀 Deployment</h2>
+        <p>{project.deployment}</p>
+      </div>
 
-        <p>
-          The ML model is deployed using FastAPI backend with REST APIs.
-          The frontend is built using React and integrated for real-time predictions.
-          Docker is used for containerization.
-        </p>
+
+      {/* TECH STACK */}
+      <div className="section">
+        <h2>⚙️ Tech Stack</h2>
+        <ul>
+          {project.tech.map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
       </div>
 
       {/* RESOURCES */}

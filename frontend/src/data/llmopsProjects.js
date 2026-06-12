@@ -3,7 +3,26 @@ const llmopsProjects = [
     id: "end-to-end-llmops-pipeline",
     title: "End-to-End LLMOps Pipeline for Enterprise Applications",
     category: "LLMOps Pipeline",
-    description: "Complete lifecycle pipeline for building, deploying, and managing LLM applications at scale.",
+    description:
+      "Complete lifecycle pipeline for building, deploying, and managing LLM applications at scale.",
+
+    problemStatement:
+      "Enterprises struggle to manage LLM lifecycle from development to production reliably and at scale.",
+
+    architecture: "/architecture/llmops-pipeline.png",
+
+    workflow: [
+      "Data ingestion",
+      "Prompt/Model development",
+      "Experiment tracking",
+      "CI/CD pipeline setup",
+      "Deployment",
+      "Monitoring & feedback loop"
+    ],
+
+    deployment:
+      "Deployed using Docker, Kubernetes, and CI/CD pipelines for scalable LLM application management.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -14,7 +33,25 @@ const llmopsProjects = [
     id: "prompt-lifecycle-management",
     title: "Prompt Lifecycle Management System",
     category: "Prompt Engineering Ops",
-    description: "Versioning, testing, and deployment system for prompts in production environments.",
+    description:
+      "System for versioning, testing, and deploying prompts in production environments.",
+
+    problemStatement:
+      "Prompts in production systems lack version control and systematic evaluation.",
+
+    architecture: "/architecture/prompt-lifecycle.png",
+
+    workflow: [
+      "Prompt creation",
+      "Version control",
+      "A/B testing",
+      "Performance evaluation",
+      "Production deployment"
+    ],
+
+    deployment:
+      "Deployed as a prompt management platform integrated with LLM APIs.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -25,7 +62,26 @@ const llmopsProjects = [
     id: "llm-fine-tuning-pipeline",
     title: "LLM Fine-Tuning Pipeline with Experiment Tracking",
     category: "Model Training Ops",
-    description: "Fine-tune LLMs with experiment tracking and performance evaluation.",
+    description:
+      "Pipeline for fine-tuning LLMs with tracking and evaluation.",
+
+    problemStatement:
+      "Fine-tuning LLMs without experiment tracking leads to inconsistent results.",
+
+    architecture: "/architecture/llm-finetune.png",
+
+    workflow: [
+      "Dataset preparation",
+      "Tokenization",
+      "Model fine-tuning",
+      "Experiment tracking (MLflow)",
+      "Evaluation",
+      "Model registry"
+    ],
+
+    deployment:
+      "Deployed using HuggingFace + MLflow tracking pipeline.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -36,7 +92,25 @@ const llmopsProjects = [
     id: "rag-monitoring-pipeline",
     title: "RAG Pipeline with Continuous Evaluation and Monitoring",
     category: "RAG Ops",
-    description: "Monitor and evaluate RAG systems continuously for performance and accuracy.",
+    description:
+      "System to continuously monitor and evaluate RAG pipeline performance.",
+
+    problemStatement:
+      "RAG systems degrade over time without monitoring retrieval and generation quality.",
+
+    architecture: "/architecture/rag-monitoring.png",
+
+    workflow: [
+      "Query logging",
+      "Embedding retrieval tracking",
+      "LLM response evaluation",
+      "Drift detection",
+      "Performance monitoring dashboard"
+    ],
+
+    deployment:
+      "Deployed using monitoring tools like Prometheus and LLM evaluation pipelines.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -45,9 +119,27 @@ const llmopsProjects = [
 
   {
     id: "llm-evaluation-framework",
-    title: "Model Evaluation Framework for LLM Quality",
+    title: "LLM Evaluation Framework for Response Quality",
     category: "LLM Evaluation",
-    description: "Detect hallucinations and evaluate LLM response quality.",
+    description:
+      "Framework for evaluating LLM outputs and detecting hallucinations.",
+
+    problemStatement:
+      "LLM outputs are not always reliable and require systematic evaluation.",
+
+    architecture: "/architecture/llm-eval.png",
+
+    workflow: [
+      "Response collection",
+      "Ground truth comparison",
+      "Metric calculation",
+      "Hallucination detection",
+      "Scoring system"
+    ],
+
+    deployment:
+      "Deployed as evaluation service integrated with LLM pipelines.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -58,7 +150,25 @@ const llmopsProjects = [
     id: "llm-ci-cd-deployment",
     title: "LLM Deployment Pipeline using CI/CD",
     category: "Deployment Ops",
-    description: "Automated deployment of LLM applications using Docker and Kubernetes.",
+    description:
+      "Automated deployment system for LLM applications.",
+
+    problemStatement:
+      "Manual deployment of LLM applications is error-prone and not scalable.",
+
+    architecture: "/architecture/llm-cicd.png",
+
+    workflow: [
+      "Code commit",
+      "Automated testing",
+      "Docker build",
+      "Kubernetes deployment",
+      "Monitoring"
+    ],
+
+    deployment:
+      "Deployed using CI/CD pipelines with Docker and Kubernetes.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -69,7 +179,25 @@ const llmopsProjects = [
     id: "ai-model-monitoring-system",
     title: "AI Model Monitoring System",
     category: "Monitoring Ops",
-    description: "Track latency, drift, and model performance in production.",
+    description:
+      "System for tracking AI model performance, drift, and latency.",
+
+    problemStatement:
+      "AI models in production degrade over time without monitoring systems.",
+
+    architecture: "/architecture/model-monitoring.png",
+
+    workflow: [
+      "Log collection",
+      "Performance tracking",
+      "Drift detection",
+      "Alert system",
+      "Dashboard visualization"
+    ],
+
+    deployment:
+      "Deployed using Prometheus + MLflow monitoring stack.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -80,7 +208,25 @@ const llmopsProjects = [
     id: "prompt-ab-testing",
     title: "Prompt A/B Testing and Optimization Platform",
     category: "Prompt Optimization",
-    description: "Compare prompt versions and optimize performance.",
+    description:
+      "Platform for testing and optimizing prompt versions.",
+
+    problemStatement:
+      "Prompt performance varies and needs systematic A/B testing.",
+
+    architecture: "/architecture/prompt-ab.png",
+
+    workflow: [
+      "Prompt creation",
+      "A/B test setup",
+      "User interaction logging",
+      "Performance comparison",
+      "Optimization"
+    ],
+
+    deployment:
+      "Deployed as prompt experimentation platform.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -91,7 +237,25 @@ const llmopsProjects = [
     id: "llm-feedback-loop",
     title: "LLM Feedback Loop System",
     category: "Human-in-the-Loop AI",
-    description: "Improve models using human feedback and reinforcement learning.",
+    description:
+      "System to improve LLMs using human feedback.",
+
+    problemStatement:
+      "LLMs require continuous improvement using real user feedback.",
+
+    architecture: "/architecture/llm-feedback.png",
+
+    workflow: [
+      "User response collection",
+      "Feedback labeling",
+      "Model retraining",
+      "Evaluation",
+      "Improvement cycle"
+    ],
+
+    deployment:
+      "Deployed using RLHF-style feedback loop system.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -102,7 +266,25 @@ const llmopsProjects = [
     id: "vector-db-lifecycle",
     title: "Vector Database Lifecycle Management System",
     category: "RAG Infrastructure",
-    description: "Manage indexing, updates, and optimization of vector databases.",
+    description:
+      "System for managing vector database indexing and updates.",
+
+    problemStatement:
+      "Vector databases require lifecycle management for efficient retrieval.",
+
+    architecture: "/architecture/vector-db.png",
+
+    workflow: [
+      "Data ingestion",
+      "Embedding generation",
+      "Index creation",
+      "Updates and optimization",
+      "Query handling"
+    ],
+
+    deployment:
+      "Deployed using FAISS / Pinecone / Weaviate infrastructure.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -113,7 +295,25 @@ const llmopsProjects = [
     id: "llm-routing-system",
     title: "Multi-Model LLM Routing System",
     category: "AI Optimization",
-    description: "Route queries to best LLM based on cost and performance tradeoffs.",
+    description:
+      "System to route queries to best LLM based on cost and performance.",
+
+    problemStatement:
+      "Different LLMs have different cost-performance tradeoffs.",
+
+    architecture: "/architecture/llm-routing.png",
+
+    workflow: [
+      "Query analysis",
+      "Model selection",
+      "Routing logic",
+      "Response generation",
+      "Optimization feedback"
+    ],
+
+    deployment:
+      "Deployed as intelligent routing layer between LLM APIs.",
+
     github: "",
     demo: "",
     documentation: "",
@@ -124,99 +324,29 @@ const llmopsProjects = [
     id: "ai-governance-system",
     title: "Enterprise AI Governance and Compliance System",
     category: "AI Governance",
-    description: "Ensure compliance, safety, and governance in AI systems.",
+    description:
+      "System ensuring safety, compliance, and governance in AI workflows.",
+
+    problemStatement:
+      "Enterprise AI systems require governance for compliance and safety.",
+
+    architecture: "/architecture/ai-governance.png",
+
+    workflow: [
+      "Policy definition",
+      "Model auditing",
+      "Risk analysis",
+      "Compliance checks",
+      "Reporting"
+    ],
+
+    deployment:
+      "Deployed as enterprise AI governance framework.",
+
     github: "",
     demo: "",
     documentation: "",
     tech: ["Governance", "LLMs", "Security"]
-  },
-
-  {
-    id: "dataset-curation-pipeline",
-    title: "Automated Dataset Curation Pipeline",
-    category: "Data Ops",
-    description: "Automatically clean, label, and prepare datasets for LLM training.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Data Engineering", "LLMs", "ETL"]
-  },
-
-  {
-    id: "llm-observability-dashboard",
-    title: "LLM Observability Dashboard",
-    category: "Monitoring & Analytics",
-    description: "Track logs, traces, and metrics for LLM applications.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Observability", "Grafana", "Prometheus", "LLMs"]
-  },
-
-  {
-    id: "rag-realtime-index",
-    title: "Scalable RAG Deployment with Real-Time Index Updates",
-    category: "RAG Systems",
-    description: "Real-time updating RAG pipeline with scalable indexing.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["RAG", "Vector DB", "Streaming", "LLMs"]
-  },
-
-  {
-    id: "llm-cost-optimization",
-    title: "Cost Optimization System for LLM API Usage",
-    category: "AI Cost Optimization",
-    description: "Optimize LLM usage cost while maintaining performance.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMs", "Cost Optimization", "Analytics"]
-  },
-
-  {
-    id: "model-registry-llm",
-    title: "Model Registry and Version Control System for LLMs",
-    category: "Model Management",
-    description: "Track versions and manage LLM models efficiently.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["MLflow", "Model Registry", "LLMs"]
-  },
-
-  {
-    id: "safe-ai-guardrails",
-    title: "Safe AI Guardrails and Content Filtering Pipeline",
-    category: "AI Safety",
-    description: "Ensure safe outputs using filtering and guardrails.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMs", "Safety", "Moderation"]
-  },
-
-  {
-    id: "prompt-ci-system",
-    title: "Continuous Integration System for Prompts and Models",
-    category: "CI/CD for AI",
-    description: "Automated testing and deployment for prompts and models.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["CI/CD", "LLMs", "Automation"]
-  },
-
-  {
-    id: "genai-deployment-framework",
-    title: "Production-Ready GenAI Deployment Framework",
-    category: "GenAI Infrastructure",
-    description: "Full production framework for deploying GenAI applications.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMs", "Docker", "Kubernetes", "FastAPI"]
   }
 ];
 

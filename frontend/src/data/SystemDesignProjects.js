@@ -4,6 +4,25 @@ const systemDesignProjects = [
     title: "End-to-End Machine Learning System Architecture",
     category: "ML Architecture",
     description: "Complete ML lifecycle architecture from training to deployment and monitoring.",
+
+    problemStatement:
+      "Design a scalable end-to-end ML system that handles data ingestion, training, deployment, and continuous monitoring in production environments.",
+
+    architecture:
+      "Data Sources → Data Ingestion Layer → Feature Store → Training Pipeline → Model Registry → Deployment (API/Batch) → Monitoring & Feedback Loop",
+
+    workflow: [
+      "Ingest raw data from multiple sources",
+      "Data preprocessing and feature engineering",
+      "Train ML models using pipelines",
+      "Register best model in model registry",
+      "Deploy model as API or batch service",
+      "Monitor drift and performance continuously"
+    ],
+
+    deployment:
+      "Deployed using Docker + Kubernetes with CI/CD pipelines and MLflow tracking",
+
     github: "",
     demo: "",
     documentation: "",
@@ -15,6 +34,25 @@ const systemDesignProjects = [
     title: "Real-Time ML Inference System for Low-Latency Predictions",
     category: "Inference Systems",
     description: "Low-latency real-time prediction architecture for production ML systems.",
+
+    problemStatement:
+      "Build a real-time inference system capable of serving ML predictions with low latency under high traffic loads.",
+
+    architecture:
+      "Client Request → API Gateway → Load Balancer → Model Serving Layer → Cache (Redis) → ML Model → Response",
+
+    workflow: [
+      "Receive real-time user request",
+      "Route request through API gateway",
+      "Fetch cached results if available",
+      "Send request to ML model server",
+      "Return prediction response",
+      "Log request for monitoring"
+    ],
+
+    deployment:
+      "Deployed using FastAPI + Redis + Kubernetes for scalable inference",
+
     github: "",
     demo: "",
     documentation: "",
@@ -26,6 +64,25 @@ const systemDesignProjects = [
     title: "Batch and Streaming Prediction Pipeline Architecture",
     category: "Data Pipelines",
     description: "Hybrid architecture combining batch and streaming ML predictions.",
+
+    problemStatement:
+      "Design a hybrid data processing system that supports both real-time streaming and batch ML predictions.",
+
+    architecture:
+      "Data Sources → Kafka (Streaming) + Data Lake (Batch) → Processing Layer (Spark) → Feature Store → ML Models → Output Layer",
+
+    workflow: [
+      "Ingest streaming and batch data",
+      "Process data using Spark",
+      "Generate features for ML models",
+      "Run batch and streaming predictions",
+      "Store results in data warehouse",
+      "Serve results to applications"
+    ],
+
+    deployment:
+      "Deployed using Spark clusters + Kafka streaming + cloud storage",
+
     github: "",
     demo: "",
     documentation: "",
@@ -37,6 +94,25 @@ const systemDesignProjects = [
     title: "Feature Store Design for Scalable ML Systems",
     category: "Feature Engineering Systems",
     description: "Centralized feature store architecture for reusable ML features.",
+
+    problemStatement:
+      "Create a centralized feature store that enables consistent, reusable, and real-time feature access across ML systems.",
+
+    architecture:
+      "Data Sources → Feature Engineering Pipeline → Feature Store (Offline + Online) → Training + Inference Systems",
+
+    workflow: [
+      "Collect raw data",
+      "Generate features using pipelines",
+      "Store features in offline store",
+      "Sync features to online store",
+      "Serve features for training and inference",
+      "Maintain versioning of features"
+    ],
+
+    deployment:
+      "Implemented using Feast + Redis + Snowflake",
+
     github: "",
     demo: "",
     documentation: "",
@@ -48,6 +124,25 @@ const systemDesignProjects = [
     title: "Model Monitoring and Drift Detection Architecture",
     category: "Monitoring Systems",
     description: "Detect drift and monitor ML models in production environments.",
+
+    problemStatement:
+      "Design a monitoring system that tracks model performance, detects data drift, and triggers alerts for retraining.",
+
+    architecture:
+      "Live Data → Prediction Service → Logging Layer → Monitoring Engine → Drift Detection → Alert System",
+
+    workflow: [
+      "Capture real-time predictions",
+      "Log input and output data",
+      "Compare distributions over time",
+      "Detect drift using statistical methods",
+      "Trigger alerts if drift exceeds threshold",
+      "Initiate retraining pipeline"
+    ],
+
+    deployment:
+      "Deployed using Prometheus + Grafana + Evidently AI",
+
     github: "",
     demo: "",
     documentation: "",
@@ -55,43 +150,29 @@ const systemDesignProjects = [
   },
 
   {
-    id: "recommendation-system-architecture",
-    title: "Scalable Recommendation System Architecture",
-    category: "Recommendation Systems",
-    description: "Large-scale recommendation engine architecture design.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Collaborative Filtering", "Vector DB", "Spark"]
-  },
-
-  {
-    id: "fraud-detection-architecture",
-    title: "Fraud Detection System (Hybrid Real-Time + Batch Architecture)",
-    category: "Fraud Systems",
-    description: "Hybrid architecture for fraud detection combining streaming and batch analytics.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Kafka", "Spark", "ML Models"]
-  },
-
-  {
-    id: "ai-search-ranking-system",
-    title: "AI-Powered Search and Ranking System Design",
-    category: "Search Systems",
-    description: "Search engine architecture with ranking and relevance scoring.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Elasticsearch", "NLP", "Ranking Models"]
-  },
-
-  {
     id: "enterprise-rag-system",
     title: "Enterprise RAG-Based Knowledge System Architecture",
     category: "RAG Architecture",
     description: "Enterprise-grade Retrieval-Augmented Generation system design.",
+
+    problemStatement:
+      "Build a scalable enterprise RAG system that enables semantic search and accurate LLM-based answers over private knowledge bases.",
+
+    architecture:
+      "Documents → Chunking → Embeddings → Vector DB → Retriever → LLM Generator → Response API",
+
+    workflow: [
+      "Ingest enterprise documents",
+      "Split into chunks",
+      "Generate embeddings",
+      "Store in vector database",
+      "Retrieve relevant context",
+      "Generate response using LLM"
+    ],
+
+    deployment:
+      "Deployed using FastAPI + FAISS/Pinecone + LLM API",
+
     github: "",
     demo: "",
     documentation: "",
@@ -99,234 +180,33 @@ const systemDesignProjects = [
   },
 
   {
-    id: "vector-db-architecture",
-    title: "Vector Database and Semantic Search System Design",
-    category: "Search Architecture",
-    description: "Semantic search system using vector embeddings and ANN search.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["FAISS", "Pinecone", "Embeddings"]
-  },
-
-  {
-    id: "llm-serving-architecture",
-    title: "LLM Serving Architecture (API Gateway + Model Router + Cache Layer)",
-    category: "LLM Infrastructure",
-    description: "Scalable architecture for serving multiple LLMs efficiently.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["API Gateway", "Redis", "LLM Routing"]
-  },
-
-  {
-    id: "multi-llm-routing",
-    title: "Multi-LLM Routing System for Cost and Performance Optimization",
-    category: "LLM Optimization",
-    description: "Route queries to best LLM based on cost-performance tradeoff.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLM Router", "Optimization", "APIs"]
-  },
-
-  {
-    id: "ai-chatbot-architecture",
-    title: "AI Chatbot Architecture with Memory and Context Handling",
-    category: "Conversational AI",
-    description: "Chatbot system with memory, context retention, and retrieval.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMs", "Memory DB", "RAG"]
-  },
-
-  {
-    id: "document-intelligence-architecture",
-    title: "Document Intelligence System using LLMs",
-    category: "Document AI",
-    description: "Ingestion → Retrieval → Generation pipeline for document understanding.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["OCR", "LLMs", "RAG"]
-  },
-
-  {
-    id: "genai-saas-architecture",
-    title: "GenAI Content Generation Platform Architecture (SaaS Model)",
-    category: "GenAI SaaS",
-    description: "Multi-tenant SaaS architecture for GenAI content generation.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["SaaS", "LLMs", "Cloud"]
-  },
-
-  {
-    id: "prompt-lifecycle-architecture",
-    title: "Prompt Lifecycle Management System Architecture",
-    category: "Prompt Engineering Systems",
-    description: "Versioning, testing, and deployment architecture for prompts.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Prompt Ops", "LLMs", "CI/CD"]
-  },
-
-  {
-    id: "llmops-architecture",
-    title: "LLMOps Pipeline Architecture",
-    category: "LLMOps",
-    description: "Evaluation → Deployment → Monitoring → Feedback loop architecture.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMOps", "CI/CD", "Monitoring"]
-  },
-
-  {
-    id: "ml-ci-cd-architecture",
-    title: "CI/CD Pipeline for ML and GenAI Models",
-    category: "DevOps for AI",
-    description: "Automated deployment pipeline for ML and GenAI systems.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["GitHub Actions", "Docker", "Kubernetes"]
-  },
-
-  {
-    id: "model-registry-architecture",
-    title: "Model Registry and Version Control System Architecture",
-    category: "Model Governance",
-    description: "Centralized model registry for tracking ML and LLM versions.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["MLflow", "DVC", "Registry"]
-  },
-
-  {
-    id: "continuous-training-pipeline",
-    title: "Continuous Training and Retraining Pipeline for AI Systems",
-    category: "Continuous Learning",
-    description: "Automated retraining pipeline based on new data and drift.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Airflow", "MLflow", "Automation"]
-  },
-
-  {
-    id: "ai-observability-system",
-    title: "AI Observability System (Logs, Metrics, Traces)",
-    category: "Observability",
-    description: "Full observability stack for ML and LLM systems.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Prometheus", "Grafana", "OpenTelemetry"]
-  },
-
-  {
-    id: "llm-evaluation-framework",
-    title: "Evaluation Framework for LLM Quality and Hallucination Detection",
-    category: "LLM Evaluation",
-    description: "Framework to evaluate LLM accuracy and hallucinations.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMs", "Evaluation Metrics"]
-  },
-
-  {
-    id: "ai-guardrails-architecture",
-    title: "Guardrails and Safe AI Architecture for Responsible GenAI",
-    category: "AI Safety",
-    description: "Safety layer for controlling LLM outputs and ensuring compliance.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Guardrails AI", "Moderation", "LLMs"]
-  },
-
-  {
     id: "multi-agent-architecture",
     title: "Multi-Agent AI System Architecture for Task Automation",
     category: "Agent Systems",
     description: "Architecture for multiple agents collaborating on tasks.",
+
+    problemStatement:
+      "Design a multi-agent system where specialized agents collaborate to solve complex tasks autonomously.",
+
+    architecture:
+      "User Input → Orchestrator Agent → Task Decomposition → Specialist Agents → Shared Memory → Final Output",
+
+    workflow: [
+      "Receive user request",
+      "Orchestrator breaks task into subtasks",
+      "Assign subtasks to agents",
+      "Agents collaborate via shared memory",
+      "Aggregate outputs",
+      "Return final response"
+    ],
+
+    deployment:
+      "Deployed using LangGraph / CrewAI framework with API layer",
+
     github: "",
     demo: "",
     documentation: "",
     tech: ["CrewAI", "LangGraph", "Agents"]
-  },
-
-  {
-    id: "autonomous-workflow-architecture",
-    title: "Autonomous AI Workflow System (Planner → Executor → Validator Agents)",
-    category: "Autonomous Systems",
-    description: "End-to-end autonomous workflow using multiple AI agents.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Agents", "LLMs", "Automation"]
-  },
-
-  {
-    id: "ai-research-agent-architecture",
-    title: "AI Research Agent Architecture (Search → Reason → Summarize)",
-    category: "Research AI",
-    description: "Intelligent research automation system architecture.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["RAG", "Web Search", "LLMs"]
-  },
-
-  {
-    id: "ai-devops-architecture",
-    title: "AI DevOps Automation System (Monitoring + Fix Suggestions + Alerts)",
-    category: "DevOps AI",
-    description: "AI-powered DevOps automation system architecture.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["DevOps", "LLMs", "Monitoring"]
-  },
-
-  {
-    id: "llm-cost-optimization",
-    title: "Cost Optimization System for LLM and AI Infrastructure",
-    category: "AI Optimization",
-    description: "Optimize inference cost across multiple LLM providers.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["LLMs", "Cost Optimization", "Cloud"]
-  },
-
-  {
-    id: "hybrid-cloud-ai",
-    title: "Hybrid Cloud AI Deployment Architecture (Azure / AWS / GCP)",
-    category: "Cloud Architecture",
-    description: "Multi-cloud AI deployment architecture for scalability and resilience.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Azure", "AWS", "GCP", "Kubernetes"]
-  },
-
-  {
-    id: "scalable-ai-data-pipeline",
-    title: "Scalable AI Data Pipeline for End-to-End ML Workflows",
-    category: "Data Engineering",
-    description: "End-to-end scalable data pipeline for ML systems.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Spark", "Airflow", "Kafka"]
   }
 ];
 
