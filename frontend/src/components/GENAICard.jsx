@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function genAICard({ project }) {
+function GenAICard({ project }) {
   return (
     <Link
       to={`/generative-ai/${project.id}`}
@@ -19,4 +19,4 @@ function genAICard({ project }) {
   );
 }
 
-export default genAICard;
+export default GenAICard;

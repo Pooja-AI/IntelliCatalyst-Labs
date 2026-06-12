@@ -30,6 +30,31 @@ import RAGProjectDetails from "./pages/RAGProjectDetails";
 import LLMOps from "./pages/LLMOps";
 import LLMOpsProjectDetails from "./pages/LLMOpsProjectDetails";
 
+//Agentic AI
+import AgenticAI from "./pages/AgenticAI";
+import AgenticAIProjectDetails from "./pages/AgenticAIProjectDetails";
+
+//NLP
+import NaturalLanguageProcessing from "./pages/NaturalLanguageProcessing";
+import NLPProjectDetails from "./pages/NLPProjectDetails";
+
+//Generative AI
+import GenerativeAI from "./pages/GenerativeAI";
+import GenAIProjectDetails from "./pages/GenAIProjectDetails";
+
+//System Design
+import SystemDesign from "./pages/SystemDesign";
+import SystemDesignProjectDetails from "./pages/SystemDesignProjectDetails";  
+
+//Data Science
+import DataScience from "./pages/DataScience";
+import DataScienceProjectDetails from "./pages/DataScienceProjectDetails";
+
+//Multi-Agent AI
+import MultiAgent from "./pages/MultiAgentAI";
+import MultiAgentProjectDetails from "./pages/MultiAgentProjectDetails";
+
+
 
 
 
@@ -70,6 +95,31 @@ function App() {
         {/* LLMOps */}
         <Route path="/llmops" element={<LLMOps />} />
         <Route path="/llmops/:id" element={<LLMOpsProjectDetails />} />
+
+        {/* Agentic AI */}
+        <Route path="/agentic-ai" element={<AgenticAI />} />
+        <Route path="/agentic-ai/:id" element={<AgenticAIProjectDetails />} />
+
+        {/* Natural Language Processing */}
+        <Route path="/natural-language-processing" element={<NaturalLanguageProcessing />} />
+        <Route path="/natural-language-processing/:id" element={<NLPProjectDetails />} />
+
+        {/* Generative AI */}
+        <Route path="/generative-ai" element={<GenerativeAI />} />
+        <Route path="/generative-ai/:id" element={<GenAIProjectDetails />} />
+
+        {/* System Design */}
+        <Route path="/system-design" element={<SystemDesign />} />
+        <Route path="/system-design/:id" element={<SystemDesignProjectDetails />} />
+
+        {/* Data Science */}
+        <Route path="/data-science" element={<DataScience />} />
+        <Route path="/data-science/:id" element={<DataScienceProjectDetails />} />
+
+        {/* Multi-Agent AI */}
+        <Route path="/multi-agent-ai" element={<MultiAgent />} />
+        <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
+
       </Routes>
     </BrowserRouter>
   );

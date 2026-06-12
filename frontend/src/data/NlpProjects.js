@@ -1,4 +1,4 @@
-const NlpProjects = [
+const nlpProjects = [
   {
     id: "text-classification",
     title: "Text Classification System (News / Topic Classification)",

@@ -1,4 +1,4 @@
-const SystemDesignProjects = [
+const systemDesignProjects = [
   {
     id: "end-to-end-ml-system-architecture",
     title: "End-to-End Machine Learning System Architecture",

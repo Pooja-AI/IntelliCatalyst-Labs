@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import mlProjects from "../data/ragProjects";
+import ragProjects from "../data/ragProjects";
 
 function RAGProjectDetails() {
   const { id } = useParams();

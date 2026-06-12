@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 
-function AgenticAICard({ project }) {
+function MAgentCard({ project }) {
   return (
     <Link
-      to={`/agentic-ai/${project.id}`}
+      to={`/multi-agent-ai/${project.id}`}
       style={{ textDecoration: "none", color: "inherit" }}
       onClick={() => {
         console.log("🚀 Project Clicked");
         console.log("Title:", project.title);
-        console.log("Navigate To:", `/agentic-ai/${project.id}`);
+        console.log("Navigate To:", `/multi-agent-ai/${project.id}`);
       }}
     >
       <div className="project-card">
@@ -19,4 +19,4 @@ function AgenticAICard({ project }) {
   );
 }
 
-export default AgenticAICard;
+export default MAgentCard;

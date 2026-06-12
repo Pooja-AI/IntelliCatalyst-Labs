@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import NlpProjects from "../data/NlpProjects";
+import nlpProjects from "../data/nlpProjects";
 
 function NLPProjectDetails() {
   const { id } = useParams();
 
-  const project = NlpProjects.find((p) => p.id === id);
+  const project = nlpProjects.find((p) => p.id === id);
 
   console.log("📌 Project Page Opened:", id);
 

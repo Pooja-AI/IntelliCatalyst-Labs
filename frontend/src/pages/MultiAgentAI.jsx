@@ -1,5 +1,5 @@
 import multiAgentProjects from "../data/multiAgentProjects";
-import MULTIAGENTCard from "../components/MULTIAGENTCard";
+import MAgentCard from "../components/MAgentCard";
 
 function MultiAgentAI() {
   return (
@@ -8,11 +8,11 @@ function MultiAgentAI() {
 
       <div className="projects-grid">
         {multiAgentProjects.map((project) => (
-          <MULTIAGENTCard key={project.id} project={project} />
+          <MAgentCard key={project.id} project={project} />
         ))}
       </div>
     </section>
   );
 }
 
-export default MultiAgent;
+export default MultiAgentAI;

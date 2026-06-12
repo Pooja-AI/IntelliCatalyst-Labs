@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import dataScienceProjects from "../data/dataScienceProjects";
+import systemDesignProjects from "../data/systemDesignProjects";
 
-function DataScienceProjectDetails() {
+function SystemDesignProjectDetails() {
   const { id } = useParams();
 
-  const project = dataScienceProjects.find((p) => p.id === id);
+  const project = systemDesignProjects.find((p) => p.id === id);
 
   console.log("📌 Project Page Opened:", id);
 
@@ -159,4 +159,4 @@ function DataScienceProjectDetails() {
   );
 }
 
-export default DataScienceProjectDetails;
+export default SystemDesignProjectDetails;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import mlProjects from "../data/dlProjects";
+import dlProjects from "../data/dlProjects";
 
 function DLProjectDetails() {
   const { id } = useParams();

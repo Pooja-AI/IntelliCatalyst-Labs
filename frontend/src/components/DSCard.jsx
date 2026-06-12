@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 
-function MULTIAGENTCard({ project }) {
+function DSCard({ project }) {
   return (
     <Link
-      to={`/multi-agent/${project.id}`}
+      to={`/data-science/${project.id}`}
       style={{ textDecoration: "none", color: "inherit" }}
       onClick={() => {
         console.log("🚀 Project Clicked");
         console.log("Title:", project.title);
-        console.log("Navigate To:", `/multi-agent/${project.id}`);
+        console.log("Navigate To:", `/data-science/${project.id}`);
       }}
     >
       <div className="project-card">
@@ -19,4 +19,4 @@ function MULTIAGENTCard({ project }) {
   );
 }
 
-export default MULTIAGENTCard;
+export default DSCard;

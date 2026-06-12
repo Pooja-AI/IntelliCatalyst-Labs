@@ -1,5 +1,5 @@
-import NlpProjects from "../data/NlpProjects";
-import NlpCard from "../components/NLPCard";
+import nlpProjects from "../data/nlpProjects";
+import NlpCard from "../components/NlpCard";
 
 function NaturalLanguageProcessing() {
   return (
@@ -7,7 +7,7 @@ function NaturalLanguageProcessing() {
       <h1>Natural Language Processing Projects</h1>
 
       <div className="projects-grid">
-        {NlpProjects.map((project) => (
+        {nlpProjects.map((project) => (
           <NlpCard key={project.id} project={project} />
         ))}
       </div>

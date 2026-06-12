@@ -1,5 +1,5 @@
 import genAIProjects from "../data/genAIProjects";
-import genAICard from "../components/genAICard";
+import GenAICard from "../components/GenAICard";
 
 function GenerativeAI() {
   return (
@@ -8,7 +8,7 @@ function GenerativeAI() {
 
       <div className="projects-grid">
         {genAIProjects.map((project) => (
-          <genAICard key={project.id} project={project} />
+          <GenAICard key={project.id} project={project} />
         ))}
       </div>
     </section>

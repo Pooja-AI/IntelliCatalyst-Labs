@@ -1,5 +1,5 @@
 import agenticAIProjects from "../data/agenticAIProjects";
-import agenticAICard from "../components/agenticAICard";
+import AgenticAICard from "../components/AgenticAICard";
 
 function AgenticAI() {
   return (
@@ -8,7 +8,7 @@ function AgenticAI() {
 
       <div className="projects-grid">
         {agenticAIProjects.map((project) => (
-          <agenticAICard key={project.id} project={project} />
+          <AgenticAICard key={project.id} project={project} />
         ))}
       </div>
     </section>
