@@ -1,41 +1,49 @@
 function Hero() {
-  return (
-    <section className="hero">
+return ( <section className="hero">
 
-      <div className="hero-content">
+  <div className="hero-content">
 
-        <span className="badge">
-          AI Trends • GenAI • Agentic AI • LLMOps • MLOps
-        </span>
+    <span className="badge">
+      AI/ML • Generative AI • Agentic AI • RAG • LLMOps • MLOps
+    </span>
 
-        <h1>AICortex Studio</h1>
+    <h1>IntelliCatalyst Labs</h1>
 
-        <h2>
-          An AI Intelligence & Innovation Platform
-        </h2>
+    <h2>
+      Engineering the Future of Intelligent Systems
+    </h2>
 
-        <p>
-          AICortex Studio is a next-generation AI platform that explores,
-          builds, and showcases modern Artificial Intelligence systems,
-          frameworks, and real-world enterprise use cases.
-        </p>
+    <p>
+      IntelliCatalyst Labs is a premier AI innovation platform dedicated
+      to building, exploring, and showcasing cutting-edge solutions in
+      Artificial Intelligence, Machine Learning, Generative AI,
+      Agentic AI, Multi-Agent Systems, and Enterprise AI Architecture.
+    </p>
 
-        <div className="hero-buttons">
+    <p>
+      Discover real-world projects, scalable AI architectures,
+      production-ready implementations, and modern engineering practices
+      that transform innovative ideas into intelligent business solutions.
+    </p>
 
-          <button className="primary-btn">
-            Explore AI Trends
-          </button>
+    <div className="hero-buttons">
 
-          <button className="secondary-btn">
-            How It Works
-          </button>
+      <button className="primary-btn">
+        Explore Projects
+      </button>
 
-        </div>
+      <button className="secondary-btn">
+        Learn More
+      </button>
 
-      </div>
+    </div>
 
-    </section>
-  );
+  </div>
+
+</section>
+
+
+);
 }
 
 export default Hero;

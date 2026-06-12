@@ -1,21 +1,36 @@
 function AboutPlatform() {
-  return (
-    <section className="section">
+return ( <section className="section">
 
-      <h2>Why AICortex Studio?</h2>
 
-      <p>
-        The AI world is evolving rapidly — GenAI, Agentic AI, LLMOps,
-        and autonomous systems are reshaping industries.
-      </p>
+  <h2>Why IntelliCatalyst Labs?</h2>
+   <div className="cards-row">
+<div className="card">
+  <p>
+    Artificial Intelligence is transforming the world at an unprecedented pace.
+    From Machine Learning and Deep Learning to Generative AI, Agentic AI,
+    Multi-Agent Systems, and LLMOps, organizations are embracing intelligent
+    technologies to drive innovation and business value.
+  </p></div>
+<div className="card">
+  <p>
+    IntelliCatalyst Labs serves as a platform to explore, design, and showcase
+    real-world AI solutions, enterprise-grade architectures, and cutting-edge
+    research. Our mission is to bridge the gap between theory and production,
+    enabling the development of scalable, reliable, and impactful AI systems.
+  </p>
+  </div>
+<div className="card">
+  <p>
+    Through hands-on projects, technical insights, and modern AI engineering
+    practices, IntelliCatalyst Labs demonstrates how intelligent systems can
+    solve complex business challenges across industries.
+  </p></div>
+  </div>
 
-      <p>
-        AICortex Studio exists to simplify, explain, and build real AI systems
-        that reflect modern enterprise needs.
-      </p>
+</section>
 
-    </section>
-  );
+
+);
 }
 
 export default AboutPlatform;
