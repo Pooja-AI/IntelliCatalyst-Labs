@@ -1,1 +1,1 @@
-# AICortex-Studio
+#IntelliCatalyst-Labs
