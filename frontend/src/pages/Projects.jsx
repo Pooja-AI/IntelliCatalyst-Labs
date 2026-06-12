@@ -34,54 +34,105 @@ function Projects() {
         </Link>
 
         {/* RL */}
-        <div className="project-card">
-          <h3>Reinforcement Learning Systems</h3>
-        </div>
+        <Link
+          to="/reinforcement-learning"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Reinforcement Learning Systems</h3>
+          </div>
+        </Link>
+       
 
         {/* NLP */}
-        <div className="project-card">
-          <h3>Natural Language Processing (NLP)</h3>
-        </div>
+        <Link
+          to="/natural-language-processing"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Natural Language Processing (NLP)</h3>
+          </div>
+        </Link>
 
         {/* GENERATIVE AI */}
-        <div className="project-card">
-          <h3>Generative AI Systems</h3>
-        </div>
+        <Link
+          to="/generative-ai"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Generative AI Systems</h3>
+          </div>
+        </Link>
 
         {/* RAG */}
-        <div className="project-card">
-          <h3>Retrieval-Augmented Generation</h3>
-        </div>
+        <Link
+          to="/retrieval-augmented-generation"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Retrieval-Augmented Generation</h3>
+          </div>
+        </Link>
 
         {/* AGENTIC AI */}
-        <div className="project-card">
-          <h3>Agentic AI Systems</h3>
-        </div>
+        <Link
+          to="/agentic-ai"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Agentic AI Systems</h3>
+          </div>
+        </Link>
 
         {/* MULTI AGENT */}
-        <div className="project-card">
-          <h3>Multi-Agent AI Systems</h3>
-        </div>
+        <Link
+          to="/multi-agent-ai"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Multi-Agent AI Systems</h3>
+          </div>
+        </Link>
 
         {/* LLMOPS */}
-        <div className="project-card">
-          <h3>LLMOps & GenAI Lifecycle Management</h3>
-        </div>
+        <Link
+          to="/llmops"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>LLMOps & GenAI Lifecycle Management</h3>
+          </div>
+        </Link>
 
         {/* MLOPS */}
-        <div className="project-card">
-          <h3>MLOps Pipeline</h3>
-        </div>
+        <Link
+          to="/mlops"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>MLOps Pipeline</h3>
+          </div>
+        </Link>
 
         {/* DATA SCIENCE */}
-        <div className="project-card">
-          <h3>Data Science & Analytics</h3>
-        </div>
+        <Link
+          to="/data-science"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Data Science & Analytics</h3>
+          </div>
+        </Link>
 
         {/* SYSTEM DESIGN */}
-        <div className="project-card">
-          <h3>System Design & Architecture Patterns</h3>
-        </div>
+        <Link
+          to="/system-design"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>System Design & Architecture Patterns</h3>
+          </div>
+        </Link>
 
       </div>
     </section>

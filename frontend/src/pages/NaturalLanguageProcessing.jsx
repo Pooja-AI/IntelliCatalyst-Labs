@@ -1,0 +1,18 @@
+import NlpProjects from "../data/NlpProjects";
+import NlpCard from "../components/NLPCard";
+
+function NaturalLanguageProcessing() {
+  return (
+    <section className="projects">
+      <h1>Natural Language Processing Projects</h1>
+
+      <div className="projects-grid">
+        {NlpProjects.map((project) => (
+          <NlpCard key={project.id} project={project} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default NaturalLanguageProcessing;
