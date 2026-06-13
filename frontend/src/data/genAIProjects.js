@@ -1,31 +1,34 @@
+import CorrosionDetection from "../assets/architecture/corrosion-detection.png";
+import CorrosionDetectionDocs from "../assets/docs/CorrosionDetectionDocs.pdf";
 const genAIProjects = [
   {
-    id: "email-generator",
-    title: "AI Email Writing and Response Generator",
-    category: "Productivity AI",
+    id: "corrosion-detection-genai",
+    title: "Corrosion Detection GenAI - Vision + LLM Inspection Assistant",
+    category: "Computer Vision & GenAI",
     description:
-      "Generative AI system for writing professional emails and automated responses.",
+      "Multimodal AI system that detects corrosion in images of metal structures using a CNN/YOLO/ViT vision model, then uses an LLM to generate inspection reports and answer follow-up questions via a chat assistant.",
 
     problemStatement:
-      "Professionals spend significant time drafting emails and responses. This system automates email writing using LLMs.",
+      "Manual visual inspection of industrial assets (pipelines, tanks, beams, platforms) for corrosion is slow, inconsistent, and relies heavily on inspector expertise. This system automates corrosion detection from images and uses GenAI to produce structured severity assessments, risk levels, and maintenance recommendations.",
 
-    architecture: "/architecture/email-gen.png",
+    architecture: CorrosionDetection,
 
     workflow: [
-      "User input capture",
-      "Prompt construction",
-      "LLM inference",
-      "Response generation",
-      "Formatting output"
+      "Plant/asset selection and image upload",
+      "Image preprocessing and resizing",
+      "Vision model inference (corrosion detection + severity classification)",
+      "LLM reasoning over detections (risk level + inspection report)",
+      "Multimodal fusion of vision and LLM outputs",
+      "Interactive chat assistant for follow-up questions"
     ],
 
     deployment:
-      "Deployed using LLM API with web-based interface for email generation.",
+      "Deployed as a FastAPI backend (vision model + LLM reasoning, config-driven via YAML) with a React (Vite) frontend; containerized with Docker and docker-compose for backend + frontend.",
 
-    github: "",
+    github: "https://github.com/Pooja-AI/corrosion-detection-genai",
     demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Prompt Engineering"]
+    documentation: CorrosionDetectionDocs,
+    tech: ["Python", "FastAPI", "React", "PyTorch", "YOLO/CNN/ViT", "LLMs", "Prompt Engineering", "Docker"]
   },
 
   {
