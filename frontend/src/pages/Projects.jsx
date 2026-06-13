@@ -13,47 +13,6 @@ function Projects() {
 
       <div className="projects-grid">
 
-        {/* MACHINE LEARNING */}
-        <Link
-          to="/machine-learning"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>Machine Learning Models</h3>
-          </div>
-        </Link>
-
-        {/* DEEP LEARNING */}
-        <Link
-          to="/deep-learning"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>Deep Learning Models</h3>
-          </div>
-        </Link>
-
-        {/* RL */}
-        <Link
-          to="/reinforcement-learning"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>Reinforcement Learning Systems</h3>
-          </div>
-        </Link>
-       
-
-        {/* NLP */}
-        <Link
-          to="/natural-language-processing"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>Natural Language Processing (NLP)</h3>
-          </div>
-        </Link>
-
         {/* GENERATIVE AI */}
         <Link
           to="/generative-ai"
@@ -111,6 +70,47 @@ function Projects() {
         >
           <div className="project-card">
             <h3>MLOps Pipeline</h3>
+          </div>
+        </Link>
+
+         {/* MACHINE LEARNING */}
+        <Link
+          to="/machine-learning"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Machine Learning Models</h3>
+          </div>
+        </Link>
+
+        {/* DEEP LEARNING */}
+        <Link
+          to="/deep-learning"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Deep Learning Models</h3>
+          </div>
+        </Link>
+
+        {/* RL */}
+        <Link
+          to="/reinforcement-learning"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Reinforcement Learning Systems</h3>
+          </div>
+        </Link>
+       
+
+        {/* NLP */}
+        <Link
+          to="/natural-language-processing"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>Natural Language Processing (NLP)</h3>
           </div>
         </Link>
 
