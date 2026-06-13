@@ -4,7 +4,7 @@ function Navbar() {
 return ( <nav className="navbar">
 
   <div className="logo">
-    IntelliCatalyst Labs
+    IntelliCatalystAI Labs
   </div>
 
   <div className="menu">

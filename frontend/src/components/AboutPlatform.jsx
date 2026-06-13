@@ -2,7 +2,7 @@ function AboutPlatform() {
 return ( <section className="section">
 
 
-  <h2>Why IntelliCatalyst Labs?</h2>
+  <h2>Why IntelliCatalystAI Labs?</h2>
    <div className="cards-row">
 <div className="card">
   <p>
@@ -13,7 +13,7 @@ return ( <section className="section">
   </p></div>
 <div className="card">
   <p>
-    IntelliCatalyst Labs serves as a platform to explore, design, and showcase
+    IntelliCatalystAI Labs serves as a platform to explore, design, and showcase
     real-world AI solutions, enterprise-grade architectures, and cutting-edge
     research. Our mission is to bridge the gap between theory and production,
     enabling the development of scalable, reliable, and impactful AI systems.
@@ -22,7 +22,7 @@ return ( <section className="section">
 <div className="card">
   <p>
     Through hands-on projects, technical insights, and modern AI engineering
-    practices, IntelliCatalyst Labs demonstrates how intelligent systems can
+    practices, IntelliCatalystAI Labs demonstrates how intelligent systems can
     solve complex business challenges across industries.
   </p></div>
   </div>
