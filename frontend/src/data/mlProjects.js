@@ -1,26 +1,6 @@
+import EmailArchitecture from "../assets/architecture/email_classification_system_architecture.png";
+import EmailClassificationPDF from "../assets/docs/Email_Classification_System.pdf";
 const mlProjects = [
-  {
-    id: "customer-churn",
-    title: "Customer Churn Prediction System",
-    category: "Classification",
-    description: "Predict customer churn using ML models like Random Forest and XGBoost.",
-    problemStatement: "Predict whether customers will leave a service based on usage, billing, and behavior data.",
-    architecture: "/architecture/customer-churn.png",
-    workflow: [
-      "Data collection",
-      "Data preprocessing",
-      "Feature engineering",
-      "Model training (Random Forest, XGBoost)",
-      "Model evaluation",
-      "Deployment using FastAPI"
-    ],
-    deployment: "Deployed using FastAPI with REST API and React dashboard.",
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Scikit-Learn", "XGBoost", "Pandas"]
-  },
-
   {
     id: "credit-risk",
     title: "Credit Risk Assessment Model",
@@ -143,7 +123,49 @@ const mlProjects = [
     demo: "",
     documentation: "",
     tech: ["Python", "K-Means"]
-  }
+  },
+  {
+id: "email-classification",
+title: "Enterprise Email Classification System",
+category: "Natural Language Processing",
+description: "Automated email classification system using traditional NLP techniques and Machine Learning algorithms to categorize incoming emails into predefined classes.",
+problemStatement: "Organizations receive thousands of emails daily. Manually categorizing emails is time-consuming and error-prone. This system automatically classifies emails into predefined categories using NLP and Machine Learning.",
+architecture: EmailArchitecture,
+workflow: [
+"Email data collection",
+"Text preprocessing and cleaning",
+"Tokenization and stopword removal",
+"Feature extraction using CountVectorizer",
+"Feature extraction using TF-IDF",
+"Model training (Naive Bayes, SVM, Random Forest, Decision Tree, XGBoost, KNN, Logistic Regression)",
+"Model evaluation and comparison",
+"Model serialization using Pickle",
+"REST API development using Flask",
+"Web UI deployment using HTML, CSS, and JavaScript"
+],
+deployment: "Deployed as a Flask-based web application with REST APIs, integrated with a responsive frontend built using HTML, CSS, and JavaScript for real-time email classification.",
+github: "https://github.com/Pooja-AI/Email-Classification",
+demo: "",
+documentation: EmailClassificationPDF,
+tech: [
+"Python",
+"Scikit-Learn",
+"NLP",
+"CountVectorizer",
+"TF-IDF",
+"Naive Bayes",
+"SVM",
+"Random Forest",
+"Decision Tree",
+"XGBoost",
+"KNN",
+"Logistic Regression",
+"Flask",
+"REST API",
+"HTML",
+"CSS",
+"JavaScript"
+]
+}
 ];
-
 export default mlProjects;
