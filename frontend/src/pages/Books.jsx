@@ -24,7 +24,7 @@ function Books() {
 
         {/* RAG */}
         <Link
-          to="/retrieval-augmented-generation"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -34,7 +34,7 @@ function Books() {
 
         {/* AGENTIC AI */}
         <Link
-          to="/agentic-ai"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -44,7 +44,7 @@ function Books() {
 
         {/* MULTI AGENT */}
         <Link
-          to="/multi-agent-ai"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -54,7 +54,7 @@ function Books() {
 
         {/* LLMOPS */}
         <Link
-          to="/llmops"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -64,7 +64,7 @@ function Books() {
 
         {/* MLOPS */}
         <Link
-          to="/mlops"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -74,7 +74,7 @@ function Books() {
 
          {/* MACHINE LEARNING */}
         <Link
-          to="/machine-learning"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -84,7 +84,7 @@ function Books() {
 
         {/* DEEP LEARNING */}
         <Link
-          to="/deep-learning"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -94,7 +94,7 @@ function Books() {
 
         {/* RL */}
         <Link
-          to="/reinforcement-learning"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -105,7 +105,7 @@ function Books() {
 
         {/* NLP */}
         <Link
-          to="/natural-language-processing"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -115,7 +115,7 @@ function Books() {
 
         {/* DATA SCIENCE */}
         <Link
-          to="/data-science"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
@@ -125,7 +125,7 @@ function Books() {
 
         {/* SYSTEM DESIGN */}
         <Link
-          to="/system-design"
+          to=""
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
