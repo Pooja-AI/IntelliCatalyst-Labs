@@ -24,21 +24,20 @@ function Books() {
 
         {/* AgenticAI COOKBOOK */}
         <Link
-          to=""
+          to="/agentic-cookbook"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
             <h3>Agentic AI</h3>
           </div>
         </Link>
-
-        {/* AgenticAI COOKBOOK */}
+        {/* Multi-Agent AI COOKBOOK */}
         <Link
-          to=""
+          to="/multi-agent-cookbook"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
-            <h3>Agentic AI</h3>
+            <h3>Multi-Agent-Frameworks</h3>
           </div>
         </Link>
 

@@ -7,6 +7,8 @@ import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
 import RECIPES from "./pages/RAGCookbook"
+import AgenticAICookbook   from "./pages/AgenticAICookbook";
+import FRAMEWORKS from "./pages/MultiAgentFrameworks";
 
 // ML
 import MachineLearning from "./pages/MachineLearning";
@@ -123,9 +125,14 @@ function App() {
         <Route path="/multi-agent-ai" element={<MultiAgent />} />
         <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
 
-        
+        {/* Retrieval-Augmented Generation */}
         <Route path="/rag-cookbook" element={<RECIPES />} />
 
+        {/* Agentic AI */}
+        <Route path="/agentic-cookbook" element={<AgenticAICookbook />}/>
+
+        {/* Multi-Agent AI */}
+        <Route path="/multi-agent-cookbook" element={<FRAMEWORKS />} />
       </Routes>
     </BrowserRouter>
   );
