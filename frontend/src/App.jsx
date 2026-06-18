@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
+import RECIPES from "./pages/RAGCookbook"
 
 // ML
 import MachineLearning from "./pages/MachineLearning";
@@ -121,6 +122,9 @@ function App() {
         {/* Multi-Agent AI */}
         <Route path="/multi-agent-ai" element={<MultiAgent />} />
         <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
+
+        
+        <Route path="/rag-cookbook" element={<RECIPES />} />
 
       </Routes>
     </BrowserRouter>
