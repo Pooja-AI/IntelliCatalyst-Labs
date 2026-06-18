@@ -645,7 +645,7 @@ export default function App() {
     <div style={{
       display: "flex", flexDirection: "column",
       height: "100vh", fontFamily: "var(--font-sans, system-ui, sans-serif)",
-      background: "var(--color-background-tertiary, #474f80)",
+      background: "var(--color-background-tertiary, #152060)",
       color: "var(--color-text-primary)",
     }}>
       <Header />
