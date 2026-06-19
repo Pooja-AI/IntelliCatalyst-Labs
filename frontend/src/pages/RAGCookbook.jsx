@@ -674,6 +674,7 @@ def llm_rerank(query, docs):
     return sorted(scored_docs, key=lambda x: x[1], reverse=True)
 `
 },
+
   {
   id: "fixed-chunking",
   category: "Chunking",
