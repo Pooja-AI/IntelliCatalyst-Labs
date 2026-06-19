@@ -9,6 +9,8 @@ import Books from "./pages/Books";
 import RECIPES from "./pages/RAGCookbook"
 import AgenticAICookbook   from "./pages/AgenticAICookbook";
 import FRAMEWORKS from "./pages/MultiAgentFrameworks";
+import MCP from "./pages/MCP";
+import A2A from "./pages/A2A";
 
 // ML
 import MachineLearning from "./pages/MachineLearning";
@@ -133,6 +135,13 @@ function App() {
 
         {/* Multi-Agent AI */}
         <Route path="/multi-agent-cookbook" element={<FRAMEWORKS />} />
+
+        {/* MCP */}
+        <Route path="/mcp" element={<MCP />} />
+
+        {/* A2A */}
+        <Route path="/a2a" element={<A2A />} />
+
       </Routes>
     </BrowserRouter>
   );

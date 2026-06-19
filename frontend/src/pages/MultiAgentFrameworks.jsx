@@ -1,1250 +1,879 @@
 import { useState } from "react";
 
-
 const FRAMEWORKS = [
   {
-    id: "crewai-basic",
-    framework: "CrewAI",
-    frameworkColor: "#FF6B6B",
-    frameworkBg: "#FFF0F0",
-    title: "Role-Based Crew",
+    id: "swarm-handoff",
+    category: "Swarm",
+    title: "Agent Handoffs with Swarm",
     difficulty: "Beginner",
     time: "~20 min",
-    description:
-      "Compose a crew of agents each with a distinct role, goal, and backstory. Assign tasks and let CrewAI manage the collaboration flow.",
-    tags: ["roles", "tasks", "sequential"],
+    description: "Use OpenAI Swarm-style handoffs to transfer control between specialized agents mid-conversation. Each agent owns a domain and passes the baton when out of scope.",
+    tags: ["swarm", "handoff", "routing"],
     steps: [
-      {
-        label: "Define agents",
-        icon: "🧑‍💼",
-        detail:
-          "Create Agent objects with role, goal, and backstory. Each agent gets its own LLM instance and optional tool set.",
-      },
-      {
-        label: "Create tasks",
-        icon: "📋",
-        detail:
-          "Define Task objects with a description and expected output. Assign each task to the agent best suited for it.",
-      },
-      {
-        label: "Assemble crew",
-        icon: "👥",
-        detail:
-          "Instantiate a Crew with agents, tasks, and a process type (sequential or hierarchical).",
-      },
-      {
-        label: "Kickoff",
-        icon: "🚀",
-        detail:
-          "Call crew.kickoff() with optional inputs. CrewAI routes tasks through agents and manages context passing.",
-      },
-      {
-        label: "Collect output",
-        icon: "✅",
-        detail:
-          "Receive structured CrewOutput with per-task results and a final combined answer.",
-      },
+      { label: "Define Agents", icon: "🤖", detail: "Create agents with a name, system prompt, and tool list. Each agent is a specialist — keep system prompts tightly scoped to one domain (billing, support, sales)." },
+      { label: "Handoff Tool", icon: "🔀", detail: "Give each agent a transfer_to_X tool for every agent it may hand off to. The tool returns the target agent object — the loop detects this and switches context." },
+      { label: "Run Loop", icon: "🔄", detail: "The orchestration loop calls the active agent, checks if a tool result is an Agent object, and if so switches the active agent for the next turn." },
+      { label: "Preserve History", icon: "📚", detail: "Pass the full conversation history to every agent on every turn. Agents can read what happened before the handoff to avoid asking the user to repeat themselves." },
+      { label: "Context Variables", icon: "📦", detail: "Maintain a shared context_variables dict passed to every tool call. Agents read and write to it — e.g. storing account_id so downstream agents don't re-fetch it." },
+    ],
+    code: `import Anthropic from "@anthropic-ai/sdk";
+
+const claude = new Anthropic();
+
+// ── Agent definitions ─────────────────────────────────────────────────────────
+
+const triageAgent = {
+  name: "Triage Agent",
+  system: "You are a triage agent. Determine if the user needs billing help or technical support, then hand off to the right agent. Do not answer questions yourself.",
+  tools: ["transfer_to_billing", "transfer_to_support"],
+};
+
+const billingAgent = {
+  name: "Billing Agent",
+  system: "You are a billing specialist. Help with invoices, payments, and subscription changes. Transfer back to triage if the issue is technical.",
+  tools: ["get_invoice", "process_refund", "transfer_to_triage"],
+};
+
+const supportAgent = {
+  name: "Support Agent",
+  system: "You are a technical support specialist. Debug issues, check system status, and escalate if needed. Transfer to billing for payment questions.",
+  tools: ["check_system_status", "create_ticket", "transfer_to_billing"],
+};
+
+const AGENT_MAP = {
+  triage: triageAgent,
+  billing: billingAgent,
+  support: supportAgent,
+};
+
+// Tool implementations
+const toolHandlers = {
+  transfer_to_billing: () => ({ __handoff__: "billing", message: "Transferring to billing..." }),
+  transfer_to_support: () => ({ __handoff__: "support", message: "Transferring to support..." }),
+  transfer_to_triage:  () => ({ __handoff__: "triage",  message: "Transferring back to triage..." }),
+  get_invoice: ({ invoice_id }) => ({ invoice_id, amount: "$49.00", status: "paid", date: "2024-01-15" }),
+  process_refund: ({ invoice_id }) => ({ success: true, refund_id: "ref_" + invoice_id }),
+  check_system_status: () => ({ status: "operational", latency_ms: 42 }),
+  create_ticket: ({ description }) => ({ ticket_id: "TKT-1042", description, priority: "medium" }),
+};
+
+function buildTools(agent) {
+  return agent.tools.map((name) => ({
+    name,
+    description: name.replace(/_/g, " "),
+    input_schema: { type: "object", properties: {}, additionalProperties: true },
+  }));
+}
+
+// ── Swarm loop ────────────────────────────────────────────────────────────────
+
+async function runSwarm(userMessage, startAgent = "triage") {
+  let activeAgent = AGENT_MAP[startAgent];
+  const messages = [{ role: "user", content: userMessage }];
+  const contextVariables = {};
+
+  console.log(\`Starting with: \${activeAgent.name}\`);
+
+  for (let turn = 0; turn < 10; turn++) {
+    const response = await claude.messages.create({
+      model: "claude-opus-4-6",
+      max_tokens: 1024,
+      system: activeAgent.system,
+      tools: buildTools(activeAgent),
+      messages,
+    });
+
+    messages.push({ role: "assistant", content: response.content });
+
+    if (response.stop_reason === "end_turn") {
+      const text = response.content.find((b) => b.type === "text")?.text;
+      console.log(\`[\${activeAgent.name}]: \${text}\`);
+      return { text, agent: activeAgent.name, contextVariables };
+    }
+
+    // Process tool calls
+    const toolResults = [];
+    let handoffTarget = null;
+
+    for (const block of response.content) {
+      if (block.type !== "tool_use") continue;
+      const handler = toolHandlers[block.name];
+      const result = handler ? handler({ ...block.input, ...contextVariables }) : { error: "Unknown tool" };
+
+      // Detect handoff
+      if (result.__handoff__) {
+        handoffTarget = result.__handoff__;
+        toolResults.push({ type: "tool_result", tool_use_id: block.id, content: result.message });
+      } else {
+        // Store useful values in shared context
+        Object.assign(contextVariables, result);
+        toolResults.push({ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(result) });
+      }
+    }
+
+    messages.push({ role: "user", content: toolResults });
+
+    if (handoffTarget) {
+      activeAgent = AGENT_MAP[handoffTarget];
+      console.log(\`→ Handed off to: \${activeAgent.name}\`);
+    }
+  }
+
+  return { text: "Max turns reached", agent: activeAgent.name };
+}
+
+const result = await runSwarm("I was charged twice last month and need a refund.");
+console.log("Final answer:", result.text);`,
+  },
+  {
+    id: "langgraph-state",
+    category: "LangGraph",
+    title: "Stateful Graph with LangGraph",
+    difficulty: "Intermediate",
+    time: "~35 min",
+    description: "Model your agent workflow as a directed graph where nodes are functions and edges are conditional transitions. State flows through the graph, accumulating results at each node.",
+    tags: ["LangGraph", "state graph", "conditional edges"],
+    steps: [
+      { label: "Define State", icon: "📋", detail: "Declare a TypeScript interface (or Zod schema) for the shared state object. Every node reads from and writes to this state — it's the single source of truth across the graph." },
+      { label: "Create Nodes", icon: "🔵", detail: "Each node is an async function that receives the current state and returns a partial state update. Nodes should do one thing: call an LLM, invoke a tool, or make a decision." },
+      { label: "Add Edges", icon: "➡️", detail: "Static edges always proceed to the next node. Conditional edges call a router function that inspects state and returns the name of the next node — this is how branching logic works." },
+      { label: "Checkpointing", icon: "💾", detail: "Attach a checkpointer (e.g. MemorySaver or SqliteSaver) to persist state after each node. This enables pause/resume, time-travel debugging, and human-in-the-loop interrupts." },
+      { label: "Compile & Run", icon: "▶️", detail: "Call graph.compile() to validate the graph structure (no orphan nodes, no missing edges). Then invoke with an initial state and a thread config for session isolation." },
+    ],
+    code: `import { Anthropic } from "@anthropic-ai/sdk";
+import { StateGraph, END, START } from "@langchain/langgraph";
+import { MemorySaver } from "@langchain/langgraph";
+
+const claude = new Anthropic();
+
+// ── State definition ──────────────────────────────────────────────────────────
+
+const graphState = {
+  messages: { reducer: (a, b) => [...a, ...b], default: () => [] },
+  retrievedDocs: { reducer: (_, b) => b, default: () => [] },
+  draftAnswer: { reducer: (_, b) => b, default: () => "" },
+  needsRetrieval: { reducer: (_, b) => b, default: () => true },
+  iterations: { reducer: (a, b) => a + b, default: () => 0 },
+};
+
+// ── Nodes ─────────────────────────────────────────────────────────────────────
+
+async function routerNode(state) {
+  const lastMessage = state.messages.at(-1)?.content ?? "";
+  const res = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 50,
+    messages: [{ role: "user", content: \`Does answering this question require looking up documents?
+Question: \${lastMessage}
+Reply with exactly: YES or NO\` }],
+  });
+  const needsRetrieval = res.content[0].text.trim().toUpperCase() === "YES";
+  return { needsRetrieval };
+}
+
+async function retrievalNode(state) {
+  // Simulate vector DB retrieval
+  const query = state.messages.at(-1)?.content ?? "";
+  const mockDocs = [
+    \`Document 1: Relevant info about "\${query.slice(0, 30)}..."\`,
+    \`Document 2: Additional context for the query.\`,
+  ];
+  return { retrievedDocs: mockDocs };
+}
+
+async function generationNode(state) {
+  const context = state.retrievedDocs.join("\\n\\n");
+  const question = state.messages.at(-1)?.content ?? "";
+
+  const res = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 1024,
+    messages: [{
+      role: "user",
+      content: context
+        ? \`Context:\\n\${context}\\n\\nQuestion: \${question}\`
+        : question,
+    }],
+  });
+
+  return {
+    draftAnswer: res.content[0].text,
+    messages: [{ role: "assistant", content: res.content[0].text }],
+    iterations: 1,
+  };
+}
+
+async function graderNode(state) {
+  const res = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 50,
+    messages: [{
+      role: "user",
+      content: \`Is this answer grounded in the provided documents and free of hallucinations?
+Answer: \${state.draftAnswer}
+Reply with: PASS or FAIL\`,
+    }],
+  });
+  const passed = res.content[0].text.includes("PASS");
+  // If failed and < 3 iterations, loop back to retrieval
+  return { needsRetrieval: !passed && state.iterations < 3 };
+}
+
+// ── Graph assembly ────────────────────────────────────────────────────────────
+
+const workflow = new StateGraph({ channels: graphState });
+
+workflow
+  .addNode("router", routerNode)
+  .addNode("retrieve", retrievalNode)
+  .addNode("generate", generationNode)
+  .addNode("grade", graderNode)
+  .addEdge(START, "router")
+  .addConditionalEdges("router", (state) => state.needsRetrieval ? "retrieve" : "generate")
+  .addEdge("retrieve", "generate")
+  .addEdge("generate", "grade")
+  .addConditionalEdges("grade", (state) => state.needsRetrieval ? "retrieve" : END);
+
+const checkpointer = new MemorySaver();
+const graph = workflow.compile({ checkpointer });
+
+// ── Run ───────────────────────────────────────────────────────────────────────
+
+const threadConfig = { configurable: { thread_id: "session-42" } };
+const result = await graph.invoke(
+  { messages: [{ role: "user", content: "What were the Q3 revenue results?" }] },
+  threadConfig
+);
+
+console.log("Final answer:", result.draftAnswer);
+console.log("Iterations:", result.iterations);`,
+  },
+  {
+    id: "crewai-roles",
+    category: "CrewAI",
+    title: "Role-Based Crews",
+    difficulty: "Intermediate",
+    time: "~30 min",
+    description: "Assemble a crew of role-playing agents, each with a goal and backstory. Tasks flow sequentially or in parallel through the crew, with each agent contributing its specialty.",
+    tags: ["CrewAI", "roles", "tasks", "process"],
+    steps: [
+      { label: "Define Roles", icon: "🎭", detail: "Create Agent objects with role, goal, and backstory. The backstory shapes how the LLM interprets its persona — be specific and concrete, not generic." },
+      { label: "Assign Tools", icon: "🔧", detail: "Give each agent the tools it needs for its role. Agents only call tools relevant to their specialty — a researcher gets search, a writer gets none." },
+      { label: "Create Tasks", icon: "📋", detail: "Tasks have a description, expected_output, and an assigned agent. The expected_output guides what format the agent should return — be explicit." },
+      { label: "Pick a Process", icon: "⚙️", detail: "Process.sequential runs tasks one after another, passing each output as context to the next. Process.hierarchical adds a manager agent that delegates and reviews." },
+      { label: "Kick Off Crew", icon: "🚀", detail: "Call crew.kickoff(inputs={...}) with any template variables used in task descriptions. Returns the final task's output as a string." },
     ],
     code: `from crewai import Agent, Task, Crew, Process
-from crewai_tools import SerperDevTool
+from crewai_tools import SerperDevTool, WebsiteSearchTool
+from anthropic import Anthropic
 
-# Tools
+# CrewAI supports custom LLMs — wire in Claude
+import os
+os.environ["OPENAI_API_KEY"] = "unused"  # CrewAI requires this env var
+os.environ["OPENAI_MODEL_NAME"] = "claude-opus-4-6"
+
+# ── Tools ─────────────────────────────────────────────────────────────────────
+
 search_tool = SerperDevTool()
+web_tool = WebsiteSearchTool()
 
-# Agents
+# ── Agents ────────────────────────────────────────────────────────────────────
+
 researcher = Agent(
     role="Senior Research Analyst",
-    goal="Uncover accurate, up-to-date information on {topic}",
+    goal="Uncover cutting-edge developments in {topic} and identify key trends",
     backstory=(
-        "You are a veteran research analyst with 15 years of experience "
-        "distilling complex information into clear, actionable insights."
+        "You are a veteran analyst at a top-tier research firm. "
+        "You are known for finding non-obvious insights and citing primary sources. "
+        "You never speculate — every claim is backed by evidence."
+    ),
+    tools=[search_tool, web_tool],
+    verbose=True,
+    max_iter=5,
+)
+
+writer = Agent(
+    role="Content Strategist",
+    goal="Transform research findings into a compelling, structured report",
+    backstory=(
+        "You are an award-winning tech journalist who makes complex topics "
+        "accessible without dumbing them down. You structure reports with "
+        "clear headings, concrete examples, and a strong executive summary."
+    ),
+    tools=[],  # writer needs no external tools
+    verbose=True,
+)
+
+editor = Agent(
+    role="Editorial Director",
+    goal="Ensure accuracy, clarity, and consistency before publication",
+    backstory=(
+        "You have 20 years of editorial experience. You fact-check every claim, "
+        "cut filler ruthlessly, and ensure the report has a single clear narrative thread."
     ),
     tools=[search_tool],
     verbose=True,
 )
 
-writer = Agent(
-    role="Content Strategist",
-    goal="Craft compelling, well-structured content based on research",
-    backstory=(
-        "You are an award-winning content strategist who transforms raw "
-        "research into engaging narratives for technical audiences."
-    ),
-    verbose=True,
-)
+# ── Tasks ─────────────────────────────────────────────────────────────────────
 
-# Tasks
 research_task = Task(
     description=(
-        "Research {topic} thoroughly. Identify key trends, statistics, "
-        "and expert opinions. Produce a structured research brief."
+        "Research the latest developments in {topic} from the past 6 months. "
+        "Identify the top 5 trends, key players, and any emerging risks. "
+        "Collect at least 3 primary source URLs."
     ),
-    expected_output="A detailed research brief with 5+ key findings and sources.",
+    expected_output=(
+        "A structured markdown document with: "
+        "1) Executive summary (3 sentences), "
+        "2) Top 5 trends with evidence, "
+        "3) Key players table, "
+        "4) Risk factors, "
+        "5) Source URLs"
+    ),
     agent=researcher,
 )
 
 writing_task = Task(
     description=(
-        "Using the research brief, write a 500-word blog post about {topic}. "
-        "Include an engaging intro, 3 main sections, and a conclusion."
+        "Using the research findings, write a 800-word report on {topic} "
+        "suitable for a C-suite audience. Lead with the most surprising insight."
     ),
-    expected_output="A polished 500-word blog post in Markdown format.",
+    expected_output="An 800-word markdown report with H2 headings and a strong opening hook.",
     agent=writer,
-    context=[research_task],   # receives researcher's output automatically
+    context=[research_task],  # receives researcher's output as context
 )
 
-# Crew
-crew = Crew(
-    agents=[researcher, writer],
-    tasks=[research_task, writing_task],
-    process=Process.sequential,
-    verbose=True,
-)
-
-result = crew.kickoff(inputs={"topic": "LLM agent architectures in 2025"})
-print(result.raw)`,
-  },
-  {
-    id: "crewai-hierarchical",
-    framework: "CrewAI",
-    frameworkColor: "#FF6B6B",
-    frameworkBg: "#FFF0F0",
-    title: "Hierarchical Crew",
-    difficulty: "Intermediate",
-    time: "~35 min",
-    description:
-      "A manager agent automatically delegates tasks to worker agents, handling task assignment, re-delegation, and quality checks.",
-    tags: ["manager", "delegation", "hierarchical"],
-    steps: [
-      {
-        label: "Manager agent",
-        icon: "👔",
-        detail:
-          "Designate a manager_agent or use manager_llm. The manager plans, delegates, and reviews work without needing explicit task assignment.",
-      },
-      {
-        label: "Worker agents",
-        icon: "⚙️",
-        detail:
-          "Define specialist worker agents. The manager selects them dynamically based on task requirements.",
-      },
-      {
-        label: "Hierarchical process",
-        icon: "🗂️",
-        detail:
-          "Set process=Process.hierarchical. CrewAI activates the manager-worker delegation loop automatically.",
-      },
-      {
-        label: "Delegation loop",
-        icon: "🔄",
-        detail:
-          "Manager calls Delegate Work and Ask Question tools to coordinate workers. Workers report back with results.",
-      },
-      {
-        label: "Final synthesis",
-        icon: "✨",
-        detail:
-          "Manager reviews all worker outputs and produces the final, unified response.",
-      },
-    ],
-    code: `from crewai import Agent, Task, Crew, Process
-from langchain_openai import ChatOpenAI
-
-manager_llm = ChatOpenAI(model="gpt-4o", temperature=0.1)
-
-# Worker agents (no task assignment needed — manager decides)
-data_analyst = Agent(
-    role="Data Analyst",
-    goal="Analyze datasets and extract statistical insights",
-    backstory="Expert in pandas, SQL, and statistical analysis.",
-    allow_delegation=False,
-)
-
-visualizer = Agent(
-    role="Data Visualizer",
-    goal="Create clear charts and visual summaries from data insights",
-    backstory="Specialist in Matplotlib, Plotly, and data storytelling.",
-    allow_delegation=False,
-)
-
-report_writer = Agent(
-    role="Report Writer",
-    goal="Synthesize insights into executive-ready reports",
-    backstory="Senior business analyst with expertise in clear communication.",
-    allow_delegation=False,
-)
-
-# Single high-level task — manager decomposes it
-analysis_task = Task(
+editing_task = Task(
     description=(
-        "Perform a complete analysis of our Q4 sales data: "
-        "identify trends, create visualizations, and produce an executive report."
+        "Review the draft report for factual accuracy, clarity, and flow. "
+        "Cross-check 2 key claims against sources. Return the polished final version."
     ),
-    expected_output="A complete report with data insights, charts, and recommendations.",
-    # No agent= assigned — manager delegates dynamically
+    expected_output="The final, publication-ready report with any corrections noted in a changelog.",
+    agent=editor,
+    context=[writing_task],
 )
+
+# ── Crew ──────────────────────────────────────────────────────────────────────
 
 crew = Crew(
-    agents=[data_analyst, visualizer, report_writer],
-    tasks=[analysis_task],
-    process=Process.hierarchical,
-    manager_llm=manager_llm,       # LLM powering the manager
-    verbose=True,
+    agents=[researcher, writer, editor],
+    tasks=[research_task, writing_task, editing_task],
+    process=Process.sequential,
+    verbose=2,
+    memory=True,        # agents share a memory store across tasks
+    embedder={          # used for memory similarity search
+        "provider": "openai",
+        "config": { "model": "text-embedding-3-small" }
+    },
 )
 
-result = crew.kickoff()
-print(result.raw)`,
+result = crew.kickoff(inputs={"topic": "AI agents in enterprise software"})
+print(result)`,
   },
   {
-    id: "crewai-flows",
-    framework: "CrewAI",
-    frameworkColor: "#FF6B6B",
-    frameworkBg: "#FFF0F0",
-    title: "CrewAI Flows",
-    difficulty: "Advanced",
-    time: "~50 min",
-    description:
-      "Event-driven orchestration with @start, @listen, and @router decorators. Mix deterministic Python logic with crew execution for complex pipelines.",
-    tags: ["flows", "event-driven", "routing"],
+    id: "autogen-conversation",
+    category: "AutoGen",
+    title: "Conversable Agents with AutoGen",
+    difficulty: "Intermediate",
+    time: "~25 min",
+    description: "AutoGen's ConversableAgent lets agents chat with each other autonomously. A UserProxyAgent executes code; an AssistantAgent writes it. Together they solve tasks iteratively.",
+    tags: ["AutoGen", "conversable", "code execution"],
     steps: [
-      {
-        label: "Define Flow class",
-        icon: "🏗️",
-        detail:
-          "Subclass Flow and use FlowState to share state across methods. State is automatically persisted between steps.",
-      },
-      {
-        label: "@start method",
-        icon: "▶️",
-        detail:
-          "Decorate the entry point with @start(). This method runs first and may trigger downstream listeners.",
-      },
-      {
-        label: "@listen methods",
-        icon: "👂",
-        detail:
-          "Methods decorated with @listen(method_name) automatically run when the named method completes.",
-      },
-      {
-        label: "@router for branching",
-        icon: "🔀",
-        detail:
-          "Use @router to conditionally route execution to different listeners based on output values.",
-      },
-      {
-        label: "flow.kickoff()",
-        icon: "🚀",
-        detail:
-          "Start the flow. CrewAI topologically sorts the DAG of listeners and executes them in order.",
-      },
-    ],
-    code: `from crewai.flow.flow import Flow, listen, start, router
-from pydantic import BaseModel
-
-class ContentState(BaseModel):
-    topic: str = ""
-    research: str = ""
-    outline: str = ""
-    draft: str = ""
-    quality_score: int = 0
-    final_content: str = ""
-
-class ContentPipeline(Flow[ContentState]):
-
-    @start()
-    def fetch_topic(self):
-        """Entry point — initialise the topic."""
-        self.state.topic = "The future of multi-agent AI systems"
-        return self.state.topic
-
-    @listen(fetch_topic)
-    def research_phase(self, topic):
-        """Run a research crew on the topic."""
-        from crewai import Crew, Agent, Task
-
-        researcher = Agent(role="Researcher", goal="Research {topic} deeply", backstory="...")
-        task = Task(description="Research {topic}", expected_output="Research brief", agent=researcher)
-        crew = Crew(agents=[researcher], tasks=[task])
-        result = crew.kickoff(inputs={"topic": topic})
-        self.state.research = result.raw
-        return result.raw
-
-    @listen(research_phase)
-    def write_draft(self, research):
-        """Write a draft based on research."""
-        writer = Agent(role="Writer", goal="Write an article", backstory="...")
-        task = Task(
-            description=f"Write an article using this research:\n{research}",
-            expected_output="Article draft",
-            agent=writer,
-        )
-        crew = Crew(agents=[writer], tasks=[task])
-        result = crew.kickoff()
-        self.state.draft = result.raw
-        self.state.quality_score = self._score_draft(result.raw)
-        return self.state.quality_score
-
-    @router(write_draft)
-    def quality_gate(self, score):
-        """Route based on quality score."""
-        return "approved" if score >= 8 else "needs_revision"
-
-    @listen("approved")
-    def publish(self):
-        self.state.final_content = self.state.draft
-        print("✅ Published:", self.state.final_content[:100])
-
-    @listen("needs_revision")
-    def revise(self):
-        print("🔄 Revising draft (score too low)...")
-        # Trigger another write cycle
-        self.write_draft(self.state.research)
-
-    def _score_draft(self, draft: str) -> int:
-        # Simplified scoring — in practice, use an LLM evaluator
-        return min(10, len(draft.split()) // 50)
-
-flow = ContentPipeline()
-flow.kickoff()`,
-  },
-  {
-    id: "autogen-basic",
-    framework: "AutoGen",
-    frameworkColor: "#4ECDC4",
-    frameworkBg: "#F0FFFE",
-    title: "Two-Agent Chat",
-    difficulty: "Beginner",
-    time: "~20 min",
-    description:
-      "The foundational AutoGen pattern: an AssistantAgent generates responses and a UserProxyAgent executes code, providing feedback in a back-and-forth dialogue.",
-    tags: ["conversation", "code execution", "feedback"],
-    steps: [
-      {
-        label: "AssistantAgent",
-        icon: "🤖",
-        detail:
-          "Create an AssistantAgent backed by an LLM. It generates plans, code, and responses.",
-      },
-      {
-        label: "UserProxyAgent",
-        icon: "🧑‍💻",
-        detail:
-          "Create a UserProxyAgent with human_input_mode and code_execution_config. It runs code and replies with output.",
-      },
-      {
-        label: "Initiate chat",
-        icon: "💬",
-        detail:
-          "Call user_proxy.initiate_chat(assistant, message=task). AutoGen manages the multi-turn conversation.",
-      },
-      {
-        label: "Execution loop",
-        icon: "🔁",
-        detail:
-          "Assistant proposes code → UserProxy executes it → result fed back → assistant refines → repeat.",
-      },
-      {
-        label: "Termination",
-        icon: "🏁",
-        detail:
-          "Chat ends when TERMINATE appears in a message or max_turns is reached.",
-      },
+      { label: "AssistantAgent", icon: "✍️", detail: "The AssistantAgent is backed by an LLM and writes code, plans, and responses. Configure it with a system message and llm_config pointing to your model." },
+      { label: "UserProxyAgent", icon: "⚙️", detail: "The UserProxyAgent represents the human side and can execute code locally. Set human_input_mode to NEVER for full autonomy, or TERMINATE to stop on a keyword." },
+      { label: "Code Execution", icon: "🖥️", detail: "UserProxyAgent extracts code blocks from AssistantAgent messages and runs them in a Docker sandbox or local subprocess. Results feed back into the conversation." },
+      { label: "Termination", icon: "🛑", detail: "Define is_termination_msg to stop the conversation when the assistant signals completion (e.g. returns 'TERMINATE'). Without this, conversations loop indefinitely." },
+      { label: "GroupChat", icon: "👥", detail: "For 3+ agents, use GroupChat + GroupChatManager. The manager decides which agent speaks next, enabling round-robin or LLM-selected speaker order." },
     ],
     code: `import autogen
+from anthropic import Anthropic
 
-config_list = [{"model": "gpt-4o", "api_key": "YOUR_KEY"}]
-
+# Configure AutoGen to use Claude
 llm_config = {
-    "config_list": config_list,
-    "cache_seed": 42,
+    "config_list": [{
+        "model": "claude-opus-4-6",
+        "api_key": "your-anthropic-api-key",
+        "api_type": "anthropic",
+    }],
     "temperature": 0,
+    "timeout": 120,
 }
+
+# ── Two-agent pattern: assistant + code executor ──────────────────────────────
 
 assistant = autogen.AssistantAgent(
     name="Assistant",
     llm_config=llm_config,
     system_message=(
-        "You are a helpful AI assistant. "
-        "Solve tasks using Python code. "
-        "When done, reply TERMINATE."
+        "You are a helpful AI assistant. Solve tasks using Python code. "
+        "When the task is complete, reply with TERMINATE."
     ),
 )
 
 user_proxy = autogen.UserProxyAgent(
     name="UserProxy",
-    human_input_mode="NEVER",          # fully automated
+    human_input_mode="NEVER",          # fully autonomous
     max_consecutive_auto_reply=10,
     is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
     code_execution_config={
-        "work_dir": "coding",
-        "use_docker": False,           # set True in production
+        "work_dir": "coding_workspace",
+        "use_docker": True,            # sandbox execution
     },
-    llm_config=False,
 )
 
+# Start a two-agent conversation
 user_proxy.initiate_chat(
     assistant,
-    message=(
-        "Plot a bar chart of the top 5 programming languages "
-        "by popularity in 2024 and save it as chart.png."
-    ),
-)`,
-  },
-  {
-    id: "autogen-groupchat",
-    framework: "AutoGen",
-    frameworkColor: "#4ECDC4",
-    frameworkBg: "#F0FFFE",
-    title: "Group Chat",
-    difficulty: "Intermediate",
-    time: "~40 min",
-    description:
-      "Multiple agents collaborate in a shared conversation. A GroupChatManager uses an LLM to decide who speaks next — enabling dynamic multi-agent debate and specialization.",
-    tags: ["group chat", "multi-agent", "manager"],
-    steps: [
-      {
-        label: "Create specialists",
-        icon: "👥",
-        detail:
-          "Instantiate multiple AssistantAgents, each with a distinct system message defining their expertise.",
-      },
-      {
-        label: "GroupChat object",
-        icon: "💬",
-        detail:
-          "Create a GroupChat with all agents, max_round, and speaker selection strategy (auto, round_robin, manual).",
-      },
-      {
-        label: "GroupChatManager",
-        icon: "🧑‍⚖️",
-        detail:
-          "Wrap GroupChat in a GroupChatManager. The manager LLM selects the next speaker each turn.",
-      },
-      {
-        label: "Initiate conversation",
-        icon: "🚀",
-        detail:
-          "Call user_proxy.initiate_chat(manager, message=task). Agents take turns contributing.",
-      },
-      {
-        label: "Shared transcript",
-        icon: "📜",
-        detail:
-          "All messages are appended to a shared transcript each agent can reference.",
-      },
-    ],
-    code: `import autogen
+    message="Fetch the top 5 HackerNews stories right now and plot their scores as a bar chart. Save as hn_scores.png.",
+)
 
-config_list = [{"model": "gpt-4o", "api_key": "YOUR_KEY"}]
-llm_config = {"config_list": config_list, "temperature": 0}
+# ── Group chat: 3 agents collaborate ─────────────────────────────────────────
 
-# Specialist agents
 planner = autogen.AssistantAgent(
     name="Planner",
-    system_message=(
-        "You are a project planner. Break complex tasks into clear steps. "
-        "Coordinate the team and summarize progress."
-    ),
     llm_config=llm_config,
+    system_message="You are a project planner. Break tasks into steps and assign them to Coder or Reviewer.",
 )
 
-engineer = autogen.AssistantAgent(
-    name="Engineer",
-    system_message=(
-        "You are a senior software engineer. Write clean, efficient code. "
-        "Focus on implementation and technical correctness."
-    ),
+coder = autogen.AssistantAgent(
+    name="Coder",
     llm_config=llm_config,
+    system_message="You write clean, well-documented Python code. Only write code when asked by Planner.",
 )
 
-critic = autogen.AssistantAgent(
-    name="Critic",
-    system_message=(
-        "You are a code reviewer. Identify bugs, edge cases, and improvements. "
-        "Be specific and constructive."
-    ),
+reviewer = autogen.AssistantAgent(
+    name="Reviewer",
     llm_config=llm_config,
+    system_message=(
+        "You review code for bugs, security issues, and best practices. "
+        "Approve with 'LGTM' or request changes with specific comments."
+    ),
 )
 
-user_proxy = autogen.UserProxyAgent(
-    name="User",
+executor = autogen.UserProxyAgent(
+    name="Executor",
     human_input_mode="NEVER",
-    code_execution_config={"work_dir": "groupchat_code", "use_docker": False},
-    is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
+    code_execution_config={"work_dir": "workspace", "use_docker": True},
+    is_termination_msg=lambda x: "TERMINATE" in x.get("content", ""),
 )
 
 group_chat = autogen.GroupChat(
-    agents=[user_proxy, planner, engineer, critic],
+    agents=[planner, coder, reviewer, executor],
     messages=[],
-    max_round=15,
-    speaker_selection_method="auto",   # LLM picks the best next speaker
+    max_round=20,
+    speaker_selection_method="auto",  # LLM picks next speaker
 )
 
-manager = autogen.GroupChatManager(
-    groupchat=group_chat,
-    llm_config=llm_config,
-)
+manager = autogen.GroupChatManager(groupchat=group_chat, llm_config=llm_config)
 
-user_proxy.initiate_chat(
+executor.initiate_chat(
     manager,
-    message=(
-        "Build a REST API endpoint in Python using FastAPI that accepts a "
-        "JSON payload, validates it with Pydantic, and returns a summary."
-    ),
+    message="Build a REST API endpoint in FastAPI that returns the Fibonacci sequence up to N terms.",
 )`,
   },
   {
-    id: "autogen-swarm",
-    framework: "AutoGen",
-    frameworkColor: "#4ECDC4",
-    frameworkBg: "#F0FFFE",
-    title: "Swarm Orchestration",
+    id: "custom-orchestrator",
+    category: "Custom",
+    title: "Build Your Own Orchestrator",
     difficulty: "Advanced",
-    time: "~55 min",
-    description:
-      "AutoGen 0.4+ Swarm pattern: agents hand off control via structured handoff objects. Enables stateful, parallel, event-driven multi-agent pipelines.",
-    tags: ["swarm", "handoff", "stateful"],
+    time: "~50 min",
+    description: "Skip the frameworks and build a lightweight multi-agent orchestrator from scratch. Full control over routing, state, retries, and observability.",
+    tags: ["custom", "orchestration", "from scratch"],
     steps: [
-      {
-        label: "Define handoffs",
-        icon: "🤝",
-        detail:
-          "Create SwarmAgent instances with on_condition handoffs that transfer control based on tool results or conditions.",
-      },
-      {
-        label: "Shared context",
-        icon: "📦",
-        detail:
-          "Pass a context_variables dict that persists across all agents in the swarm — the shared blackboard.",
-      },
-      {
-        label: "Entry agent",
-        icon: "🚪",
-        detail:
-          "Designate the first agent to receive the task. It decides to act or hand off immediately.",
-      },
-      {
-        label: "Handoff chain",
-        icon: "⛓️",
-        detail:
-          "Each agent processes its part and calls a handoff function to transfer control and updated context.",
-      },
-      {
-        label: "Termination",
-        icon: "🏁",
-        detail:
-          "Any agent can trigger AFTER_WORK.TERMINATE or hand off to a closing agent.",
-      },
+      { label: "Agent Abstraction", icon: "🤖", detail: "Define a minimal Agent class: name, system prompt, tools, and an async run(messages) method. Keep it thin — the orchestrator handles routing, not the agent." },
+      { label: "Message Bus", icon: "📨", detail: "Use a shared message list as the bus. Each agent appends its output as {role: assistant, name: agent_name, content: ...}. Downstream agents see the full history." },
+      { label: "Router", icon: "🗺️", detail: "A router function inspects the last message and returns the name of the next agent. Can be rule-based (keyword match), LLM-based (ask Claude who should answer), or hybrid." },
+      { label: "Retry & Timeout", icon: "🔁", detail: "Wrap each agent call in a retry loop with exponential backoff. Set per-agent timeouts so a slow agent doesn't block the entire pipeline." },
+      { label: "Observability", icon: "📊", detail: "Emit structured logs for every agent invocation: agent name, token usage, latency, tool calls, and routing decisions. This is what makes multi-agent systems debuggable." },
+      { label: "Human-in-the-Loop", icon: "👤", detail: "Before routing to high-stakes agents (e.g. one that executes code or sends emails), pause and require human approval. Store pending approvals in a queue the UI polls." },
     ],
-    code: `from autogen import (
-    SwarmAgent, initiate_swarm_chat,
-    ON_CONDITION, AFTER_WORK, AfterWorkOption
-)
-from openai import OpenAI
+    code: `import Anthropic from "@anthropic-ai/sdk";
+import { randomUUID } from "crypto";
 
-client = OpenAI()
+const claude = new Anthropic();
 
-def triage_ticket(ticket: str, context_variables: dict) -> str:
-    """Classify support ticket and route to specialist."""
-    category = "billing" if "invoice" in ticket.lower() else "technical"
-    context_variables["ticket"] = ticket
-    context_variables["category"] = category
-    return f"Ticket categorized as: {category}"
+// ── Agent class ───────────────────────────────────────────────────────────────
 
-def resolve_billing(context_variables: dict) -> str:
-    """Handle billing queries."""
-    return f"Resolved billing issue for: {context_variables['ticket']}"
+class Agent {
+  constructor({ name, system, tools = [], maxRetries = 3, timeoutMs = 30000 }) {
+    this.name = name;
+    this.system = system;
+    this.tools = tools;
+    this.maxRetries = maxRetries;
+    this.timeoutMs = timeoutMs;
+  }
 
-def resolve_technical(context_variables: dict) -> str:
-    """Handle technical queries."""
-    return f"Resolved technical issue for: {context_variables['ticket']}"
+  async run(messages, contextVars = {}) {
+    for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), this.timeoutMs);
 
-# Swarm agents
-triage_agent = SwarmAgent(
-    name="Triage",
-    system_message="Classify customer tickets and route to the right specialist.",
-    functions=[triage_ticket],
-    handoffs=[
-        ON_CONDITION(
-            target="BillingAgent",
-            condition="When category is billing",
-        ),
-        ON_CONDITION(
-            target="TechAgent",
-            condition="When category is technical",
-        ),
-    ],
-    llm_config={"model": "gpt-4o"},
-)
+        const response = await claude.messages.create({
+          model: "claude-opus-4-6",
+          max_tokens: 2048,
+          system: this.system,
+          tools: this.tools,
+          messages,
+        });
 
-billing_agent = SwarmAgent(
-    name="BillingAgent",
-    system_message="Resolve billing and payment issues professionally.",
-    functions=[resolve_billing],
-    after_work=AFTER_WORK(AfterWorkOption.TERMINATE),
-    llm_config={"model": "gpt-4o"},
-)
+        clearTimeout(timer);
+        return response;
+      } catch (err) {
+        if (attempt === this.maxRetries) throw err;
+        const delay = Math.pow(2, attempt) * 500;
+        console.warn(\`[\${this.name}] attempt \${attempt} failed, retrying in \${delay}ms: \${err.message}\`);
+        await new Promise((r) => setTimeout(r, delay));
+      }
+    }
+  }
+}
 
-tech_agent = SwarmAgent(
-    name="TechAgent",
-    system_message="Diagnose and resolve technical issues with clear steps.",
-    functions=[resolve_technical],
-    after_work=AFTER_WORK(AfterWorkOption.TERMINATE),
-    llm_config={"model": "gpt-4o"},
-)
+// ── Observability ─────────────────────────────────────────────────────────────
 
-context = {}
-chat_result, final_context, last_agent = initiate_swarm_chat(
-    initial_agent=triage_agent,
-    agents=[triage_agent, billing_agent, tech_agent],
-    messages="My invoice shows a double charge from last month.",
-    context_variables=context,
-)`,
+function logEvent(type, data) {
+  console.log(JSON.stringify({ ts: new Date().toISOString(), type, ...data }));
+}
+
+// ── LLM-based router ──────────────────────────────────────────────────────────
+
+async function llmRouter(agents, messages, question) {
+  const agentDescriptions = agents.map((a) => \`- \${a.name}: \${a.system.slice(0, 80)}\`).join("\\n");
+  const res = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 50,
+    messages: [{
+      role: "user",
+      content: \`Given this question, which agent should handle it?
+Question: \${question}
+Agents:\\n\${agentDescriptions}
+Reply with ONLY the agent name, exactly as listed.\`,
+    }],
+  });
+  return res.content[0].text.trim();
+}
+
+// ── Tool execution ────────────────────────────────────────────────────────────
+
+const toolImpls = {
+  web_search: ({ query }) => ({ results: [\`Mock result for: \${query}\`] }),
+  calculator: ({ expr }) => ({ result: eval(expr) }), // eslint-disable-line no-eval
+  send_email: ({ to, subject }) => {
+    // High-stakes tool — requires human approval in production
+    return { queued: true, to, subject, approval_id: randomUUID() };
+  },
+};
+
+async function executeTools(blocks) {
+  const results = [];
+  for (const block of blocks) {
+    if (block.type !== "tool_use") continue;
+    const t0 = Date.now();
+    const impl = toolImpls[block.name];
+    const result = impl ? impl(block.input) : { error: "Unknown tool" };
+    logEvent("tool_call", { tool: block.name, input: block.input, latency_ms: Date.now() - t0 });
+    results.push({ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(result) });
+  }
+  return results;
+}
+
+// ── Orchestrator ──────────────────────────────────────────────────────────────
+
+const agents = [
+  new Agent({ name: "Researcher", system: "You find and summarize information. Use web_search for current data.", tools: [{ name: "web_search", description: "Search the web", input_schema: { type: "object", properties: { query: { type: "string" } }, required: ["query"] } }] }),
+  new Agent({ name: "Analyst",    system: "You analyze data and compute metrics. Use calculator for math.",     tools: [{ name: "calculator", description: "Evaluate a math expression", input_schema: { type: "object", properties: { expr: { type: "string" } }, required: ["expr"] } }] }),
+  new Agent({ name: "Writer",     system: "You write clear, structured reports based on research and analysis.", tools: [] }),
+];
+
+async function orchestrate(userMessage) {
+  const sessionId = randomUUID();
+  const messages = [{ role: "user", content: userMessage }];
+  const contextVars = { sessionId };
+
+  logEvent("session_start", { sessionId, query: userMessage });
+
+  for (let turn = 0; turn < 8; turn++) {
+    // Route to best agent
+    const agentName = await llmRouter(agents, messages, messages.at(-1).content);
+    const agent = agents.find((a) => a.name === agentName) ?? agents[0];
+
+    logEvent("routing_decision", { turn, selected: agent.name });
+    const t0 = Date.now();
+    const response = await agent.run(messages, contextVars);
+    logEvent("agent_response", {
+      agent: agent.name, latency_ms: Date.now() - t0,
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+    });
+
+    messages.push({ role: "assistant", content: response.content });
+
+    if (response.stop_reason === "end_turn") {
+      const text = response.content.find((b) => b.type === "text")?.text;
+      logEvent("session_end", { sessionId, turns: turn + 1 });
+      return text;
+    }
+
+    // Execute tools and feed results back
+    const toolResults = await executeTools(response.content);
+    if (toolResults.length) messages.push({ role: "user", content: toolResults });
+  }
+
+  return "Max orchestration turns reached.";
+}
+
+const answer = await orchestrate("Research the latest GPU prices, calculate the price-per-TFLOP for the top 3, then write a buying guide.");
+console.log(answer);`,
   },
   {
-    id: "langgraph-basic",
-    framework: "LangGraph",
-    frameworkColor: "#6BCB77",
-    frameworkBg: "#F0FFF4",
-    title: "State Machine Graph",
-    difficulty: "Beginner",
-    time: "~25 min",
-    description:
-      "Model your agent as a directed graph where nodes are Python functions and edges are transitions. LangGraph manages state flow, cycles, and conditionals.",
-    tags: ["graph", "state", "nodes"],
-    steps: [
-      {
-        label: "Define state",
-        icon: "📦",
-        detail:
-          "Create a TypedDict (or Pydantic model) as the shared state schema. Every node reads from and writes to this state.",
-      },
-      {
-        label: "Write nodes",
-        icon: "⬡",
-        detail:
-          "Each node is a plain Python function that takes state and returns a dict of updates. Nodes can call LLMs, tools, or any logic.",
-      },
-      {
-        label: "Build graph",
-        icon: "🔗",
-        detail:
-          "Instantiate StateGraph(State), add nodes, add edges (including conditional edges for branching).",
-      },
-      {
-        label: "Compile",
-        icon: "⚙️",
-        detail:
-          "Call graph.compile() (optionally with a checkpointer for persistence). Returns a runnable app.",
-      },
-      {
-        label: "Invoke",
-        icon: "▶️",
-        detail:
-          "Call app.invoke({initial_state}) or app.stream() for token-level streaming.",
-      },
-    ],
-    code: `from typing import TypedDict, Annotated
-from langgraph.graph import StateGraph, END
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, AIMessage
-import operator
-
-# ── State schema ──────────────────────────────────────────────────────────────
-class AgentState(TypedDict):
-    messages: Annotated[list, operator.add]  # auto-append each node's messages
-    next_step: str
-
-# ── LLM ───────────────────────────────────────────────────────────────────────
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
-
-# ── Nodes ─────────────────────────────────────────────────────────────────────
-def plan_node(state: AgentState) -> dict:
-    """Break the task into sub-steps."""
-    response = llm.invoke(
-        [HumanMessage(content=f"Create a brief plan for: {state['messages'][-1].content}")]
-    )
-    return {"messages": [response], "next_step": "execute"}
-
-def execute_node(state: AgentState) -> dict:
-    """Execute based on the plan."""
-    plan = state["messages"][-1].content
-    response = llm.invoke(
-        [HumanMessage(content=f"Execute this plan step by step:\n{plan}")]
-    )
-    return {"messages": [response], "next_step": "review"}
-
-def review_node(state: AgentState) -> dict:
-    """Review the result and decide if done."""
-    result = state["messages"][-1].content
-    response = llm.invoke(
-        [HumanMessage(content=f"Is this result complete and correct? Reply 'done' or 'retry'.\nResult: {result}")]
-    )
-    verdict = "done" if "done" in response.content.lower() else "retry"
-    return {"messages": [response], "next_step": verdict}
-
-def route(state: AgentState) -> str:
-    return state["next_step"]
-
-# ── Graph ─────────────────────────────────────────────────────────────────────
-builder = StateGraph(AgentState)
-builder.add_node("plan", plan_node)
-builder.add_node("execute", execute_node)
-builder.add_node("review", review_node)
-
-builder.set_entry_point("plan")
-builder.add_edge("plan", "execute")
-builder.add_edge("execute", "review")
-builder.add_conditional_edges(
-    "review",
-    route,
-    {"done": END, "retry": "execute"},
-)
-
-app = builder.compile()
-
-result = app.invoke({
-    "messages": [HumanMessage(content="Summarise the key risks of LLM agents in production.")],
-    "next_step": "plan",
-})
-print(result["messages"][-1].content)`,
-  },
-  {
-    id: "langgraph-multiagent",
-    framework: "LangGraph",
-    frameworkColor: "#6BCB77",
-    frameworkBg: "#F0FFF4",
-    title: "Multi-Agent Supervisor",
-    difficulty: "Intermediate",
-    time: "~45 min",
-    description:
-      "A supervisor node routes tasks to specialist subgraph agents. Each subgraph can have its own state, tools, and memory.",
-    tags: ["supervisor", "subgraph", "routing"],
-    steps: [
-      {
-        label: "Supervisor node",
-        icon: "🗺️",
-        detail:
-          "The supervisor is a node that calls an LLM with a list of available workers and decides who acts next.",
-      },
-      {
-        label: "Worker subgraphs",
-        icon: "🤖",
-        detail:
-          "Each worker is its own compiled StateGraph with dedicated tools and system prompts.",
-      },
-      {
-        label: "Route to worker",
-        icon: "➡️",
-        detail:
-          "Conditional edges route from the supervisor to the selected worker or to END.",
-      },
-      {
-        label: "Worker → Supervisor",
-        icon: "↩️",
-        detail:
-          "After completing work, each worker returns control to the supervisor by routing back.",
-      },
-      {
-        label: "Termination",
-        icon: "🏁",
-        detail:
-          "Supervisor routes to END when all subtasks are complete.",
-      },
-    ],
-    code: `from typing import TypedDict, Literal
-from langgraph.graph import StateGraph, END
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
-import json
-
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
-
-WORKERS = ["researcher", "coder", "writer"]
-
-class SupervisorState(TypedDict):
-    task: str
-    results: dict
-    next_worker: str
-
-# ── Supervisor ─────────────────────────────────────────────────────────────────
-def supervisor_node(state: SupervisorState) -> dict:
-    completed = list(state.get("results", {}).keys())
-    prompt = f"""
-You are a supervisor. Route this task to the best worker.
-Task: {state['task']}
-Completed by: {completed}
-Workers: {WORKERS}
-Reply with JSON: {{"next": "<worker_name> or FINISH"}}
-"""
-    response = llm.invoke([HumanMessage(content=prompt)])
-    decision = json.loads(response.content)
-    return {"next_worker": decision["next"]}
-
-def route_supervisor(state: SupervisorState) -> str:
-    return state["next_worker"] if state["next_worker"] != "FINISH" else END
-
-# ── Worker factories ───────────────────────────────────────────────────────────
-def make_worker(name: str, system_prompt: str):
-    def worker_node(state: SupervisorState) -> dict:
-        response = llm.invoke([
-            SystemMessage(content=system_prompt),
-            HumanMessage(content=state["task"]),
-        ])
-        results = state.get("results", {})
-        results[name] = response.content
-        return {"results": results, "next_worker": "supervisor"}
-    return worker_node
-
-researcher_node = make_worker(
-    "researcher",
-    "You are a research specialist. Gather and summarize key facts.",
-)
-coder_node = make_worker(
-    "coder",
-    "You are a software engineer. Write clean, working code.",
-)
-writer_node = make_worker(
-    "writer",
-    "You are a technical writer. Create clear, engaging documentation.",
-)
-
-# ── Graph ─────────────────────────────────────────────────────────────────────
-builder = StateGraph(SupervisorState)
-builder.add_node("supervisor", supervisor_node)
-builder.add_node("researcher", researcher_node)
-builder.add_node("coder", coder_node)
-builder.add_node("writer", writer_node)
-
-builder.set_entry_point("supervisor")
-builder.add_conditional_edges("supervisor", route_supervisor,
-    {"researcher": "researcher", "coder": "coder", "writer": "writer", END: END})
-
-for worker in WORKERS:
-    builder.add_edge(worker, "supervisor")
-
-app = builder.compile()
-result = app.invoke({"task": "Build a Python CLI tool for CSV analysis", "results": {}, "next_worker": ""})`,
-  },
-  {
-    id: "langgraph-persistence",
-    framework: "LangGraph",
-    frameworkColor: "#6BCB77",
-    frameworkBg: "#F0FFF4",
-    title: "Persistent Memory & Human-in-the-Loop",
+    id: "supervisor-pattern",
+    category: "Custom",
+    title: "Supervisor Pattern",
     difficulty: "Advanced",
-    time: "~60 min",
-    description:
-      "Use LangGraph's checkpointer for cross-session memory and interrupt_before to pause and request human approval at critical nodes.",
-    tags: ["persistence", "checkpointer", "human-in-loop"],
-    steps: [
-      {
-        label: "Checkpointer",
-        icon: "💾",
-        detail:
-          "Attach a SqliteSaver or PostgresSaver to graph.compile(). Every state update is checkpointed by thread_id.",
-      },
-      {
-        label: "Thread IDs",
-        icon: "🧵",
-        detail:
-          "Pass config={'configurable':{'thread_id':'user-123'}} to invoke. Same thread_id resumes the previous session.",
-      },
-      {
-        label: "interrupt_before",
-        icon: "⏸️",
-        detail:
-          "Compile with interrupt_before=['dangerous_node'] to pause automatically before sensitive operations.",
-      },
-      {
-        label: "Inspect & approve",
-        icon: "👁️",
-        detail:
-          "Call app.get_state(config) to see the pending state. Update it with app.update_state() if needed.",
-      },
-      {
-        label: "Resume",
-        icon: "▶️",
-        detail:
-          "Call app.invoke(None, config) to resume from the checkpoint with None as input.",
-      },
-    ],
-    code: `from langgraph.graph import StateGraph, END
-from langgraph.checkpoint.sqlite import SqliteSaver
-from typing import TypedDict, Annotated
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import BaseMessage, HumanMessage
-import operator
-
-class ChatState(TypedDict):
-    messages: Annotated[list[BaseMessage], operator.add]
-    pending_action: str | None
-
-llm = ChatOpenAI(model="gpt-4o")
-
-def chat_node(state: ChatState) -> dict:
-    response = llm.invoke(state["messages"])
-    # If response contains a dangerous action, flag it
-    if "DELETE" in response.content or "DROP" in response.content:
-        return {"messages": [response], "pending_action": response.content}
-    return {"messages": [response], "pending_action": None}
-
-def execute_action_node(state: ChatState) -> dict:
-    """Only reached after human approval."""
-    print(f"Executing approved action: {state['pending_action']}")
-    return {"pending_action": None}
-
-def route_after_chat(state: ChatState) -> str:
-    return "execute_action" if state.get("pending_action") else END
-
-builder = StateGraph(ChatState)
-builder.add_node("chat", chat_node)
-builder.add_node("execute_action", execute_action_node)
-builder.set_entry_point("chat")
-builder.add_conditional_edges("chat", route_after_chat, {
-    "execute_action": "execute_action",
-    END: END,
-})
-builder.add_edge("execute_action", END)
-
-# ── Persistence + Human-in-the-Loop ──────────────────────────────────────────
-memory = SqliteSaver.from_conn_string(":memory:")
-app = builder.compile(
-    checkpointer=memory,
-    interrupt_before=["execute_action"],   # pause before destructive ops
-)
-
-config = {"configurable": {"thread_id": "session-42"}}
-
-# Turn 1
-app.invoke({"messages": [HumanMessage("DROP the users table")], "pending_action": None}, config)
-
-# Inspect pending state
-state = app.get_state(config)
-print("Pending action:", state.values.get("pending_action"))
-approval = input("Approve? (yes/no): ")
-
-if approval.strip().lower() == "yes":
-    app.invoke(None, config)   # ← resume from checkpoint
-else:
-    app.update_state(config, {"pending_action": None})
-    print("Action cancelled.")`,
-  },
-  {
-    id: "semantic-kernel",
-    framework: "Semantic Kernel",
-    frameworkColor: "#A78BFA",
-    frameworkBg: "#F5F3FF",
-    title: "Plugin & Planner",
-    difficulty: "Intermediate",
-    time: "~35 min",
-    description:
-      "Microsoft's Semantic Kernel uses Plugins (collections of KernelFunctions) and Planners to automatically decompose goals into function call sequences.",
-    tags: ["plugins", "planner", "functions"],
-    steps: [
-      {
-        label: "Create Kernel",
-        icon: "⚙️",
-        detail:
-          "Instantiate a Kernel and add an AI service (OpenAI, Azure OpenAI, etc.) with add_service().",
-      },
-      {
-        label: "Define plugins",
-        icon: "🔌",
-        detail:
-          "Decorate Python methods with @kernel_function. Group related functions in a class and register as a plugin.",
-      },
-      {
-        label: "Choose a planner",
-        icon: "📋",
-        detail:
-          "FunctionChoiceBehavior.Auto() lets the kernel automatically invoke plugins. Or use SequentialPlanner for step-by-step plans.",
-      },
-      {
-        label: "Invoke with goal",
-        icon: "🎯",
-        detail:
-          "Call kernel.invoke() or chat_completion.get_chat_message_content() with auto function calling enabled.",
-      },
-      {
-        label: "Observe plan",
-        icon: "👁️",
-        detail:
-          "Inspect the execution trace to see which functions were called and in what order.",
-      },
-    ],
-    code: `import asyncio
-from semantic_kernel import Kernel
-from semantic_kernel.functions import kernel_function
-from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
-from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
-from semantic_kernel.connectors.ai.open_ai import OpenAIChatPromptExecutionSettings
-from semantic_kernel.contents import ChatHistory
-
-kernel = Kernel()
-kernel.add_service(OpenAIChatCompletion(service_id="gpt4o", ai_model_id="gpt-4o"))
-
-# ── Plugin definitions ─────────────────────────────────────────────────────────
-class SearchPlugin:
-    @kernel_function(name="web_search", description="Search the web for current information")
-    def web_search(self, query: str) -> str:
-        return f"[Search results for '{query}']: Latest data on {query}..."
-
-class MathPlugin:
-    @kernel_function(name="calculate", description="Evaluate a math expression")
-    def calculate(self, expression: str) -> str:
-        try:
-            return str(eval(expression, {"__builtins__": {}}))
-        except Exception as e:
-            return f"Error: {e}"
-
-class EmailPlugin:
-    @kernel_function(name="send_email", description="Send an email to a recipient")
-    def send_email(self, to: str, subject: str, body: str) -> str:
-        print(f"📧 Email sent to {to}: {subject}")
-        return f"Email successfully sent to {to}."
-
-# Register plugins
-kernel.add_plugin(SearchPlugin(), plugin_name="Search")
-kernel.add_plugin(MathPlugin(), plugin_name="Math")
-kernel.add_plugin(EmailPlugin(), plugin_name="Email")
-
-async def run_agent(goal: str):
-    chat_completion = kernel.get_service("gpt4o")
-    history = ChatHistory()
-    history.add_user_message(goal)
-
-    settings = OpenAIChatPromptExecutionSettings(
-        function_choice_behavior=FunctionChoiceBehavior.Auto()
-    )
-
-    response = await chat_completion.get_chat_message_content(
-        chat_history=history,
-        settings=settings,
-        kernel=kernel,
-    )
-    print("Final answer:", response)
-    return response
-
-asyncio.run(run_agent(
-    "Search for the current EUR/USD exchange rate, calculate 1500 EUR in USD, "
-    "then email the result to finance@example.com with subject 'FX Update'."
-))`,
-  },
-  {
-    id: "dspy-basic",
-    framework: "DSPy",
-    frameworkColor: "#F59E0B",
-    frameworkBg: "#FFFBEB",
-    title: "Signature & Module",
-    difficulty: "Beginner",
-    time: "~20 min",
-    description:
-      "DSPy replaces prompt engineering with typed Signatures and compiled Modules. Define inputs/outputs declaratively; DSPy optimizes the prompts automatically.",
-    tags: ["signatures", "modules", "optimization"],
-    steps: [
-      {
-        label: "Configure LM",
-        icon: "⚙️",
-        detail:
-          "Call dspy.configure(lm=...) to set the global language model. All modules use this unless overridden.",
-      },
-      {
-        label: "Define Signature",
-        icon: "📝",
-        detail:
-          "Subclass dspy.Signature with docstring + InputField/OutputField. The docstring IS the task description.",
-      },
-      {
-        label: "Build Module",
-        icon: "🧩",
-        detail:
-          "Compose Signatures into Modules using Predict, ChainOfThought, or ReAct. Modules are composable.",
-      },
-      {
-        label: "Compile (optional)",
-        icon: "🔧",
-        detail:
-          "Use dspy.BootstrapFewShot or MIPROv2 optimizers with a metric + training set to auto-tune prompts.",
-      },
-      {
-        label: "Forward pass",
-        icon: "▶️",
-        detail:
-          "Call module(**inputs) to run inference. DSPy handles prompt construction and output parsing.",
-      },
-    ],
-    code: `import dspy
-
-# ── Configure LM ──────────────────────────────────────────────────────────────
-lm = dspy.LM("openai/gpt-4o", temperature=0.1)
-dspy.configure(lm=lm)
-
-# ── Signatures (declarative I/O contracts) ────────────────────────────────────
-class ResearchQuery(dspy.Signature):
-    """Extract a precise search query from a user question."""
-    question: str = dspy.InputField(desc="The user's raw question")
-    query: str = dspy.OutputField(desc="Optimised search query (≤ 8 words)")
-
-class Summarize(dspy.Signature):
-    """Summarise search results to answer the original question."""
-    question: str = dspy.InputField()
-    search_results: str = dspy.InputField(desc="Raw search results")
-    answer: str = dspy.OutputField(desc="Concise, factual 2-3 sentence answer")
-    confidence: float = dspy.OutputField(desc="Confidence 0.0–1.0")
-
-# ── Module (composable pipeline) ──────────────────────────────────────────────
-class ResearchAgent(dspy.Module):
-    def __init__(self):
-        self.query_extractor = dspy.ChainOfThought(ResearchQuery)
-        self.summarizer = dspy.ChainOfThought(Summarize)
-
-    def forward(self, question: str) -> dspy.Prediction:
-        # Step 1: Extract search query
-        query_pred = self.query_extractor(question=question)
-
-        # Step 2: Simulate search (replace with real retriever)
-        search_results = self._search(query_pred.query)
-
-        # Step 3: Summarise
-        summary = self.summarizer(question=question, search_results=search_results)
-        return summary
-
-    def _search(self, query: str) -> str:
-        return f"[Mock results for '{query}']: Recent studies show that {query} ..."
-
-agent = ResearchAgent()
-result = agent(question="What are the latest benchmarks for GPT-4o vs Claude 3.5?")
-print("Answer:", result.answer)
-print("Confidence:", result.confidence)
-
-# ── Compile with optimizer ────────────────────────────────────────────────────
-# trainset = [dspy.Example(question=q, answer=a) for q, a in training_data]
-# metric = lambda example, pred, trace=None: example.answer.lower() in pred.answer.lower()
-# optimizer = dspy.BootstrapFewShot(metric=metric, max_bootstrapped_demos=4)
-# compiled_agent = optimizer.compile(agent, trainset=trainset)`,
-  },
-  {
-    id: "haystack-pipeline",
-    framework: "Haystack",
-    frameworkColor: "#14B8A6",
-    frameworkBg: "#F0FDFA",
-    title: "RAG Pipeline",
-    difficulty: "Intermediate",
     time: "~40 min",
-    description:
-      "Build production RAG pipelines with Haystack's component graph. Connect document stores, embedders, retrievers, and generators as typed nodes.",
-    tags: ["RAG", "retrieval", "pipeline"],
+    description: "A supervisor agent evaluates worker agent outputs, requests revisions, and gates progress — ensuring quality before results move to the next stage.",
+    tags: ["supervisor", "quality gate", "revision loop"],
     steps: [
-      {
-        label: "Document store",
-        icon: "🗄️",
-        detail:
-          "Choose a DocumentStore (InMemory, Elasticsearch, Pinecone, Weaviate). Documents are indexed with embeddings.",
-      },
-      {
-        label: "Indexing pipeline",
-        icon: "📥",
-        detail:
-          "Connect Converter → Splitter → Embedder → DocumentWriter. Run once to index your corpus.",
-      },
-      {
-        label: "Query pipeline",
-        icon: "🔍",
-        detail:
-          "Connect Embedder → Retriever → PromptBuilder → Generator. Haystack validates connections by type.",
-      },
-      {
-        label: "Connect components",
-        icon: "🔗",
-        detail:
-          "Use pipeline.connect('component_a.output', 'component_b.input') with typed socket names.",
-      },
-      {
-        label: "Run pipeline",
-        icon: "▶️",
-        detail:
-          "Call pipeline.run({'component': {'param': value}}) with a dict of component-level inputs.",
-      },
+      { label: "Worker Agent", icon: "👷", detail: "Worker agents produce draft outputs: text, code, data, or plans. They should not self-evaluate — that's the supervisor's job. Keep workers focused on production." },
+      { label: "Supervisor Agent", icon: "🎓", detail: "The supervisor receives the worker's output along with the original task. It scores quality and returns either APPROVE or REVISE with specific feedback." },
+      { label: "Feedback Loop", icon: "🔄", detail: "If the supervisor returns REVISE, append the feedback as a new user message and re-invoke the worker. The worker sees its own prior output and the critique." },
+      { label: "Max Rounds", icon: "🔢", detail: "Cap the revision loop at N rounds (typically 3). If the supervisor still rejects after max rounds, escalate to a human or return the best attempt with a warning." },
+      { label: "Structured Eval", icon: "📊", detail: "Ask the supervisor to return a JSON scorecard: {score, approved, feedback, criteria}. Structured output makes it easy to log quality metrics over time." },
     ],
-    code: `from haystack import Pipeline, Document
-from haystack.document_stores.in_memory import InMemoryDocumentStore
-from haystack.components.embedders import (
-    SentenceTransformersDocumentEmbedder,
-    SentenceTransformersTextEmbedder,
-)
-from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
-from haystack.components.builders import PromptBuilder
-from haystack.components.generators import OpenAIGenerator
+    code: `import Anthropic from "@anthropic-ai/sdk";
 
-# ── Document store & sample docs ──────────────────────────────────────────────
-store = InMemoryDocumentStore()
+const claude = new Anthropic();
 
-sample_docs = [
-    Document(content="LangGraph is a graph-based multi-agent orchestration framework by LangChain."),
-    Document(content="CrewAI enables role-based multi-agent collaboration with tasks and tools."),
-    Document(content="AutoGen uses conversational agents that collaborate through message passing."),
-]
+// ── Worker agent ──────────────────────────────────────────────────────────────
 
-# ── Indexing pipeline ─────────────────────────────────────────────────────────
-indexer = Pipeline()
-indexer.add_component("embedder", SentenceTransformersDocumentEmbedder())
-indexer.add_component("writer", haystack.components.writers.DocumentWriter(document_store=store))
-indexer.connect("embedder.documents", "writer.documents")
-indexer.run({"embedder": {"documents": sample_docs}})
+async function workerAgent(task, previousDraft = null, feedback = null) {
+  const messages = [{ role: "user", content: task }];
 
-# ── RAG query pipeline ────────────────────────────────────────────────────────
-template = """
-You are a helpful AI assistant. Answer the question based on the provided context.
-Context:
-{% for doc in documents %}
-  {{ doc.content }}
-{% endfor %}
+  if (previousDraft && feedback) {
+    messages.push({ role: "assistant", content: previousDraft });
+    messages.push({
+      role: "user",
+      content: \`Your previous response was reviewed. Please revise it based on this feedback:\\n\${feedback}\`,
+    });
+  }
 
-Question: {{ question }}
-Answer:
-"""
+  const response = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 2048,
+    system: "You are an expert writer and analyst. Produce thorough, accurate, well-structured outputs.",
+    messages,
+  });
 
-rag = Pipeline()
-rag.add_component("text_embedder", SentenceTransformersTextEmbedder())
-rag.add_component("retriever", InMemoryEmbeddingRetriever(document_store=store, top_k=3))
-rag.add_component("prompt_builder", PromptBuilder(template=template))
-rag.add_component("llm", OpenAIGenerator(model="gpt-4o"))
+  return response.content[0].text;
+}
 
-# Connect components
-rag.connect("text_embedder.embedding", "retriever.query_embedding")
-rag.connect("retriever.documents", "prompt_builder.documents")
-rag.connect("prompt_builder.prompt", "llm.prompt")
+// ── Supervisor agent ──────────────────────────────────────────────────────────
 
-# Run
-result = rag.run({
-    "text_embedder": {"text": "What is CrewAI?"},
-    "prompt_builder": {"question": "What is CrewAI?"},
-})
-print(result["llm"]["replies"][0])`,
+async function supervisorAgent(task, draft) {
+  const response = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 512,
+    system: "You are a strict editorial supervisor. Evaluate outputs rigorously and request revisions when needed.",
+    messages: [{
+      role: "user",
+      content: \`Evaluate this draft against the original task.
+
+Task: \${task}
+
+Draft:
+\${draft}
+
+Return ONLY a JSON object (no markdown):
+{
+  "score": <1-10>,
+  "approved": <true|false>,
+  "feedback": "<specific revision instructions if not approved, empty string if approved>",
+  "criteria": {
+    "accuracy": <1-10>,
+    "completeness": <1-10>,
+    "clarity": <1-10>,
+    "structure": <1-10>
+  }
+}\`,
+    }],
+  });
+
+  const text = response.content[0].text.replace(/\`\`\`json|\\n\`\`\`/g, "").trim();
+  return JSON.parse(text);
+}
+
+// ── Supervisor loop ───────────────────────────────────────────────────────────
+
+async function supervisedWorkflow(task, maxRounds = 3) {
+  const history = [];
+  let draft = null;
+
+  for (let round = 1; round <= maxRounds; round++) {
+    console.log(\`\\n── Round \${round} ────────────────────────────────\`);
+
+    // Worker produces (or revises) the draft
+    const feedback = history.at(-1)?.feedback ?? null;
+    draft = await workerAgent(task, draft, feedback);
+    console.log(\`Worker output (\${draft.length} chars)\`);
+
+    // Supervisor evaluates
+    const evaluation = await supervisorAgent(task, draft);
+    history.push({ round, ...evaluation });
+
+    console.log(\`Supervisor score: \${evaluation.score}/10 | Approved: \${evaluation.approved}\`);
+    if (evaluation.criteria) {
+      console.log(\`  Accuracy: \${evaluation.criteria.accuracy} | Completeness: \${evaluation.criteria.completeness} | Clarity: \${evaluation.criteria.clarity}\`);
+    }
+
+    if (evaluation.approved) {
+      console.log(\`✓ Approved after \${round} round(s)\`);
+      return { output: draft, history, approved: true, rounds: round };
+    }
+
+    console.log(\`Feedback: \${evaluation.feedback}\`);
+
+    if (round === maxRounds) {
+      console.warn(\`⚠ Max rounds reached — returning best attempt (score: \${evaluation.score})\`);
+      return { output: draft, history, approved: false, rounds: round };
+    }
+  }
+}
+
+const result = await supervisedWorkflow(
+  "Write a technical explanation of transformer attention mechanisms for senior engineers. Include a worked example with actual numbers."
+);
+
+console.log("\\n── Final Output ──────────────────────────────────");
+console.log(result.output);
+console.log(\`\\nApproved: \${result.approved} | Rounds: \${result.rounds}\`);`,
+  },
+  {
+    id: "parallelization",
+    category: "Patterns",
+    title: "Parallel Agent Fan-Out",
+    difficulty: "Intermediate",
+    time: "~25 min",
+    description: "Split a task into independent subtasks, run specialist agents on each in parallel, then aggregate. Dramatically reduces latency for decomposable workloads.",
+    tags: ["parallelism", "fan-out", "aggregation"],
+    steps: [
+      { label: "Decompose Task", icon: "✂️", detail: "Use an LLM to split the main task into N independent subtasks. Independence is key — subtasks must not depend on each other's outputs for parallel execution to work." },
+      { label: "Spawn Workers", icon: "⚡", detail: "Map each subtask to a Promise and run all with Promise.all. Each worker is a separate LLM call with its own system prompt and tools — true parallel execution." },
+      { label: "Error Isolation", icon: "🛡️", detail: "Use Promise.allSettled instead of Promise.all to prevent one failed worker from cancelling the others. Inspect each result's status independently." },
+      { label: "Aggregate Results", icon: "🔗", detail: "Collect all fulfilled worker outputs into a single context and pass to a synthesis agent. The synthesis agent's job is to merge, deduplicate, and resolve conflicts." },
+      { label: "Token Budget", icon: "💰", detail: "Parallel workers multiply your token usage. Set per-worker max_tokens budgets to avoid runaway costs. Consider using a smaller model (e.g. claude-haiku-4-5) for subtasks." },
+    ],
+    code: `import Anthropic from "@anthropic-ai/sdk";
+
+const claude = new Anthropic();
+
+// ── Decomposer ────────────────────────────────────────────────────────────────
+
+async function decomposeTask(task, numSubtasks = 4) {
+  const response = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 512,
+    messages: [{
+      role: "user",
+      content: \`Break this task into exactly \${numSubtasks} independent subtasks that can be worked on in parallel.
+Each subtask should be self-contained and not depend on the others.
+Return ONLY a JSON array of strings.
+
+Task: \${task}\`,
+    }],
+  });
+
+  const text = response.content[0].text.replace(/\`\`\`json|\\n\`\`\`/g, "").trim();
+  return JSON.parse(text);
+}
+
+// ── Specialist worker ─────────────────────────────────────────────────────────
+
+async function runWorker(subtask, workerIndex) {
+  const t0 = Date.now();
+  const response = await claude.messages.create({
+    model: "claude-haiku-4-5-20251001",  // cheaper model for subtasks
+    max_tokens: 512,
+    system: "You are a specialist analyst. Complete the assigned subtask thoroughly and concisely.",
+    messages: [{ role: "user", content: subtask }],
+  });
+  const latency = Date.now() - t0;
+  const text = response.content[0].text;
+  console.log(\`Worker \${workerIndex + 1} done in \${latency}ms (\${response.usage.output_tokens} tokens)\`);
+  return { subtask, result: text, latency, tokens: response.usage.output_tokens };
+}
+
+// ── Synthesizer ───────────────────────────────────────────────────────────────
+
+async function synthesize(originalTask, workerResults) {
+  const combined = workerResults
+    .map((r, i) => \`## Subtask \${i + 1}: \${r.subtask}\\n\${r.result}\`)
+    .join("\\n\\n");
+
+  const response = await claude.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 2048,
+    messages: [{
+      role: "user",
+      content: \`Synthesize these parallel research outputs into a single coherent answer.
+Original task: \${originalTask}
+
+Worker outputs:
+\${combined}
+
+Produce a unified, non-redundant response that integrates all findings.\`,
+    }],
+  });
+
+  return response.content[0].text;
+}
+
+// ── Fan-out orchestrator ──────────────────────────────────────────────────────
+
+async function parallelAgentFanOut(task) {
+  const wallStart = Date.now();
+  console.log(\`Task: \${task}\\n\`);
+
+  // Step 1: Decompose
+  const subtasks = await decomposeTask(task, 4);
+  console.log(\`Decomposed into \${subtasks.length} subtasks:\`);
+  subtasks.forEach((s, i) => console.log(\`  \${i + 1}. \${s}\`));
+
+  // Step 2: Run all workers in parallel (error-isolated)
+  console.log(\`\\nRunning \${subtasks.length} workers in parallel...\`);
+  const settled = await Promise.allSettled(
+    subtasks.map((subtask, i) => runWorker(subtask, i))
+  );
+
+  const succeeded = settled
+    .filter((r) => r.status === "fulfilled")
+    .map((r) => r.value);
+
+  const failed = settled.filter((r) => r.status === "rejected");
+  if (failed.length) console.warn(\`\${failed.length} worker(s) failed and were skipped.\`);
+
+  // Step 3: Synthesize
+  console.log(\`\\nSynthesizing \${succeeded.length} results...\`);
+  const finalAnswer = await synthesize(task, succeeded);
+
+  const wallTime = Date.now() - wallStart;
+  const totalTokens = succeeded.reduce((s, r) => s + r.tokens, 0);
+  console.log(\`\\n✓ Done in \${wallTime}ms | Worker tokens: \${totalTokens}\`);
+
+  return finalAnswer;
+}
+
+const answer = await parallelAgentFanOut(
+  "Produce a comprehensive competitive analysis of the top cloud providers (AWS, Azure, GCP, Oracle) covering pricing, AI services, global infrastructure, and enterprise support."
+);
+console.log("\\n── Final Answer ──────────────────────────────────");
+console.log(answer);`,
   },
 ];
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const ALL_FRAMEWORKS = ["All", "CrewAI", "AutoGen", "LangGraph", "Semantic Kernel", "DSPy", "Haystack"];
-
-const DIFFICULTY_STYLES = {
-  Beginner: { bg: "#E1F5EE", color: "#0F6E56" },
-  Intermediate: { bg: "#EEEDFE", color: "#534AB7" },
-  Advanced: { bg: "#FAECE7", color: "#993C1D" },
-};
-
-const FRAMEWORK_DOT = {
-  CrewAI: "#FF6B6B",
-  AutoGen: "#4ECDC4",
-  LangGraph: "#6BCB77",
-  "Semantic Kernel": "#A78BFA",
-  DSPy: "#F59E0B",
-  Haystack: "#14B8A6",
-};
-
-// ─── Components ───────────────────────────────────────────────────────────────
+const CATEGORIES = ["All", "Swarm", "LangGraph", "CrewAI", "AutoGen", "Custom", "Patterns"];
+const DIFFICULTIES = { Beginner: "#0F6E56", Intermediate: "#185FA5", Advanced: "#993C1D" };
+const DIFFICULTY_BG = { Beginner: "#E1F5EE", Intermediate: "#E6F1FB", Advanced: "#FAECE7" };
 
 function StepFlow({ steps }) {
   const [active, setActive] = useState(null);
@@ -1256,20 +885,11 @@ function StepFlow({ steps }) {
             <button
               onClick={() => setActive(active === i ? null : i)}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "6px 12px",
-                borderRadius: 20,
-                border: active === i
-                  ? "1.5px solid #7F77DD"
-                  : "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-                background: active === i ? "#EEEDFE" : "var(--color-background-primary, #fff)",
-                color: active === i ? "#534AB7" : "var(--color-text-primary, #111)",
-                cursor: "pointer",
-                fontSize: 13,
-                fontWeight: active === i ? 500 : 400,
-                fontFamily: "inherit",
+                display: "flex", alignItems: "center", gap: 6, padding: "6px 12px",
+                borderRadius: 20, border: active === i ? "1.5px solid #185FA5" : "0.5px solid var(--color-border-tertiary)",
+                background: active === i ? "#E6F1FB" : "var(--color-background-primary)",
+                color: active === i ? "#185FA5" : "var(--color-text-primary)",
+                cursor: "pointer", fontSize: 13, fontWeight: active === i ? 500 : 400,
                 transition: "all 0.15s",
               }}
             >
@@ -1277,27 +897,19 @@ function StepFlow({ steps }) {
               <span>{step.label}</span>
             </button>
             {i < steps.length - 1 && (
-              <span style={{ color: "var(--color-text-tertiary, #aaa)", fontSize: 12 }}>→</span>
+              <span style={{ color: "var(--color-text-tertiary)", fontSize: 12 }}>→</span>
             )}
           </div>
         ))}
       </div>
       {active !== null && (
-        <div
-          style={{
-            marginTop: 10,
-            padding: "10px 14px",
-            borderRadius: 8,
-            background: "var(--color-background-secondary, #f5f5f5)",
-            border: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-            fontSize: 13,
-            color: "var(--color-text-secondary, #555)",
-            lineHeight: 1.6,
-          }}
-        >
-          <span style={{ fontWeight: 500, color: "var(--color-text-primary, #111)" }}>
-            {steps[active].label}:{" "}
-          </span>
+        <div style={{
+          marginTop: 10, padding: "10px 14px", borderRadius: 8,
+          background: "var(--color-background-secondary)",
+          border: "0.5px solid var(--color-border-tertiary)",
+          fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.6,
+        }}>
+          <span style={{ fontWeight: 500, color: "var(--color-text-primary)" }}>{steps[active].label}: </span>
           {steps[active].detail}
         </div>
       )}
@@ -1317,127 +929,62 @@ function CodeBlock({ code }) {
       <button
         onClick={copy}
         style={{
-          position: "absolute",
-          top: 8,
-          right: 8,
-          padding: "4px 10px",
-          borderRadius: 6,
-          border: "0.5px solid var(--color-border-secondary, #ccc)",
-          background: "var(--color-background-secondary, #f5f5f5)",
-          cursor: "pointer",
-          fontSize: 12,
-          color: "var(--color-text-secondary, #555)",
-          fontFamily: "inherit",
-          zIndex: 1,
+          position: "absolute", top: 8, right: 8, padding: "4px 10px",
+          borderRadius: 6, border: "0.5px solid var(--color-border-secondary)",
+          background: "var(--color-background-secondary)", cursor: "pointer",
+          fontSize: 12, color: "var(--color-text-secondary)", zIndex: 1,
         }}
       >
         {copied ? "✓ Copied" : "Copy"}
       </button>
-      <pre
-        style={{
-          margin: 0,
-          padding: "14px 16px",
-          borderRadius: 10,
-          overflowX: "auto",
-          background: "var(--color-background-secondary, #f5f5f5)",
-          border: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-          fontSize: 12,
-          lineHeight: 1.65,
-          fontFamily: "var(--font-mono, monospace)",
-          color: "var(--color-text-primary, #111)",
-          whiteSpace: "pre",
-        }}
-      >
+      <pre style={{
+        margin: 0, padding: "14px 16px", borderRadius: 10, overflowX: "auto",
+        background: "var(--color-background-secondary)",
+        border: "0.5px solid var(--color-border-tertiary)",
+        fontSize: 12, lineHeight: 1.65, fontFamily: "var(--font-mono)",
+        color: "var(--color-text-primary)", whiteSpace: "pre",
+      }}>
         <code>{code}</code>
       </pre>
     </div>
   );
 }
 
-function FrameworkBadge({ name, color, bg }) {
-  return (
-    <span
-      style={{
-        fontSize: 11,
-        padding: "2px 8px",
-        borderRadius: 20,
-        fontWeight: 600,
-        background: bg,
-        color: color,
-        letterSpacing: "0.01em",
-      }}
-    >
-      {name}
-    </span>
-  );
-}
-
 function RecipeCard({ recipe, onSelect, selected }) {
-  const diff = DIFFICULTY_STYLES[recipe.difficulty];
   return (
     <div
       onClick={() => onSelect(recipe)}
       style={{
-        padding: "14px 16px",
-        borderRadius: 12,
-        cursor: "pointer",
-        border: selected
-          ? "1.5px solid #7F77DD"
-          : "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-        background: selected
-          ? "var(--color-background-secondary, #f5f5f5)"
-          : "var(--color-background-primary, #fff)",
+        padding: "16px 18px", borderRadius: 12, cursor: "pointer",
+        border: selected ? "1.5px solid #185FA5" : "0.5px solid var(--color-border-tertiary)",
+        background: selected ? "#061320" : "var(--color-background-primary)",
         transition: "all 0.15s",
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: FRAMEWORK_DOT[recipe.framework] || "#999",
-              display: "inline-block",
-              flexShrink: 0,
-            }}
-          />
-          <span style={{ fontSize: 12, color: "var(--color-text-secondary, #555)", fontWeight: 400 }}>
-            {recipe.framework}
-          </span>
-        </div>
-        <span
-          style={{
-            fontSize: 11,
-            padding: "2px 8px",
-            borderRadius: 20,
-            fontWeight: 500,
-            background: diff.bg,
-            color: diff.color,
-          }}
-        >
+        <span style={{ fontSize: 13, color: "var(--color-text-secondary)", fontWeight: 400 }}>
+          {recipe.category}
+        </span>
+        <span style={{
+          fontSize: 11, padding: "2px 8px", borderRadius: 20, fontWeight: 500,
+          background: DIFFICULTY_BG[recipe.difficulty], color: DIFFICULTIES[recipe.difficulty],
+        }}>
           {recipe.difficulty}
         </span>
       </div>
-      <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 4, color: "var(--color-text-primary, #111)" }}>
+      <div style={{ fontWeight: 500, fontSize: 15, marginBottom: 4, color: "var(--color-text-primary)" }}>
         {recipe.title}
       </div>
-      <div style={{ fontSize: 12, color: "var(--color-text-secondary, #555)", lineHeight: 1.5 }}>
+      <div style={{ fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.5 }}>
         {recipe.description}
       </div>
-      <div style={{ marginTop: 8, display: "flex", gap: 5, flexWrap: "wrap" }}>
+      <div style={{ marginTop: 10, display: "flex", gap: 6, flexWrap: "wrap" }}>
         {recipe.tags.map((t) => (
-          <span
-            key={t}
-            style={{
-              fontSize: 10,
-              padding: "2px 7px",
-              borderRadius: 20,
-              background: "var(--color-background-tertiary, #ececec)",
-              color: "var(--color-text-secondary, #555)",
-              border: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-            }}
-          >
+          <span key={t} style={{
+            fontSize: 11, padding: "2px 8px", borderRadius: 20,
+            background: "var(--color-background-tertiary)",
+            color: "var(--color-text-secondary)", border: "0.5px solid var(--color-border-tertiary)",
+          }}>
             {t}
           </span>
         ))}
@@ -1448,74 +995,39 @@ function RecipeCard({ recipe, onSelect, selected }) {
 
 function RecipeDetail({ recipe }) {
   const [tab, setTab] = useState("steps");
-  const diff = DIFFICULTY_STYLES[recipe.difficulty];
   return (
-    <div
-      style={{
-        padding: 24,
-        borderRadius: 14,
-        background: "var(--color-background-primary, #fff)",
-        border: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-      }}
-    >
+    <div style={{ padding: "24px", borderRadius: 14, background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
         <div>
-          <FrameworkBadge
-            name={recipe.framework}
-            color={recipe.frameworkColor}
-            bg={recipe.frameworkBg}
-          />
-          <h2 style={{ margin: "6px 0 6px", fontSize: 22, fontWeight: 500 }}>{recipe.title}</h2>
+          <span style={{ fontSize: 12, color: "var(--color-text-tertiary)" }}>{recipe.category}</span>
+          <h2 style={{ margin: "4px 0 6px", fontSize: 22, fontWeight: 500 }}>{recipe.title}</h2>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center", paddingTop: 4 }}>
-          <span
-            style={{
-              fontSize: 12,
-              padding: "3px 10px",
-              borderRadius: 20,
-              fontWeight: 500,
-              background: diff.bg,
-              color: diff.color,
-            }}
-          >
-            {recipe.difficulty}
-          </span>
-          <span style={{ fontSize: 12, color: "var(--color-text-tertiary, #aaa)" }}>
-            ⏱ {recipe.time}
-          </span>
+          <span style={{
+            fontSize: 12, padding: "3px 10px", borderRadius: 20, fontWeight: 500,
+            background: DIFFICULTY_BG[recipe.difficulty], color: DIFFICULTIES[recipe.difficulty],
+          }}>{recipe.difficulty}</span>
+          <span style={{ fontSize: 12, color: "var(--color-text-tertiary)" }}>⏱ {recipe.time}</span>
         </div>
       </div>
-      <p style={{ margin: "0 0 20px", color: "var(--color-text-secondary, #555)", fontSize: 14, lineHeight: 1.6 }}>
+      <p style={{ margin: "0 0 20px", color: "var(--color-text-secondary)", fontSize: 14, lineHeight: 1.6 }}>
         {recipe.description}
       </p>
 
-      <div
-        style={{
-          display: "flex",
-          gap: 4,
-          marginBottom: 18,
-          borderBottom: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-        }}
-      >
+      <div style={{ display: "flex", gap: 4, marginBottom: 18, borderBottom: "0.5px solid var(--color-border-tertiary)", paddingBottom: 0 }}>
         {["steps", "code"].map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
             style={{
-              padding: "8px 16px",
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              fontSize: 14,
-              fontFamily: "inherit",
-              fontWeight: tab === t ? 500 : 400,
-              color: tab === t ? "var(--color-text-primary, #111)" : "var(--color-text-secondary, #555)",
-              borderBottom: tab === t ? "2px solid #7F77DD" : "2px solid transparent",
-              marginBottom: -1,
-              transition: "all 0.12s",
+              padding: "8px 16px", border: "none", background: "none", cursor: "pointer",
+              fontSize: 14, fontWeight: tab === t ? 500 : 400,
+              color: tab === t ? "var(--color-text-primary)" : "var(--color-text-secondary)",
+              borderBottom: tab === t ? "2px solid #185FA5" : "2px solid transparent",
+              marginBottom: -1, transition: "all 0.12s",
             }}
           >
-            {t === "steps" ? "Pipeline steps" : "Code"}
+            {t === "steps" ? "Pipeline Steps" : "Code"}
           </button>
         ))}
       </div>
@@ -1526,184 +1038,86 @@ function RecipeDetail({ recipe }) {
   );
 }
 
-function Sidebar({ recipes, selected, onSelect, framework, setFramework, search, setSearch }) {
+function Sidebar({ recipes, selected, onSelect, category, setCategory, search, setSearch }) {
   const filtered = recipes.filter((r) => {
-    const matchFw = framework === "All" || r.framework === framework;
-    const matchSearch =
-      !search ||
-      r.title.toLowerCase().includes(search.toLowerCase()) ||
-      r.framework.toLowerCase().includes(search.toLowerCase()) ||
+    const matchCat = category === "All" || r.category === category;
+    const matchSearch = r.title.toLowerCase().includes(search.toLowerCase()) ||
       r.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
-    return matchFw && matchSearch;
-  });
-
-  // Group by framework for display
-  const grouped = {};
-  filtered.forEach((r) => {
-    if (!grouped[r.framework]) grouped[r.framework] = [];
-    grouped[r.framework].push(r);
+    return matchCat && matchSearch;
   });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%", gap: 0 }}>
-      <div style={{ padding: "0 0 14px" }}>
+      <div style={{ padding: "0 0 16px" }}>
         <input
           type="text"
-          placeholder="Search patterns…"
+          placeholder="Search recipes…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "8px 12px",
-            borderRadius: 8,
-            border: "0.5px solid var(--color-border-secondary, #ccc)",
-            background: "var(--color-background-secondary, #f5f5f5)",
-            color: "var(--color-text-primary, #111)",
-            fontSize: 13,
-            fontFamily: "inherit",
-            outline: "none",
+            width: "100%", boxSizing: "border-box", padding: "8px 12px",
+            borderRadius: 8, border: "0.5px solid var(--color-border-secondary)",
+            background: "var(--color-background-secondary)",
+            color: "var(--color-text-primary)", fontSize: 13,
           }}
         />
       </div>
-      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 14 }}>
-        {ALL_FRAMEWORKS.map((f) => (
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
+        {CATEGORIES.map((c) => (
           <button
-            key={f}
-            onClick={() => setFramework(f)}
+            key={c}
+            onClick={() => setCategory(c)}
             style={{
-              padding: "3px 10px",
-              borderRadius: 20,
-              fontSize: 11,
-              cursor: "pointer",
-              fontFamily: "inherit",
-              border: framework === f
-                ? `1.5px solid ${FRAMEWORK_DOT[f] || "#7F77DD"}`
-                : "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-              background: framework === f
-                ? (f === "All" ? "#EEEDFE" : undefined)
-                : "var(--color-background-primary, #fff)",
-              backgroundColor: framework === f && f !== "All"
-                ? FRAMEWORK_DOT[f] + "22"
-                : undefined,
-              color: framework === f
-                ? (FRAMEWORK_DOT[f] || "#534AB7")
-                : "var(--color-text-secondary, #555)",
-              fontWeight: framework === f ? 600 : 400,
+              padding: "4px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+              border: category === c ? "1.5px solid #185FA5" : "0.5px solid var(--color-border-tertiary)",
+              background: category === c ? "#E6F1FB" : "var(--color-background-primary)",
+              color: category === c ? "#185FA5" : "var(--color-text-secondary)",
+              fontWeight: category === c ? 500 : 400,
             }}
           >
-            {f !== "All" && (
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: FRAMEWORK_DOT[f],
-                  display: "inline-block",
-                  marginRight: 4,
-                  verticalAlign: "middle",
-                }}
-              />
-            )}
-            {f}
+            {c}
           </button>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 0, overflowY: "auto", flex: 1 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, overflowY: "auto", flex: 1 }}>
         {filtered.length === 0 ? (
-          <div style={{ color: "var(--color-text-tertiary, #aaa)", fontSize: 13, padding: "12px 0" }}>
-            No recipes found.
-          </div>
-        ) : framework === "All" ? (
-          // Show grouped by framework when "All" is selected
-          Object.entries(grouped).map(([fw, items]) => (
-            <div key={fw} style={{ marginBottom: 16 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  marginBottom: 8,
-                  paddingBottom: 6,
-                  borderBottom: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-                }}
-              >
-                <span
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: "50%",
-                    background: FRAMEWORK_DOT[fw],
-                    display: "inline-block",
-                  }}
-                />
-                <span style={{ fontSize: 11, fontWeight: 600, color: "var(--color-text-secondary, #555)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-                  {fw}
-                </span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {items.map((r) => (
-                  <RecipeCard key={r.id} recipe={r} onSelect={onSelect} selected={selected?.id === r.id} />
-                ))}
-              </div>
-            </div>
-          ))
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((r) => (
-              <RecipeCard key={r.id} recipe={r} onSelect={onSelect} selected={selected?.id === r.id} />
-            ))}
-          </div>
-        )}
+          <div style={{ color: "var(--color-text-tertiary)", fontSize: 13, padding: "12px 0" }}>No recipes found.</div>
+        ) : filtered.map((r) => (
+          <RecipeCard key={r.id} recipe={r} onSelect={onSelect} selected={selected?.id === r.id} />
+        ))}
       </div>
     </div>
   );
 }
 
-function Header({ totalRecipes }) {
-  const frameworkCount = ALL_FRAMEWORKS.length - 1;
+function Header() {
   return (
-    <div
-      style={{
-        padding: "18px 28px 14px",
-        borderBottom: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-        display: "flex",
-        alignItems: "center",
-        gap: 14,
-      }}
-    >
-      <div
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 10,
-          background: "linear-gradient(135deg, #EEEDFE 0%, #F0FFF4 100%)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 20,
-          flexShrink: 0,
-          border: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-        }}
-      >
-        🕸️
+    <div style={{
+      padding: "20px 32px 16px",
+      borderBottom: "0.5px solid var(--color-border-tertiary)",
+      display: "flex", alignItems: "center", gap: 16,
+    }}>
+      <div style={{
+        width: 40, height: 40, borderRadius: 10,
+        background: "#E1F5EE", display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 20,
+      }}>
+        🧩
       </div>
       <div>
-        <h1 style={{ margin: 0, fontSize: 19, fontWeight: 500, letterSpacing: "-0.3px" }}>
-          Multi-Agent Frameworks
-        </h1>
-        <p style={{ margin: 0, fontSize: 12, color: "var(--color-text-secondary, #555)" }}>
-          Patterns for CrewAI, AutoGen, LangGraph, Semantic Kernel, DSPy & Haystack
+        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 500, letterSpacing: "-0.3px" }}>Multi-Agent Frameworks</h1>
+        <p style={{ margin: 0, fontSize: 13, color: "var(--color-text-secondary)" }}>
+          End-to-end recipes for Swarm, LangGraph, CrewAI, AutoGen & custom orchestration
         </p>
       </div>
       <div style={{ marginLeft: "auto", display: "flex", gap: 20 }}>
         {[
-          { label: "Recipes", value: totalRecipes },
-          { label: "Frameworks", value: frameworkCount },
+          { label: "Recipes", value: FRAMEWORKS.length },
+          { label: "Frameworks", value: CATEGORIES.length - 1 },
         ].map(({ label, value }) => (
           <div key={label} style={{ textAlign: "center" }}>
             <div style={{ fontSize: 18, fontWeight: 500 }}>{value}</div>
-            <div style={{ fontSize: 11, color: "var(--color-text-tertiary, #aaa)" }}>{label}</div>
+            <div style={{ fontSize: 11, color: "var(--color-text-tertiary)" }}>{label}</div>
           </div>
         ))}
       </div>
@@ -1711,51 +1125,41 @@ function Header({ totalRecipes }) {
   );
 }
 
-// ─── App ──────────────────────────────────────────────────────────────────────
-
 export default function App() {
   const [selected, setSelected] = useState(FRAMEWORKS[0]);
-  const [framework, setFramework] = useState("All");
+  const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        fontFamily: "var(--font-sans, system-ui, sans-serif)",
-        background: "var(--color-background-tertiary, #152060)",
-        color: "var(--color-text-primary, #f2f2f2)",
-      }}
-    >
-      <Header totalRecipes={FRAMEWORKS.length} />
+    <div style={{
+      display: "flex", flexDirection: "column",
+      height: "100vh", fontFamily: "var(--font-sans, system-ui, sans-serif)",
+      background: "var(--color-background-tertiary, #152060)",
+      color: "var(--color-text-primary)",
+    }}>
+      <Header />
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-        <div
-          style={{
-            width: 330,
-            minWidth: 260,
-            padding: "18px 16px",
-            borderRight: "0.5px solid var(--color-border-tertiary, #e0e0e0)",
-            background: "var(--color-background-primary, #fff)",
-            overflowY: "auto",
-          }}
-        >
+        <div style={{
+          width: 320, minWidth: 260, padding: "20px 20px",
+          borderRight: "0.5px solid var(--color-border-tertiary)",
+          background: "var(--color-background-primary)",
+          overflowY: "auto",
+        }}>
           <Sidebar
             recipes={FRAMEWORKS}
             selected={selected}
             onSelect={setSelected}
-            framework={framework}
-            setFramework={setFramework}
+            category={category}
+            setCategory={setCategory}
             search={search}
             setSearch={setSearch}
           />
         </div>
-        <div style={{ flex: 1, overflowY: "auto", padding: "22px 24px" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
           {selected ? (
             <RecipeDetail recipe={selected} />
           ) : (
-            <div style={{ color: "var(--color-text-tertiary, #aaa)", padding: 40, textAlign: "center" }}>
+            <div style={{ color: "var(--color-text-tertiary)", padding: 40, textAlign: "center" }}>
               Select a recipe to get started
             </div>
           )}
