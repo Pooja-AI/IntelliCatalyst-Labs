@@ -1,23 +1,116 @@
 import { useState, useRef, useEffect } from "react";
+import Ragfoundation from "../assets/docs/rag-foundations.md?raw";
+
+import ReactMarkdown from "react-markdown";
+
 
 const RECIPES = [
+
   {
-    id: "naive-rag",
-    category: "Foundations",
-    title: "Naive RAG",
-    difficulty: "Beginner",
-    time: "~15 min",
-    description: "The baseline pattern: embed, store, retrieve, generate. A great starting point before adding complexity.",
-    tags: ["retrieval", "embeddings", "generation"],
-    steps: [
-      { label: "Chunk Documents", icon: "📄", detail: "Split documents into fixed-size or semantic chunks (e.g. 512 tokens with 10% overlap)." },
-      { label: "Embed Chunks", icon: "🔢", detail: "Use a dense embedding model (e.g. text-embedding-3-small) to vectorize each chunk." },
-      { label: "Store in Vector DB", icon: "🗄️", detail: "Upsert (id, vector, metadata) into a vector store like Pinecone, Weaviate, or pgvector." },
-      { label: "Embed Query", icon: "🔍", detail: "At query time, embed the user question using the same model." },
-      { label: "Top-K Retrieval", icon: "🎯", detail: "Cosine similarity search for top-K (K=5) most relevant chunks." },
-      { label: "Prompt + Generate", icon: "✨", detail: "Inject retrieved chunks into prompt as context, then call the LLM to generate an answer." },
-    ],
-    code: `import anthropic from "@anthropic-ai/sdk";
+  id: "fixed-chunking",
+  category: "Chunking",
+  title: "Fixed Chunking",
+  difficulty: "Beginner",
+  time: "~10 min",
+  description:
+    "Fixed Chunking divides documents into chunks of a predefined size regardless of semantic boundaries. It is simple, fast, and widely used in basic RAG systems.",
+
+  tags: [
+    "chunking",
+    "fixed-chunking",
+    "document-processing",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Load Document",
+      icon: "📄",
+      detail:
+        "Read the source document."
+    },
+    {
+      label: "Define Chunk Size",
+      icon: "📏",
+      detail:
+        "Choose a fixed size such as 500 tokens."
+    },
+    {
+      label: "Split Text",
+      icon: "✂️",
+      detail:
+        "Break the document into equal-sized chunks."
+    },
+    {
+      label: "Add Overlap",
+      icon: "🔗",
+      detail:
+        "Include overlap between chunks to preserve context."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Convert chunks into vector embeddings."
+    },
+    {
+      label: "Store Chunks",
+      icon: "🗄️",
+      detail:
+        "Save embeddings and metadata in a vector database."
+    }
+  ],
+
+  code: `function fixedChunk(
+  text,
+  chunkSize = 500,
+  overlap = 50
+) {
+
+  const chunks = [];
+
+  for (
+    let i = 0;
+    i < text.length;
+    i += chunkSize - overlap
+  ) {
+    chunks.push(
+      text.slice(
+        i,
+        i + chunkSize
+      )
+    );
+  }
+
+  return chunks;
+}
+
+const chunks = fixedChunk(
+  document,
+  500,
+  50
+);
+
+console.log(chunks);`
+},
+  
+{
+  id: "naive-rag",
+  category: "Foundations",
+  title: "Naive RAG",
+  difficulty: "Beginner",
+  time: "~15 min",
+  description: "The baseline pattern: embed, store, retrieve, generate. A great starting point before adding complexity.",
+  tags: ["retrieval", "embeddings", "generation"],
+  steps: [
+    { label: "Chunk Documents", icon: "📄", detail: "Split documents into fixed-size or semantic chunks (e.g. 512 tokens with 10% overlap)." },
+    { label: "Embed Chunks", icon: "🔢", detail: "Use a dense embedding model (e.g. text-embedding-3-small) to vectorize each chunk." },
+    { label: "Store in Vector DB", icon: "🗄️", detail: "Upsert (id, vector, metadata) into a vector store like Pinecone, Weaviate, or pgvector." },
+    { label: "Embed Query", icon: "🔍", detail: "At query time, embed the user question using the same model." },
+    { label: "Top-K Retrieval", icon: "🎯", detail: "Cosine similarity search for top-K (K=5) most relevant chunks." },
+    { label: "Prompt + Generate", icon: "✨", detail: "Inject retrieved chunks into prompt as context, then call the LLM to generate an answer." },
+  ],
+  code: `import anthropic from "@anthropic-ai/sdk";
 import { OpenAI } from "openai";
 import { Pinecone } from "@pinecone-database/pinecone";
 
@@ -73,6 +166,519 @@ async function query(question) {
   return response.content[0].text;
 }`,
   },
+
+{
+  id: "recursive-chunking",
+  category: "Chunking",
+  title: "Recursive Chunking",
+  difficulty: "Beginner",
+  time: "~15 min",
+  description:
+    "Recursively splits documents using separators such as paragraphs, sentences, and words while preserving document structure.",
+
+  tags: [
+    "chunking",
+    "recursive",
+    "langchain",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Load Document",
+      icon: "📄",
+      detail:
+        "Read the source document."
+    },
+    {
+      label: "Define Separators",
+      icon: "📑",
+      detail:
+        "Use paragraphs, sentences, and spaces."
+    },
+    {
+      label: "Recursive Split",
+      icon: "🔄",
+      detail:
+        "Split progressively until chunk size is reached."
+    },
+    {
+      label: "Apply Overlap",
+      icon: "🔗",
+      detail:
+        "Preserve context between chunks."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Convert chunks into vectors."
+    },
+    {
+      label: "Store Chunks",
+      icon: "🗄️",
+      detail:
+        "Index chunks in a vector database."
+    }
+  ],
+
+  code: `import {
+  RecursiveCharacterTextSplitter
+} from "langchain/text_splitter";
+
+const splitter =
+  new RecursiveCharacterTextSplitter({
+    chunkSize: 500,
+    chunkOverlap: 50,
+  });
+
+const chunks =
+  await splitter.splitText(document);
+
+console.log(chunks);`
+},
+{
+  id: "hierarchical-chunking",
+  category: "Chunking",
+  title: "Hierarchical Chunking",
+  difficulty: "Intermediate",
+  time: "~20 min",
+  description:
+    "Creates parent and child chunks to support hierarchical retrieval and context expansion.",
+
+  tags: [
+    "hierarchical",
+    "parent-child",
+    "chunking",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Create Parent Chunks",
+      icon: "📚",
+      detail:
+        "Split into larger sections."
+    },
+    {
+      label: "Create Child Chunks",
+      icon: "📄",
+      detail:
+        "Further divide parent sections."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Embed child chunks."
+    },
+    {
+      label: "Store Relationships",
+      icon: "🔗",
+      detail:
+        "Maintain parent-child mapping."
+    },
+    {
+      label: "Retrieve Child Chunks",
+      icon: "🔍",
+      detail:
+        "Search smaller chunks."
+    },
+    {
+      label: "Return Parent Context",
+      icon: "📖",
+      detail:
+        "Provide larger context window."
+    }
+  ],
+
+  code: `const parentChunks =
+  splitDocument(
+    document,
+    2000
+  );
+
+const childChunks =
+  parentChunks.flatMap(
+    chunk =>
+      splitDocument(
+        chunk,
+        500
+      )
+  );
+
+console.log(childChunks);`
+},
+{
+  id: "sliding-window-chunking",
+  category: "Chunking",
+  title: "Sliding Window Chunking",
+  difficulty: "Intermediate",
+  time: "~15 min",
+  description:
+    "Creates overlapping chunks to preserve context between neighboring chunks.",
+
+  tags: [
+    "sliding-window",
+    "chunking",
+    "overlap",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Define Window Size",
+      icon: "📏",
+      detail:
+        "Choose chunk size."
+    },
+    {
+      label: "Define Overlap",
+      icon: "🔗",
+      detail:
+        "Specify overlap amount."
+    },
+    {
+      label: "Slide Window",
+      icon: "➡️",
+      detail:
+        "Move through document incrementally."
+    },
+    {
+      label: "Generate Chunks",
+      icon: "📄",
+      detail:
+        "Create overlapping chunks."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Convert chunks to vectors."
+    },
+    {
+      label: "Store Chunks",
+      icon: "🗄️",
+      detail:
+        "Save for retrieval."
+    }
+  ],
+
+  code: `function slidingWindow(
+  text,
+  size,
+  overlap
+) {
+
+  const chunks = [];
+
+  for (
+    let i = 0;
+    i < text.length;
+    i += size - overlap
+  ) {
+    chunks.push(
+      text.slice(
+        i,
+        i + size
+      )
+    );
+  }
+
+  return chunks;
+}`
+},
+{
+  id: "token-based-chunking",
+  category: "Chunking",
+  title: "Token-Based Chunking",
+  difficulty: "Intermediate",
+  time: "~15 min",
+  description:
+    "Splits documents based on token counts to optimize LLM context windows.",
+
+  tags: [
+    "token",
+    "chunking",
+    "llm",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Tokenize Document",
+      icon: "🔤",
+      detail:
+        "Convert text into tokens."
+    },
+    {
+      label: "Define Token Limit",
+      icon: "📏",
+      detail:
+        "Set maximum token count."
+    },
+    {
+      label: "Split Tokens",
+      icon: "✂️",
+      detail:
+        "Create chunks within token limits."
+    },
+    {
+      label: "Apply Overlap",
+      icon: "🔗",
+      detail:
+        "Preserve context."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Embed chunks."
+    },
+    {
+      label: "Store Chunks",
+      icon: "🗄️",
+      detail:
+        "Save to vector database."
+    }
+  ],
+
+  code: `import {
+  TokenTextSplitter
+} from "langchain/text_splitter";
+
+const splitter =
+  new TokenTextSplitter({
+    chunkSize: 512,
+    chunkOverlap: 50,
+  });
+
+const chunks =
+  await splitter.splitText(
+    document
+  );`
+},
+{
+  id: "agentic-chunking",
+  category: "Chunking",
+  title: "Agentic Chunking",
+  difficulty: "Advanced",
+  time: "~30 min",
+  description:
+    "Uses an LLM or agent to intelligently determine chunk boundaries based on document meaning and structure.",
+
+  tags: [
+    "agentic",
+    "chunking",
+    "llm",
+    "advanced-rag"
+  ],
+
+  steps: [
+    {
+      label: "Analyze Document",
+      icon: "🧠",
+      detail:
+        "Understand document structure."
+    },
+    {
+      label: "Identify Topics",
+      icon: "🏷️",
+      detail:
+        "Detect semantic sections."
+    },
+    {
+      label: "Determine Boundaries",
+      icon: "✂️",
+      detail:
+        "Create meaningful chunk breaks."
+    },
+    {
+      label: "Generate Chunks",
+      icon: "📚",
+      detail:
+        "Produce context-rich chunks."
+    },
+    {
+      label: "Create Embeddings",
+      icon: "🔢",
+      detail:
+        "Embed generated chunks."
+    },
+    {
+      label: "Store in Vector DB",
+      icon: "🗄️",
+      detail:
+        "Index chunks for retrieval."
+    }
+  ],
+
+  code: `const chunks =
+  await llm.invoke(\`
+Analyze the document and
+split it into logical,
+self-contained sections.
+
+Document:
+\${document}
+\`);
+
+console.log(chunks);`
+},
+
+{
+  id: "semantic-chunking",
+  category: "Chunking",
+  title: "Semantic Chunking",
+  difficulty: "Intermediate",
+  time: "~20 min",
+  description:
+    "Creates chunks based on semantic meaning rather than fixed sizes, resulting in more coherent retrieval.",
+
+  tags: [
+    "semantic",
+    "chunking",
+    "embeddings",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Load Document",
+      icon: "📄",
+      detail:
+        "Read source content."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Create embeddings for sentences."
+    },
+    {
+      label: "Measure Similarity",
+      icon: "📊",
+      detail:
+        "Compare adjacent sentence embeddings."
+    },
+    {
+      label: "Detect Boundaries",
+      icon: "✂️",
+      detail:
+        "Identify topic changes."
+    },
+    {
+      label: "Create Chunks",
+      icon: "📚",
+      detail:
+        "Group semantically related sentences."
+    },
+    {
+      label: "Store Chunks",
+      icon: "🗄️",
+      detail:
+        "Save chunks for retrieval."
+    }
+  ],
+
+  code: `import {
+  SemanticChunker
+} from "langchain_experimental";
+
+const chunker =
+  new SemanticChunker(
+    embeddings
+  );
+
+const chunks =
+  await chunker.createDocuments([
+    document
+  ]);
+
+console.log(chunks);`
+},
+{
+  id: "similarity-search",
+  category: "Retrieval",
+  title: "Similarity Search Retrieval",
+  difficulty: "Beginner",
+  time: "~15 min",
+  description:
+    "The most common retrieval strategy in RAG systems. Query embeddings are compared against document embeddings using vector similarity metrics such as cosine similarity.",
+
+  tags: [
+    "retrieval",
+    "vector-search",
+    "similarity-search",
+    "embeddings"
+  ],
+
+  steps: [
+    {
+      label: "Embed Documents",
+      icon: "📄",
+      detail:
+        "Generate embeddings for document chunks using an embedding model."
+    },
+    {
+      label: "Store Vectors",
+      icon: "🗄️",
+      detail:
+        "Store embeddings in a vector database such as Pinecone, ChromaDB, or FAISS."
+    },
+    {
+      label: "Embed Query",
+      icon: "🔍",
+      detail:
+        "Convert the user query into the same embedding space."
+    },
+    {
+      label: "Calculate Similarity",
+      icon: "📐",
+      detail:
+        "Compare query vectors with document vectors using cosine similarity."
+    },
+    {
+      label: "Retrieve Top-K",
+      icon: "🎯",
+      detail:
+        "Return the most similar document chunks."
+    },
+    {
+      label: "Generate Response",
+      icon: "✨",
+      detail:
+        "Pass retrieved chunks to the LLM for answer generation."
+    }
+  ],
+
+  code: `import { OpenAI } from "openai";
+import { Pinecone } from "@pinecone-database/pinecone";
+
+const openai = new OpenAI();
+const pinecone = new Pinecone();
+
+const index = pinecone.index("documents");
+
+async function retrieve(query) {
+
+  const embedding = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    input: query,
+  });
+
+  const results = await index.query({
+    vector: embedding.data[0].embedding,
+    topK: 5,
+    includeMetadata: true,
+  });
+
+  return results.matches.map(
+    doc => doc.metadata.text
+  );
+}`
+},
+
   {
     id: "hybrid-search",
     category: "Retrieval",
@@ -132,6 +738,774 @@ async function hybridQuery(question, corpus, vectorIndex) {
   return generateAnswer(question, top5);
 }`,
   },
+  {
+  id: "semantic-search",
+  category: "Retrieval",
+  title: "Semantic Search",
+  difficulty: "Intermediate",
+  time: "~20 min",
+  description:
+    "Retrieves documents based on meaning rather than exact keyword matching.",
+
+  tags: [
+    "semantic-search",
+    "embeddings",
+    "retrieval"
+  ],
+
+  steps: [
+    {
+      label: "Generate Embeddings",
+      icon: "🧠",
+      detail:
+        "Encode documents and queries into semantic vectors."
+    },
+    {
+      label: "Vector Search",
+      icon: "🔍",
+      detail:
+        "Search nearest neighbors in vector space."
+    },
+    {
+      label: "Retrieve Context",
+      icon: "📚",
+      detail:
+        "Collect semantically relevant chunks."
+    },
+    {
+      label: "Pass to LLM",
+      icon: "✨",
+      detail:
+        "Use retrieved context during generation."
+    }
+  ],
+
+  code: `const results = await vectorStore.similaritySearch(
+  query,
+  5
+);
+
+const context = results
+  .map(doc => doc.pageContent)
+  .join("\\n");
+
+const answer = await llm.invoke(
+  \`Context:
+  \${context}
+
+  Question:
+  \${query}\`
+);`
+},
+{
+  id: "metadata-filtering",
+  category: "Retrieval",
+  title: "Metadata Filtering",
+  difficulty: "Advanced",
+  time: "~20 min",
+  description:
+    "Restrict retrieval results using metadata such as department, date, author, source, or access level.",
+
+  tags: [
+    "metadata",
+    "filters",
+    "enterprise-rag",
+    "retrieval"
+  ],
+
+  steps: [
+    {
+      label: "Attach Metadata",
+      icon: "🏷️",
+      detail:
+        "Store metadata with every document chunk."
+    },
+    {
+      label: "Apply Filters",
+      icon: "🔒",
+      detail:
+        "Filter retrieval by attributes."
+    },
+    {
+      label: "Vector Search",
+      icon: "🔍",
+      detail:
+        "Search only within filtered documents."
+    },
+    {
+      label: "Generate Answer",
+      icon: "✨",
+      detail:
+        "Return answers using filtered context."
+    }
+  ],
+
+  code: `const results = await index.query({
+  vector: embedding,
+  topK: 10,
+  filter: {
+    department: "finance",
+    year: { "$gte": 2024 }
+  },
+  includeMetadata: true,
+});`
+},
+
+{
+  id: "multi-query-retrieval",
+  category: "Retrieval",
+  title: "Multi-Query Retrieval",
+  difficulty: "Advanced",
+  time: "~25 min",
+  description:
+    "Generate multiple semantically different versions of a user query and retrieve documents for each query. This improves recall and reduces the chance of missing relevant context.",
+
+  tags: [
+    "multi-query",
+    "retrieval",
+    "query-expansion",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Generate Query Variations",
+      icon: "🧠",
+      detail:
+        "Use an LLM to create multiple reformulations of the user question."
+    },
+    {
+      label: "Embed Queries",
+      icon: "🔢",
+      detail:
+        "Convert each generated query into vector embeddings."
+    },
+    {
+      label: "Retrieve Documents",
+      icon: "🔍",
+      detail:
+        "Perform retrieval independently for each query."
+    },
+    {
+      label: "Merge Results",
+      icon: "🔗",
+      detail:
+        "Combine retrieved documents and remove duplicates."
+    },
+    {
+      label: "Rank Context",
+      icon: "📊",
+      detail:
+        "Sort retrieved documents by relevance score."
+    },
+    {
+      label: "Generate Response",
+      icon: "✨",
+      detail:
+        "Provide the consolidated context to the LLM."
+    }
+  ],
+
+  code: `import { OpenAI } from "openai";
+import { Pinecone } from "@pinecone-database/pinecone";
+
+const openai = new OpenAI();
+const pinecone = new Pinecone();
+const index = pinecone.index("rag-index");
+
+async function generateQueries(question) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [{
+      role: "user",
+      content: \`
+Generate 4 alternative search queries
+for the following question:
+
+\${question}
+\`
+    }]
+  });
+
+  return response.choices[0].message.content
+    .split("\\n")
+    .filter(Boolean);
+}
+
+async function retrieve(question) {
+
+  const queries = await generateQueries(question);
+
+  const allResults = [];
+
+  for (const query of queries) {
+
+    const embedding = await openai.embeddings.create({
+      model: "text-embedding-3-small",
+      input: query,
+    });
+
+    const results = await index.query({
+      vector: embedding.data[0].embedding,
+      topK: 5,
+      includeMetadata: true,
+    });
+
+    allResults.push(...results.matches);
+  }
+
+  const uniqueDocs = [
+    ...new Map(
+      allResults.map(doc => [doc.id, doc])
+    ).values()
+  ];
+
+  return uniqueDocs;
+}`
+},
+
+{
+  id: "parent-child-retrieval",
+  category: "Retrieval",
+  title: "Parent-Child Retrieval",
+  difficulty: "Advanced",
+  time: "~30 min",
+  description:
+    "Store small child chunks for retrieval while returning larger parent documents for richer context and better answer generation.",
+
+  tags: [
+    "parent-child",
+    "retrieval",
+    "context",
+    "enterprise-rag"
+  ],
+
+  steps: [
+    {
+      label: "Split Parent Documents",
+      icon: "📚",
+      detail:
+        "Break documents into large parent chunks."
+    },
+    {
+      label: "Create Child Chunks",
+      icon: "📄",
+      detail:
+        "Further split parent chunks into smaller retrievable chunks."
+    },
+    {
+      label: "Generate Embeddings",
+      icon: "🔢",
+      detail:
+        "Create embeddings for child chunks."
+    },
+    {
+      label: "Store Relationships",
+      icon: "🔗",
+      detail:
+        "Maintain mapping between child and parent documents."
+    },
+    {
+      label: "Retrieve Child Chunks",
+      icon: "🔍",
+      detail:
+        "Perform retrieval on child chunks."
+    },
+    {
+      label: "Return Parent Context",
+      icon: "✨",
+      detail:
+        "Fetch parent documents before sending to the LLM."
+    }
+  ],
+
+  code: `const retriever =
+  new ParentDocumentRetriever({
+    vectorstore,
+    docstore,
+    childSplitter,
+    parentSplitter,
+  });
+
+const results =
+  await retriever.getRelevantDocuments(
+    "Explain transformer architecture"
+  );
+
+console.log(results);`
+},
+{
+  id: "contextual-compression",
+  category: "Retrieval",
+  title: "Contextual Compression Retrieval",
+  difficulty: "Advanced",
+  time: "~25 min",
+  description:
+    "Compress retrieved documents to keep only the information relevant to the user query before sending it to the LLM.",
+
+  tags: [
+    "compression",
+    "retrieval",
+    "rag",
+    "cost-optimization"
+  ],
+
+  steps: [
+    {
+      label: "Retrieve Documents",
+      icon: "🔍",
+      detail:
+        "Fetch top-K relevant documents."
+    },
+    {
+      label: "Apply Compression",
+      icon: "🗜️",
+      detail:
+        "Extract only query-relevant sentences."
+    },
+    {
+      label: "Remove Noise",
+      icon: "✂️",
+      detail:
+        "Discard unrelated content."
+    },
+    {
+      label: "Build Context",
+      icon: "📚",
+      detail:
+        "Create a compact context window."
+    },
+    {
+      label: "Generate Answer",
+      icon: "✨",
+      detail:
+        "Send compressed context to the LLM."
+    }
+  ],
+
+  code: `import { ContextualCompressionRetriever }
+from "langchain/retrievers/contextual_compression";
+
+const retriever =
+  new ContextualCompressionRetriever({
+    baseRetriever,
+    compressor,
+  });
+
+const docs =
+  await retriever.invoke(
+    "Explain vector databases"
+  );`
+},
+{
+  id: "self-query-retrieval",
+  category: "Retrieval",
+  title: "Self Query Retrieval",
+  difficulty: "Expert",
+  time: "~30 min",
+  description:
+    "Use an LLM to automatically generate metadata filters and retrieval queries.",
+
+  tags: [
+    "metadata",
+    "self-query",
+    "retrieval",
+    "enterprise-rag"
+  ],
+
+  steps: [
+    {
+      label: "Analyze Query",
+      icon: "🧠",
+      detail:
+        "Understand user intent."
+    },
+    {
+      label: "Extract Filters",
+      icon: "🏷️",
+      detail:
+        "Identify metadata constraints."
+    },
+    {
+      label: "Build Search Query",
+      icon: "🔍",
+      detail:
+        "Generate optimized retrieval query."
+    },
+    {
+      label: "Apply Filters",
+      icon: "🔒",
+      detail:
+        "Limit retrieval scope."
+    },
+    {
+      label: "Retrieve Documents",
+      icon: "📚",
+      detail:
+        "Search matching documents."
+    },
+    {
+      label: "Generate Answer",
+      icon: "✨",
+      detail:
+        "Provide grounded response."
+    }
+  ],
+
+  code: `const retriever =
+  SelfQueryRetriever.fromLLM(
+    llm,
+    vectorStore,
+    metadataInfo
+  );
+
+const docs =
+  await retriever.invoke(
+    "Find finance reports from 2025"
+  );`
+},
+
+{
+  id: "recursive-retrieval",
+  category: "Retrieval",
+  title: "Recursive Retrieval",
+  difficulty: "Expert",
+  time: "~35 min",
+  description:
+    "Retrieve documents iteratively until sufficient context is collected.",
+
+  tags: [
+    "recursive",
+    "retrieval",
+    "multi-hop",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Initial Retrieval",
+      icon: "🔍",
+      detail:
+        "Retrieve initial documents."
+    },
+    {
+      label: "Analyze Context",
+      icon: "🧠",
+      detail:
+        "Determine missing information."
+    },
+    {
+      label: "Generate Follow-up Query",
+      icon: "❓",
+      detail:
+        "Create additional retrieval queries."
+    },
+    {
+      label: "Retrieve Again",
+      icon: "🔄",
+      detail:
+        "Search for supporting evidence."
+    },
+    {
+      label: "Merge Context",
+      icon: "📚",
+      detail:
+        "Combine all retrieved information."
+    },
+    {
+      label: "Generate Answer",
+      icon: "✨",
+      detail:
+        "Produce final response."
+    }
+  ],
+
+  code: `let context = [];
+
+while(needsMoreContext(context)) {
+
+  const docs =
+    await retriever.invoke(query);
+
+  context.push(...docs);
+
+  query =
+    await generateFollowupQuery(
+      context
+    );
+}`
+},
+
+{
+  id: "knowledge-graph-retrieval",
+  category: "Retrieval",
+  title: "Knowledge Graph Retrieval",
+  difficulty: "Expert",
+  time: "~45 min",
+  description:
+    "Retrieve information using entities and relationships stored in a knowledge graph.",
+
+  tags: [
+    "graph-rag",
+    "knowledge-graph",
+    "neo4j",
+    "retrieval"
+  ],
+
+  steps: [
+    {
+      label: "Extract Entities",
+      icon: "🏷️",
+      detail:
+        "Identify entities from documents."
+    },
+    {
+      label: "Build Graph",
+      icon: "🕸️",
+      detail:
+        "Create relationships between entities."
+    },
+    {
+      label: "Store Graph",
+      icon: "🗄️",
+      detail:
+        "Save in Neo4j or graph database."
+    },
+    {
+      label: "Traverse Graph",
+      icon: "🔍",
+      detail:
+        "Find relevant relationships."
+    },
+    {
+      label: "Retrieve Context",
+      icon: "📚",
+      detail:
+        "Collect graph-connected knowledge."
+    },
+    {
+      label: "Generate Answer",
+      icon: "✨",
+      detail:
+        "Use graph context for generation."
+    }
+  ],
+
+  code: `MATCH (p:Person)-[:WORKS_FOR]->
+(c:Company)
+
+RETURN p,c
+
+LIMIT 10`
+},
+
+{
+  id: "agentic-retrieval",
+  category: "Retrieval",
+  title: "Agentic Retrieval",
+  difficulty: "Expert",
+  time: "~50 min",
+  description:
+    "Use multiple AI agents to plan, retrieve, validate, and synthesize information before generating an answer.",
+
+  tags: [
+    "agentic-ai",
+    "retrieval",
+    "multi-agent",
+    "rag"
+  ],
+
+  steps: [
+    {
+      label: "Plan Retrieval",
+      icon: "🧠",
+      detail:
+        "Planner agent decides strategy."
+    },
+    {
+      label: "Knowledge Search",
+      icon: "📚",
+      detail:
+        "Retriever agent queries vector stores."
+    },
+    {
+      label: "Web Search",
+      icon: "🌐",
+      detail:
+        "Search agent gathers external information."
+    },
+    {
+      label: "Validate Results",
+      icon: "✅",
+      detail:
+        "Critic agent verifies relevance."
+    },
+    {
+      label: "Merge Evidence",
+      icon: "🔗",
+      detail:
+        "Combine validated information."
+    },
+    {
+      label: "Generate Response",
+      icon: "✨",
+      detail:
+        "Final agent produces answer."
+    }
+  ],
+
+  code: `const workflow = new StateGraph()
+  .addNode("planner", plannerAgent)
+  .addNode("retriever", retrieverAgent)
+  .addNode("critic", criticAgent)
+  .addNode("answer", answerAgent)
+
+  .addEdge("planner", "retriever")
+  .addEdge("retriever", "critic")
+  .addEdge("critic", "answer");
+
+const result =
+  await workflow.invoke({
+    query: question
+  });`
+},
+
+{
+  id: "ensemble-retrieval",
+  category: "Retrieval",
+  title: "Ensemble Retrieval",
+  difficulty: "Expert",
+  time: "~40 min",
+  description:
+    "Combine multiple retrievers such as BM25, vector search, and graph search to maximize recall.",
+
+  tags: [
+    "ensemble",
+    "hybrid",
+    "retrieval",
+    "enterprise-rag"
+  ],
+
+  steps: [
+    {
+      label: "BM25 Search",
+      icon: "🔤",
+      detail:
+        "Perform keyword retrieval."
+    },
+    {
+      label: "Vector Search",
+      icon: "🔍",
+      detail:
+        "Perform semantic retrieval."
+    },
+    {
+      label: "Graph Search",
+      icon: "🕸️",
+      detail:
+        "Retrieve graph relationships."
+    },
+    {
+      label: "Merge Results",
+      icon: "🔗",
+      detail:
+        "Combine retrieved documents."
+    },
+    {
+      label: "Rerank Results",
+      icon: "📊",
+      detail:
+        "Improve ranking quality."
+    },
+    {
+      label: "Generate Answer",
+      icon: "✨",
+      detail:
+        "Pass ranked context to the LLM."
+    }
+  ],
+
+  code: `const retriever =
+  new EnsembleRetriever({
+    retrievers: [
+      bm25Retriever,
+      vectorRetriever
+    ],
+    weights: [0.5, 0.5]
+  });
+
+const docs =
+  await retriever.invoke(query);`
+},
+
+{
+  id: "multi-vector-retrieval",
+  category: "Retrieval",
+  title: "Multi Vector Retrieval",
+  difficulty: "Expert",
+  time: "~35 min",
+  description:
+    "Store multiple vector representations for the same document such as summaries, questions, and chunks to improve retrieval quality.",
+
+  tags: [
+    "multi-vector",
+    "retrieval",
+    "rag",
+    "embeddings"
+  ],
+
+  steps: [
+    {
+      label: "Generate Chunk Embeddings",
+      icon: "📄",
+      detail:
+        "Create embeddings for document chunks."
+    },
+    {
+      label: "Generate Summary Embeddings",
+      icon: "📝",
+      detail:
+        "Create embeddings from document summaries."
+    },
+    {
+      label: "Generate Question Embeddings",
+      icon: "❓",
+      detail:
+        "Generate likely user questions."
+    },
+    {
+      label: "Store All Vectors",
+      icon: "🗄️",
+      detail:
+        "Maintain multiple vector representations."
+    },
+    {
+      label: "Retrieve",
+      icon: "🔍",
+      detail:
+        "Search across all representations."
+    },
+    {
+      label: "Merge Results",
+      icon: "✨",
+      detail:
+        "Combine retrieved documents."
+    }
+  ],
+
+  code: `const retriever =
+  new MultiVectorRetriever({
+    vectorstore,
+    byteStore,
+    idKey: "doc_id",
+  });
+
+const docs =
+  await retriever.invoke(
+    "How does GraphRAG work?"
+  );`
+},
+
   {
     id: "hyde",
     category: "Query",
@@ -382,7 +1756,7 @@ Reply: [Relevant] or [Irrelevant]\`,
   },
 ];
 
-const CATEGORIES = ["All", "Foundations", "Retrieval", "Query", "Advanced"];
+const CATEGORIES = ["All", "Foundations","Chunking", "Retrieval", "Query", "Advanced"];
 const DIFFICULTIES = { Beginner: "#0F6E56", Intermediate: "#185FA5", Advanced: "#993C1D" };
 const DIFFICULTY_BG = { Beginner: "#E1F5EE", Intermediate: "#E6F1FB", Advanced: "#FAECE7" };
 
@@ -427,6 +1801,17 @@ function StepFlow({ steps }) {
     </div>
   );
 }
+
+function ContentViewer({ content }) {
+  return (
+    <div className="prose max-w-none">
+      <ReactMarkdown>
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
+}
+
 
 function CodeBlock({ code }) {
   const [copied, setCopied] = useState(false);
@@ -645,7 +2030,7 @@ export default function App() {
     <div style={{
       display: "flex", flexDirection: "column",
       height: "100vh", fontFamily: "var(--font-sans, system-ui, sans-serif)",
-      background: "var(--color-background-tertiary, #152060)",
+      background: "var(--color-background-tertiary, #0e1643)",
       color: "var(--color-text-primary)",
     }}>
       <Header />
