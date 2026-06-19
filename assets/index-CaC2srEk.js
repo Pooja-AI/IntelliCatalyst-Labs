@@ -92,7 +92,105 @@ async function query(question) {
   });
 
   return response.content[0].text;
-}`},{id:`recursive-chunking`,category:`Chunking`,title:`Recursive Chunking`,difficulty:`Beginner`,time:`~15 min`,description:`Recursively splits documents using separators such as paragraphs, sentences, and words while preserving document structure.`,tags:[`chunking`,`recursive`,`langchain`,`rag`],steps:[{label:`Load Document`,icon:`📄`,detail:`Read the source document.`},{label:`Define Separators`,icon:`📑`,detail:`Use paragraphs, sentences, and spaces.`},{label:`Recursive Split`,icon:`🔄`,detail:`Split progressively until chunk size is reached.`},{label:`Apply Overlap`,icon:`🔗`,detail:`Preserve context between chunks.`},{label:`Generate Embeddings`,icon:`🔢`,detail:`Convert chunks into vectors.`},{label:`Store Chunks`,icon:`🗄️`,detail:`Index chunks in a vector database.`}],code:`import {
+}`},{id:`semantic-rag`,category:`Foundations`,title:`Semantic RAG`,difficulty:`Beginner`,time:`~20 min`,description:`Retrieves documents based on semantic similarity rather than keyword matching.`,tags:[`semantic-search`,`embeddings`,`retrieval`],steps:[{label:`Embed Documents`,icon:`📄`,detail:`Generate embeddings for document chunks.`},{label:`Store Vectors`,icon:`🗄️`,detail:`Save embeddings in a vector database.`},{label:`Embed Query`,icon:`🔍`,detail:`Convert user question into a vector.`},{label:`Semantic Search`,icon:`🧠`,detail:`Find semantically similar chunks.`},{label:`Build Context`,icon:`📚`,detail:`Combine retrieved chunks.`},{label:`Generate Answer`,icon:`✨`,detail:`Generate grounded response.`}],code:`const docs = await vectorStore.similaritySearch(
+  question,
+  5
+);
+
+const answer =
+  await llm.invoke(
+    buildPrompt(docs, question)
+  );`},{id:`hybrid-rag`,category:`Foundations`,title:`Hybrid RAG`,difficulty:`Intermediate`,time:`~25 min`,description:`Combines vector search and keyword search for better retrieval accuracy.`,tags:[`hybrid`,`bm25`,`vector-search`],steps:[{label:`Keyword Search`,icon:`🔤`,detail:`Perform BM25 search.`},{label:`Semantic Search`,icon:`🧠`,detail:`Perform vector search.`},{label:`Merge Results`,icon:`🔗`,detail:`Combine retrieved results.`},{label:`Rerank`,icon:`📊`,detail:`Sort by relevance.`},{label:`Build Context`,icon:`📚`,detail:`Create final prompt context.`},{label:`Generate`,icon:`✨`,detail:`Generate answer.`}],code:`const keywordDocs =
+  await bm25.search(question);
+
+const semanticDocs =
+  await vectorStore.similaritySearch(
+    question,
+    10
+  );
+
+const results =
+  mergeResults(
+    keywordDocs,
+    semanticDocs
+  );`},{id:`parent-child-rag`,category:`Foundations`,title:`Parent-Child RAG`,difficulty:`Intermediate`,time:`~30 min`,description:`Retrieves small chunks but returns larger parent context.`,tags:[`parent-child`,`hierarchical`],steps:[{label:`Create Parents`,icon:`📚`,detail:`Generate large chunks.`},{label:`Create Children`,icon:`📄`,detail:`Split into smaller chunks.`},{label:`Index Children`,icon:`🗄️`,detail:`Store child embeddings.`},{label:`Retrieve Children`,icon:`🔍`,detail:`Find matching chunks.`},{label:`Fetch Parents`,icon:`📖`,detail:`Retrieve larger context.`},{label:`Generate`,icon:`✨`,detail:`Generate answer.`}],code:`const retriever =
+  new ParentDocumentRetriever({
+    vectorstore,
+    docstore,
+  });
+
+const docs =
+  await retriever.invoke(
+    question
+  );`},{id:`multi-hop-rag`,category:`Foundations`,title:`Multi-Hop RAG`,difficulty:`Advanced`,time:`~35 min`,description:`Retrieves information across multiple retrieval steps and combines evidence.`,tags:[`multi-hop`,`reasoning`],steps:[{label:`Analyze Query`,icon:`🧠`,detail:`Understand information needs.`},{label:`Create Subqueries`,icon:`❓`,detail:`Break into smaller questions.`},{label:`Retrieve Evidence`,icon:`🔍`,detail:`Search each query.`},{label:`Combine Facts`,icon:`🔗`,detail:`Merge evidence.`},{label:`Reason`,icon:`📚`,detail:`Perform multi-hop reasoning.`},{label:`Generate`,icon:`✨`,detail:`Return answer.`}],code:`const subQueries =
+  await planner(question);
+
+const evidence =
+  await Promise.all(
+    subQueries.map(
+      q => retriever.invoke(q)
+    )
+  );`},{id:`graph-rag`,category:`Foundations`,title:`Graph RAG`,difficulty:`Advanced`,time:`~45 min`,description:`Uses knowledge graphs to retrieve entities and relationships.`,tags:[`graph`,`knowledge-graph`],steps:[{label:`Extract Entities`,icon:`🏷️`,detail:`Identify entities.`},{label:`Build Graph`,icon:`🕸️`,detail:`Create relationships.`},{label:`Store Graph`,icon:`🗄️`,detail:`Persist graph data.`},{label:`Traverse Graph`,icon:`🔍`,detail:`Find connected knowledge.`},{label:`Build Context`,icon:`📚`,detail:`Gather graph evidence.`},{label:`Generate`,icon:`✨`,detail:`Answer using graph context.`}],code:`const entities =
+  await extractEntities(
+    document
+  );
+
+const graph =
+  await buildKnowledgeGraph(
+    entities
+  );`},{id:`agentic-rag`,category:`Foundations`,title:`Agentic RAG`,difficulty:`Advanced`,time:`~45 min`,description:`Uses autonomous agents to plan, retrieve, reason, and answer.`,tags:[`agentic`,`agents`,`reasoning`],steps:[{label:`Plan`,icon:`🧠`,detail:`Create execution strategy.`},{label:`Retrieve`,icon:`🔍`,detail:`Search knowledge sources.`},{label:`Evaluate`,icon:`📊`,detail:`Assess retrieval quality.`},{label:`Refine`,icon:`🔄`,detail:`Retry if needed.`},{label:`Reason`,icon:`📚`,detail:`Combine evidence.`},{label:`Generate`,icon:`✨`,detail:`Produce final answer.`}],code:`const result =
+  await agent.invoke({
+    question
+  });`},{id:`crag`,category:`Advanced`,title:`Corrective RAG (CRAG)`,difficulty:`Advanced`,time:`~40 min`,description:`Evaluates retrieval quality and corrects poor retrieval results.`,tags:[`crag`,`corrective-rag`],steps:[{label:`Retrieve`,icon:`🔍`,detail:`Retrieve documents.`},{label:`Evaluate`,icon:`📊`,detail:`Check retrieval quality.`},{label:`Correct`,icon:`🔄`,detail:`Perform additional retrieval.`},{label:`Filter`,icon:`🧹`,detail:`Remove noisy chunks.`},{label:`Context Build`,icon:`📚`,detail:`Create final context.`},{label:`Generate`,icon:`✨`,detail:`Generate response.`}],code:`if(score < threshold){
+  docs =
+    await webSearch(question);
+}`},{id:`self-rag`,category:`Advanced`,title:`Self-RAG`,difficulty:`Advanced`,time:`~45 min`,description:`Allows the model to self-reflect on retrieval and generation quality.`,tags:[`self-rag`,`reflection`],steps:[{label:`Retrieve`,icon:`🔍`,detail:`Fetch context.`},{label:`Generate`,icon:`✨`,detail:`Create answer.`},{label:`Reflect`,icon:`🤔`,detail:`Evaluate answer quality.`},{label:`Retrieve Again`,icon:`🔄`,detail:`Get more evidence if needed.`},{label:`Improve`,icon:`📈`,detail:`Refine response.`},{label:`Finalize`,icon:`✅`,detail:`Return answer.`}],code:`const reflection =
+  await llm.invoke(
+    evaluateAnswer(answer)
+  );`},{id:`adaptive-rag`,category:`Advanced`,title:`Adaptive RAG`,difficulty:`Advanced`,time:`~45 min`,description:`Dynamically selects retrieval strategies based on query complexity.`,tags:[`adaptive`,`routing`],steps:[{label:`Classify Query`,icon:`🏷️`,detail:`Analyze complexity.`},{label:`Route Strategy`,icon:`🚦`,detail:`Select retrieval type.`},{label:`Retrieve`,icon:`🔍`,detail:`Perform retrieval.`},{label:`Evaluate`,icon:`📊`,detail:`Assess results.`},{label:`Optimize`,icon:`⚙️`,detail:`Adjust retrieval.`},{label:`Generate`,icon:`✨`,detail:`Answer question.`}],code:`const route =
+  await classifier(question);
+
+if(route === "simple"){
+  useNaiveRAG();
+}else{
+  useMultiHopRAG();
+}`},{id:`multimodal-rag`,category:`Advanced`,title:`Multimodal RAG`,difficulty:`Advanced`,time:`~50 min`,description:`Retrieves and reasons over text, images, audio, and video.`,tags:[`multimodal`,`vision`,`audio`],steps:[{label:`Ingest Data`,icon:`📂`,detail:`Load multiple modalities.`},{label:`Create Embeddings`,icon:`🔢`,detail:`Generate multimodal vectors.`},{label:`Store Data`,icon:`🗄️`,detail:`Index content.`},{label:`Retrieve`,icon:`🔍`,detail:`Search across modalities.`},{label:`Fuse Context`,icon:`🔗`,detail:`Combine evidence.`},{label:`Generate`,icon:`✨`,detail:`Produce answer.`}],code:`const imageResults =
+  await imageRetriever.search(
+    query
+  );
+
+const textResults =
+  await textRetriever.search(
+    query
+  );`},{id:`fusion-rag`,category:`Advanced`,title:`Fusion RAG`,difficulty:`Advanced`,time:`~45 min`,description:`Combines multiple retrieval strategies (dense, sparse, semantic) to improve answer accuracy.`,tags:[`hybrid`,`retrieval`,`ranking`,`fusion`],steps:[{label:`Query Input`,icon:`🧠`,detail:`User submits query.`},{label:`Multi-Retrieval`,icon:`🔍`,detail:`Run BM25, vector, and hybrid search.`},{label:`Score Fusion`,icon:`⚖️`,detail:`Combine results using weighted ranking.`},{label:`Deduplication`,icon:`🧹`,detail:`Remove redundant documents.`},{label:`Context Build`,icon:`🔗`,detail:`Prepare final context window.`},{label:`Generate Answer`,icon:`✨`,detail:`LLM produces final response.`}],code:`
+const denseResults = await vectorSearch(query);
+const sparseResults = await keywordSearch(query);
+
+const fused = fuseResults(denseResults, sparseResults, {
+  strategy: "weighted-rerank"
+});
+`},{id:`enterprise-rag`,category:`Production`,title:`Enterprise RAG`,difficulty:`Advanced`,time:`~60 min`,description:`Scalable RAG system designed for enterprise-grade security, compliance, and multi-source knowledge ingestion.`,tags:[`enterprise`,`security`,`scalable`,`governance`,`llmops`],steps:[{label:`Data Sources`,icon:`🏢`,detail:`Connect databases, APIs, documents.`},{label:`Ingestion Pipeline`,icon:`📥`,detail:`ETL + chunking + cleaning.`},{label:`Indexing Layer`,icon:`🗄️`,detail:`Store embeddings in vector DB.`},{label:`Access Control`,icon:`🔐`,detail:`Role-based data filtering.`},{label:`Retrieval Service`,icon:`🔍`,detail:`Secure context retrieval.`},{label:`LLM Orchestration`,icon:`🤖`,detail:`Prompt + governance layer.`},{label:`Monitoring`,icon:`📊`,detail:`Logging, tracing, evaluation.`}],code:`
+const userContext = getUserRole(user);
+
+const docs = await secureRetrieval(query, {
+  filters: { accessLevel: userContext.role }
+});
+
+const response = await llm.generate({
+  context: docs,
+  policy: "enterprise-safe"
+});
+`},{id:`federated-rag`,category:`Advanced`,title:`Federated RAG`,difficulty:`Advanced`,time:`~55 min`,description:`Retrieves knowledge from multiple distributed nodes without centralizing sensitive data.`,tags:[`federated`,`privacy`,`distributed`,`edge-ai`],steps:[{label:`Local Nodes`,icon:`📱`,detail:`Each node holds private data.`},{label:`Local Retrieval`,icon:`🔍`,detail:`Search happens at edge.`},{label:`Embedding Sync`,icon:`🔄`,detail:`Share only embeddings, not raw data.`},{label:`Aggregation`,icon:`🧩`,detail:`Combine partial results securely.`},{label:`Context Fusion`,icon:`🔗`,detail:`Merge distributed knowledge.`},{label:`Generate Response`,icon:`✨`,detail:`Final LLM output.`}],code:`
+const localResultsA = await nodeA.search(query);
+const localResultsB = await nodeB.search(query);
+
+const merged = secureAggregate([
+  localResultsA,
+  localResultsB
+]);
+
+const answer = await llm.generate({ context: merged });
+`},{id:`recursive-chunking`,category:`Chunking`,title:`Recursive Chunking`,difficulty:`Beginner`,time:`~15 min`,description:`Recursively splits documents using separators such as paragraphs, sentences, and words while preserving document structure.`,tags:[`chunking`,`recursive`,`langchain`,`rag`],steps:[{label:`Load Document`,icon:`📄`,detail:`Read the source document.`},{label:`Define Separators`,icon:`📑`,detail:`Use paragraphs, sentences, and spaces.`},{label:`Recursive Split`,icon:`🔄`,detail:`Split progressively until chunk size is reached.`},{label:`Apply Overlap`,icon:`🔗`,detail:`Preserve context between chunks.`},{label:`Generate Embeddings`,icon:`🔢`,detail:`Convert chunks into vectors.`},{label:`Store Chunks`,icon:`🗄️`,detail:`Index chunks in a vector database.`}],code:`import {
   RecursiveCharacterTextSplitter
 } from "langchain/text_splitter";
 
