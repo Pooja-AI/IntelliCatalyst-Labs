@@ -110,6 +110,44 @@ def agent_based_query_planning(query):
         plan = agent.refine_plan(plan, result)
 
     return agent.summarize(results)
+`},{id:`cross-encoder-reranking`,category:`Reranking`,title:`Cross Encoder Reranking`,difficulty:`Advanced`,time:`~25 min`,description:`Re-ranks retrieved documents using a cross-encoder model that jointly encodes query and document for higher relevance accuracy.`,tags:[`ranking`,`reranking`,`cross-encoder`,`retrieval`],steps:[{label:`Initial Retrieval`,icon:`🔍`,detail:`Fetch top-K candidate documents.`},{label:`Pair Encoding`,icon:`🔗`,detail:`Encode query-document pairs together.`},{label:`Score Calculation`,icon:`📊`,detail:`Compute relevance scores.`},{label:`Re-ranking`,icon:`🔝`,detail:`Sort based on scores.`}],code:`
+def cross_encoder_rerank(query, docs):
+    pairs = [(query, doc) for doc in docs]
+
+    scores = cross_encoder.predict(pairs)
+
+    ranked_docs = sort_by_score(docs, scores)
+
+    return ranked_docs
+`},{id:`cohere-reranker`,category:`Reranking`,title:`Cohere Reranker`,difficulty:`Advanced`,time:`~20 min`,description:`Uses Cohere’s rerank model to improve retrieval relevance by scoring query-document pairs.`,tags:[`reranking`,`cohere`,`ranking`,`llm`],steps:[{label:`Retrieve Candidates`,icon:`🔍`,detail:`Get top-K documents.`},{label:`Send to Cohere`,icon:`🌐`,detail:`Pass query + docs to reranker API.`},{label:`Score Results`,icon:`📊`,detail:`Receive relevance scores.`},{label:`Sort Output`,icon:`🔝`,detail:`Rank documents.`}],code:`
+import cohere
+
+co = cohere.Client("API_KEY")
+
+def cohere_rerank(query, docs):
+    results = co.rerank(
+        model="rerank-english-v3.0",
+        query=query,
+        documents=docs
+    )
+
+    return sorted(results, key=lambda x: x.relevance_score, reverse=True)
+`},{id:`bge-reranker`,category:`Reranking`,title:`BGE Reranker`,difficulty:`Advanced`,time:`~20 min`,description:`Uses BAAI's BGE reranker model to improve semantic ranking of retrieved documents.`,tags:[`bge`,`reranking`,`embedding`,`retrieval`],steps:[{label:`Retrieve Docs`,icon:`🔍`,detail:`Initial candidate retrieval.`},{label:`Encode Pairs`,icon:`🔗`,detail:`Query-document encoding.`},{label:`Score with BGE`,icon:`🧠`,detail:`Compute semantic relevance.`},{label:`Re-rank`,icon:`🔝`,detail:`Sort by score.`}],code:`
+def bge_rerank(query, docs):
+    pairs = [(query, doc) for doc in docs]
+
+    scores = bge_model.score(pairs)
+
+    return sort_by_score(docs, scores)
+`},{id:`llm-reranking`,category:`Reranking`,title:`LLM Reranking`,difficulty:`Advanced`,time:`~30 min`,description:`Uses a large language model to evaluate and reorder retrieved documents based on semantic understanding.`,tags:[`llm`,`reranking`,`ranking`,`reasoning`],steps:[{label:`Retrieve Candidates`,icon:`🔍`,detail:`Fetch top-K documents.`},{label:`LLM Evaluation`,icon:`🧠`,detail:`Model evaluates relevance.`},{label:`Score Assignment`,icon:`📊`,detail:`Assign relevance scores.`},{label:`Final Ranking`,icon:`🔝`,detail:`Sort results.`}],code:`
+def llm_rerank(query, docs):
+    scored_docs = []
+
+    for doc in docs:
+        score = llm.evaluate_relevance(query, doc)
+        scored_docs.append((doc, score))
+
+    return sorted(scored_docs, key=lambda x: x[1], reverse=True)
 `},{id:`fixed-chunking`,category:`Chunking`,title:`Fixed Chunking`,difficulty:`Beginner`,time:`~10 min`,description:`Fixed Chunking divides documents into chunks of a predefined size regardless of semantic boundaries. It is simple, fast, and widely used in basic RAG systems.`,tags:[`chunking`,`fixed-chunking`,`document-processing`,`rag`],steps:[{label:`Load Document`,icon:`📄`,detail:`Read the source document.`},{label:`Define Chunk Size`,icon:`📏`,detail:`Choose a fixed size such as 500 tokens.`},{label:`Split Text`,icon:`✂️`,detail:`Break the document into equal-sized chunks.`},{label:`Add Overlap`,icon:`🔗`,detail:`Include overlap between chunks to preserve context.`},{label:`Generate Embeddings`,icon:`🔢`,detail:`Convert chunks into vector embeddings.`},{label:`Store Chunks`,icon:`🗄️`,detail:`Save embeddings and metadata in a vector database.`}],code:`function fixedChunk(
   text,
   chunkSize = 500,
