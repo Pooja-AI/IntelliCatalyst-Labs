@@ -825,7 +825,452 @@ Reply: [Relevant] or [Irrelevant]\`,
   }));
 
   return generations.sort((a, b) => b.score - a.score)[0].text;
-}`}],sr=[`All`,`Foundations`,`Chunking`,`Retrieval`,`Query`,`Advanced`],cr={Beginner:`#0F6E56`,Intermediate:`#185FA5`,Advanced:`#993C1D`},lr={Beginner:`#E1F5EE`,Intermediate:`#E6F1FB`,Advanced:`#FAECE7`};function ur({steps:e}){let[t,n]=(0,x.useState)(null);return(0,N.jsxs)(`div`,{style:{marginTop:16},children:[(0,N.jsx)(`div`,{style:{display:`flex`,flexWrap:`wrap`,gap:8,alignItems:`center`},children:e.map((r,i)=>(0,N.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:6},children:[(0,N.jsxs)(`button`,{onClick:()=>n(t===i?null:i),style:{display:`flex`,alignItems:`center`,gap:6,padding:`6px 12px`,borderRadius:20,border:t===i?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:t===i?`#E6F1FB`:`var(--color-background-primary)`,color:t===i?`#185FA5`:`var(--color-text-primary)`,cursor:`pointer`,fontSize:13,fontWeight:t===i?500:400,transition:`all 0.15s`},children:[(0,N.jsx)(`span`,{children:r.icon}),(0,N.jsx)(`span`,{children:r.label})]}),i<e.length-1&&(0,N.jsx)(`span`,{style:{color:`var(--color-text-tertiary)`,fontSize:12},children:`→`})]},i))}),t!==null&&(0,N.jsxs)(`div`,{style:{marginTop:10,padding:`10px 14px`,borderRadius:8,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.6},children:[(0,N.jsxs)(`span`,{style:{fontWeight:500,color:`var(--color-text-primary)`},children:[e[t].label,`: `]}),e[t].detail]})]})}function dr({code:e}){let[t,n]=(0,x.useState)(!1);return(0,N.jsxs)(`div`,{style:{position:`relative`,marginTop:16},children:[(0,N.jsx)(`button`,{onClick:()=>{navigator.clipboard.writeText(e),n(!0),setTimeout(()=>n(!1),1800)},style:{position:`absolute`,top:8,right:8,padding:`4px 10px`,borderRadius:6,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,cursor:`pointer`,fontSize:12,color:`var(--color-text-secondary)`,zIndex:1},children:t?`✓ Copied`:`Copy`}),(0,N.jsx)(`pre`,{style:{margin:0,padding:`14px 16px`,borderRadius:10,overflowX:`auto`,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:12,lineHeight:1.65,fontFamily:`var(--font-mono)`,color:`var(--color-text-primary)`,whiteSpace:`pre`},children:(0,N.jsx)(`code`,{children:e})})]})}function fr({recipe:e,onSelect:t,selected:n}){return(0,N.jsxs)(`div`,{onClick:()=>t(e),style:{padding:`16px 18px`,borderRadius:12,cursor:`pointer`,border:n?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:n?`#061320`:`var(--color-background-primary)`,transition:`all 0.15s`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:6},children:[(0,N.jsx)(`span`,{style:{fontSize:13,color:`var(--color-text-secondary)`,fontWeight:400},children:e.category}),(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,fontWeight:500,background:lr[e.difficulty],color:cr[e.difficulty]},children:e.difficulty})]}),(0,N.jsx)(`div`,{style:{fontWeight:500,fontSize:15,marginBottom:4,color:`var(--color-text-primary)`},children:e.title}),(0,N.jsx)(`div`,{style:{fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.5},children:e.description}),(0,N.jsx)(`div`,{style:{marginTop:10,display:`flex`,gap:6,flexWrap:`wrap`},children:e.tags.map(e=>(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,background:`var(--color-background-tertiary)`,color:`var(--color-text-secondary)`,border:`0.5px solid var(--color-border-tertiary)`},children:e},e))})]})}function pr({recipe:e}){let[t,n]=(0,x.useState)(`steps`);return(0,N.jsxs)(`div`,{style:{padding:`24px`,borderRadius:14,background:`var(--color-background-primary)`,border:`0.5px solid var(--color-border-tertiary)`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:4},children:[(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:e.category}),(0,N.jsx)(`h2`,{style:{margin:`4px 0 6px`,fontSize:22,fontWeight:500},children:e.title})]}),(0,N.jsxs)(`div`,{style:{display:`flex`,gap:8,alignItems:`center`,paddingTop:4},children:[(0,N.jsx)(`span`,{style:{fontSize:12,padding:`3px 10px`,borderRadius:20,fontWeight:500,background:lr[e.difficulty],color:cr[e.difficulty]},children:e.difficulty}),(0,N.jsxs)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:[`⏱ `,e.time]})]})]}),(0,N.jsx)(`p`,{style:{margin:`0 0 20px`,color:`var(--color-text-secondary)`,fontSize:14,lineHeight:1.6},children:e.description}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:4,marginBottom:18,borderBottom:`0.5px solid var(--color-border-tertiary)`,paddingBottom:0},children:[`steps`,`code`].map(e=>(0,N.jsx)(`button`,{onClick:()=>n(e),style:{padding:`8px 16px`,border:`none`,background:`none`,cursor:`pointer`,fontSize:14,fontWeight:t===e?500:400,color:t===e?`var(--color-text-primary)`:`var(--color-text-secondary)`,borderBottom:t===e?`2px solid #185FA5`:`2px solid transparent`,marginBottom:-1,transition:`all 0.12s`},children:e===`steps`?`Pipeline Steps`:`Code`},e))}),t===`steps`&&(0,N.jsx)(ur,{steps:e.steps}),t===`code`&&(0,N.jsx)(dr,{code:e.code})]})}function mr({recipes:e,selected:t,onSelect:n,category:r,setCategory:i,search:a,setSearch:o}){let s=e.filter(e=>{let t=r===`All`||e.category===r,n=e.title.toLowerCase().includes(a.toLowerCase())||e.tags.some(e=>e.toLowerCase().includes(a.toLowerCase()));return t&&n});return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100%`,gap:0},children:[(0,N.jsx)(`div`,{style:{padding:`0 0 16px`},children:(0,N.jsx)(`input`,{type:`text`,placeholder:`Search recipes…`,value:a,onChange:e=>o(e.target.value),style:{width:`100%`,boxSizing:`border-box`,padding:`8px 12px`,borderRadius:8,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,color:`var(--color-text-primary)`,fontSize:13}})}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:6,flexWrap:`wrap`,marginBottom:16},children:sr.map(e=>(0,N.jsx)(`button`,{onClick:()=>i(e),style:{padding:`4px 12px`,borderRadius:20,fontSize:12,cursor:`pointer`,border:r===e?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:r===e?`#E6F1FB`:`var(--color-background-primary)`,color:r===e?`#185FA5`:`var(--color-text-secondary)`,fontWeight:r===e?500:400},children:e},e))}),(0,N.jsx)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:10,overflowY:`auto`,flex:1},children:s.length===0?(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,fontSize:13,padding:`12px 0`},children:`No recipes found.`}):s.map(e=>(0,N.jsx)(fr,{recipe:e,onSelect:n,selected:t?.id===e.id},e.id))})]})}function hr(){return(0,N.jsxs)(`div`,{style:{padding:`20px 32px 16px`,borderBottom:`0.5px solid var(--color-border-tertiary)`,display:`flex`,alignItems:`center`,gap:16},children:[(0,N.jsx)(`div`,{style:{width:40,height:40,borderRadius:10,background:`#E6F1FB`,display:`flex`,alignItems:`center`,justifyContent:`center`,fontSize:20},children:`📚`}),(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`h1`,{style:{margin:0,fontSize:20,fontWeight:500,letterSpacing:`-0.3px`},children:`RAG Cookbook`}),(0,N.jsx)(`p`,{style:{margin:0,fontSize:13,color:`var(--color-text-secondary)`},children:`End-to-end retrieval-augmented generation recipes`})]}),(0,N.jsx)(`div`,{style:{marginLeft:`auto`,display:`flex`,gap:20},children:[{label:`Recipes`,value:or.length},{label:`Patterns`,value:sr.length-1}].map(({label:e,value:t})=>(0,N.jsxs)(`div`,{style:{textAlign:`center`},children:[(0,N.jsx)(`div`,{style:{fontSize:18,fontWeight:500},children:t}),(0,N.jsx)(`div`,{style:{fontSize:11,color:`var(--color-text-tertiary)`},children:e})]},e))})]})}function gr(){let[e,t]=(0,x.useState)(or[0]),[n,r]=(0,x.useState)(`All`),[i,a]=(0,x.useState)(``);return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100vh`,fontFamily:`var(--font-sans, system-ui, sans-serif)`,background:`var(--color-background-tertiary, #0e1643)`,color:`var(--color-text-primary)`},children:[(0,N.jsx)(hr,{}),(0,N.jsxs)(`div`,{style:{display:`flex`,flex:1,overflow:`hidden`},children:[(0,N.jsx)(`div`,{style:{width:320,minWidth:260,padding:`20px 20px`,borderRight:`0.5px solid var(--color-border-tertiary)`,background:`var(--color-background-primary)`,overflowY:`auto`},children:(0,N.jsx)(mr,{recipes:or,selected:e,onSelect:t,category:n,setCategory:r,search:i,setSearch:a})}),(0,N.jsx)(`div`,{style:{flex:1,overflowY:`auto`,padding:`24px 28px`},children:e?(0,N.jsx)(pr,{recipe:e}):(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,padding:40,textAlign:`center`},children:`Select a recipe to get started`})})]})]})}var _r=[{id:`tool-use-agent`,category:`Foundations`,title:`Tool-Use Agent`,difficulty:`Beginner`,time:`~15 min`,description:`The baseline agentic pattern: give the LLM tools, let it decide when to call them, parse the result, and loop until done.`,tags:[`tools`,`function calling`,`loop`],steps:[{label:`Define Tools`,icon:`🔧`,detail:`Declare tools as JSON schemas with name, description, and input_schema. Clear descriptions are critical — the model reads them to decide when to call.`},{label:`Send to LLM`,icon:`💬`,detail:`Pass messages + tools to claude.messages.create. Claude returns either a text response or a tool_use block.`},{label:`Parse tool_use`,icon:`🔍`,detail:`Inspect response.content for blocks with type === 'tool_use'. Extract tool name and input JSON.`},{label:`Execute Tool`,icon:`⚙️`,detail:`Run the actual function locally (API call, DB query, shell command, etc.) and capture the result.`},{label:`Return tool_result`,icon:`📤`,detail:`Append the assistant's message and a user message containing the tool_result block back into the conversation.`},{label:`Loop Until Done`,icon:`🔄`,detail:`Repeat until stop_reason === 'end_turn'. The agent may call multiple tools across multiple turns before finishing.`}],code:`import Anthropic from "@anthropic-ai/sdk";
+}`}],sr=[`All`,`Foundations`,`Chunking`,`Retrieval`,`Query`,`Advanced`],cr={Beginner:`#0F6E56`,Intermediate:`#185FA5`,Advanced:`#993C1D`},lr={Beginner:`#E1F5EE`,Intermediate:`#E6F1FB`,Advanced:`#FAECE7`};function ur({steps:e}){let[t,n]=(0,x.useState)(null);return(0,N.jsxs)(`div`,{style:{marginTop:16},children:[(0,N.jsx)(`div`,{style:{display:`flex`,flexWrap:`wrap`,gap:8,alignItems:`center`},children:e.map((r,i)=>(0,N.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:6},children:[(0,N.jsxs)(`button`,{onClick:()=>n(t===i?null:i),style:{display:`flex`,alignItems:`center`,gap:6,padding:`6px 12px`,borderRadius:20,border:t===i?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:t===i?`#E6F1FB`:`var(--color-background-primary)`,color:t===i?`#185FA5`:`var(--color-text-primary)`,cursor:`pointer`,fontSize:13,fontWeight:t===i?500:400,transition:`all 0.15s`},children:[(0,N.jsx)(`span`,{children:r.icon}),(0,N.jsx)(`span`,{children:r.label})]}),i<e.length-1&&(0,N.jsx)(`span`,{style:{color:`var(--color-text-tertiary)`,fontSize:12},children:`→`})]},i))}),t!==null&&(0,N.jsxs)(`div`,{style:{marginTop:10,padding:`10px 14px`,borderRadius:8,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.6},children:[(0,N.jsxs)(`span`,{style:{fontWeight:500,color:`var(--color-text-primary)`},children:[e[t].label,`: `]}),e[t].detail]})]})}function dr({code:e}){let[t,n]=(0,x.useState)(!1);return(0,N.jsxs)(`div`,{style:{position:`relative`,marginTop:16},children:[(0,N.jsx)(`button`,{onClick:()=>{navigator.clipboard.writeText(e),n(!0),setTimeout(()=>n(!1),1800)},style:{position:`absolute`,top:8,right:8,padding:`4px 10px`,borderRadius:6,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,cursor:`pointer`,fontSize:12,color:`var(--color-text-secondary)`,zIndex:1},children:t?`✓ Copied`:`Copy`}),(0,N.jsx)(`pre`,{style:{margin:0,padding:`14px 16px`,borderRadius:10,overflowX:`auto`,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:12,lineHeight:1.65,fontFamily:`var(--font-mono)`,color:`var(--color-text-primary)`,whiteSpace:`pre`},children:(0,N.jsx)(`code`,{children:e})})]})}function fr({recipe:e,onSelect:t,selected:n}){return(0,N.jsxs)(`div`,{onClick:()=>t(e),style:{padding:`16px 18px`,borderRadius:12,cursor:`pointer`,border:n?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:n?`#061320`:`var(--color-background-primary)`,transition:`all 0.15s`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:6},children:[(0,N.jsx)(`span`,{style:{fontSize:13,color:`var(--color-text-secondary)`,fontWeight:400},children:e.category}),(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,fontWeight:500,background:lr[e.difficulty],color:cr[e.difficulty]},children:e.difficulty})]}),(0,N.jsx)(`div`,{style:{fontWeight:500,fontSize:15,marginBottom:4,color:`var(--color-text-primary)`},children:e.title}),(0,N.jsx)(`div`,{style:{fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.5},children:e.description}),(0,N.jsx)(`div`,{style:{marginTop:10,display:`flex`,gap:6,flexWrap:`wrap`},children:e.tags.map(e=>(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,background:`var(--color-background-tertiary)`,color:`var(--color-text-secondary)`,border:`0.5px solid var(--color-border-tertiary)`},children:e},e))})]})}function pr({recipe:e}){let[t,n]=(0,x.useState)(`steps`);return(0,N.jsxs)(`div`,{style:{padding:`24px`,borderRadius:14,background:`var(--color-background-primary)`,border:`0.5px solid var(--color-border-tertiary)`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:4},children:[(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:e.category}),(0,N.jsx)(`h2`,{style:{margin:`4px 0 6px`,fontSize:22,fontWeight:500},children:e.title})]}),(0,N.jsxs)(`div`,{style:{display:`flex`,gap:8,alignItems:`center`,paddingTop:4},children:[(0,N.jsx)(`span`,{style:{fontSize:12,padding:`3px 10px`,borderRadius:20,fontWeight:500,background:lr[e.difficulty],color:cr[e.difficulty]},children:e.difficulty}),(0,N.jsxs)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:[`⏱ `,e.time]})]})]}),(0,N.jsx)(`p`,{style:{margin:`0 0 20px`,color:`var(--color-text-secondary)`,fontSize:14,lineHeight:1.6},children:e.description}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:4,marginBottom:18,borderBottom:`0.5px solid var(--color-border-tertiary)`,paddingBottom:0},children:[`steps`,`code`].map(e=>(0,N.jsx)(`button`,{onClick:()=>n(e),style:{padding:`8px 16px`,border:`none`,background:`none`,cursor:`pointer`,fontSize:14,fontWeight:t===e?500:400,color:t===e?`var(--color-text-primary)`:`var(--color-text-secondary)`,borderBottom:t===e?`2px solid #185FA5`:`2px solid transparent`,marginBottom:-1,transition:`all 0.12s`},children:e===`steps`?`Pipeline Steps`:`Code`},e))}),t===`steps`&&(0,N.jsx)(ur,{steps:e.steps}),t===`code`&&(0,N.jsx)(dr,{code:e.code})]})}function mr({recipes:e,selected:t,onSelect:n,category:r,setCategory:i,search:a,setSearch:o}){let s=e.filter(e=>{let t=r===`All`||e.category===r,n=e.title.toLowerCase().includes(a.toLowerCase())||e.tags.some(e=>e.toLowerCase().includes(a.toLowerCase()));return t&&n});return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100%`,gap:0},children:[(0,N.jsx)(`div`,{style:{padding:`0 0 16px`},children:(0,N.jsx)(`input`,{type:`text`,placeholder:`Search recipes…`,value:a,onChange:e=>o(e.target.value),style:{width:`100%`,boxSizing:`border-box`,padding:`8px 12px`,borderRadius:8,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,color:`var(--color-text-primary)`,fontSize:13}})}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:6,flexWrap:`wrap`,marginBottom:16},children:sr.map(e=>(0,N.jsx)(`button`,{onClick:()=>i(e),style:{padding:`4px 12px`,borderRadius:20,fontSize:12,cursor:`pointer`,border:r===e?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:r===e?`#E6F1FB`:`var(--color-background-primary)`,color:r===e?`#185FA5`:`var(--color-text-secondary)`,fontWeight:r===e?500:400},children:e},e))}),(0,N.jsx)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:10,overflowY:`auto`,flex:1},children:s.length===0?(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,fontSize:13,padding:`12px 0`},children:`No recipes found.`}):s.map(e=>(0,N.jsx)(fr,{recipe:e,onSelect:n,selected:t?.id===e.id},e.id))})]})}function hr(){return(0,N.jsxs)(`div`,{style:{padding:`20px 32px 16px`,borderBottom:`0.5px solid var(--color-border-tertiary)`,display:`flex`,alignItems:`center`,gap:16},children:[(0,N.jsx)(`div`,{style:{width:40,height:40,borderRadius:10,background:`#E6F1FB`,display:`flex`,alignItems:`center`,justifyContent:`center`,fontSize:20},children:`📚`}),(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`h1`,{style:{margin:0,fontSize:20,fontWeight:500,letterSpacing:`-0.3px`},children:`RAG Cookbook`}),(0,N.jsx)(`p`,{style:{margin:0,fontSize:13,color:`var(--color-text-secondary)`},children:`End-to-end retrieval-augmented generation recipes`})]}),(0,N.jsx)(`div`,{style:{marginLeft:`auto`,display:`flex`,gap:20},children:[{label:`Recipes`,value:or.length},{label:`Patterns`,value:sr.length-1}].map(({label:e,value:t})=>(0,N.jsxs)(`div`,{style:{textAlign:`center`},children:[(0,N.jsx)(`div`,{style:{fontSize:18,fontWeight:500},children:t}),(0,N.jsx)(`div`,{style:{fontSize:11,color:`var(--color-text-tertiary)`},children:e})]},e))})]})}function gr(){let[e,t]=(0,x.useState)(or[0]),[n,r]=(0,x.useState)(`All`),[i,a]=(0,x.useState)(``);return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100vh`,fontFamily:`var(--font-sans, system-ui, sans-serif)`,background:`var(--color-background-tertiary, #0e1643)`,color:`var(--color-text-primary)`},children:[(0,N.jsx)(hr,{}),(0,N.jsxs)(`div`,{style:{display:`flex`,flex:1,overflow:`hidden`},children:[(0,N.jsx)(`div`,{style:{width:320,minWidth:260,padding:`20px 20px`,borderRight:`0.5px solid var(--color-border-tertiary)`,background:`var(--color-background-primary)`,overflowY:`auto`},children:(0,N.jsx)(mr,{recipes:or,selected:e,onSelect:t,category:n,setCategory:r,search:i,setSearch:a})}),(0,N.jsx)(`div`,{style:{flex:1,overflowY:`auto`,padding:`24px 28px`},children:e?(0,N.jsx)(pr,{recipe:e}):(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,padding:40,textAlign:`center`},children:`Select a recipe to get started`})})]})]})}var _r=[{id:`ai-agent`,category:`Core Concepts`,title:`AI Agent`,difficulty:`Beginner`,time:`~10 min`,description:`An AI Agent is an autonomous software entity that perceives its environment, reasons about information, and takes actions to achieve specific goals.`,tags:[`agent`,`autonomy`,`reasoning`,`actions`],steps:[{label:`Perceive Environment`,icon:`👀`,detail:`The agent gathers information from its environment through user inputs, APIs, databases, documents, sensors, or other data sources.`},{label:`Understand Context`,icon:`🧠`,detail:`The agent analyzes the collected information and builds an understanding of the current situation.`},{label:`Reason`,icon:`🤔`,detail:`The agent evaluates available information, identifies objectives, and determines the best course of action.`},{label:`Plan Actions`,icon:`📋`,detail:`Complex goals are decomposed into smaller tasks that can be executed sequentially or in parallel.`},{label:`Execute`,icon:`⚡`,detail:`The agent performs actions such as calling APIs, querying databases, generating content, or interacting with external systems.`},{label:`Learn & Adapt`,icon:`📈`,detail:`The agent updates its memory and improves future decisions based on outcomes and feedback.`}],code:`class AIAgent {
+  constructor(goal) {
+    this.goal = goal;
+    this.memory = [];
+  }
+
+  perceive(environment) {
+    console.log("Perceiving environment...");
+    return environment;
+  }
+
+  reason(data) {
+    console.log("Analyzing information...");
+    return \`Best action for: \${this.goal}\`;
+  }
+
+  act(decision) {
+    console.log("Executing:", decision);
+    return "Action completed";
+  }
+
+  learn(result) {
+    this.memory.push(result);
+    console.log("Learning from outcome...");
+  }
+
+  run(environment) {
+    const data = this.perceive(environment);
+    const decision = this.reason(data);
+    const result = this.act(decision);
+    this.learn(result);
+
+    return result;
+  }
+}
+
+// Usage
+const agent = new AIAgent("Book a flight");
+agent.run({
+  destination: "Tokyo",
+  budget: 1000
+});`},{id:`react-reason-act`,category:`Planning`,title:`ReAct (Reason + Act)`,difficulty:`Intermediate`,time:`~15 min`,description:`ReAct combines reasoning and actions in a loop. The agent thinks about the problem, performs an action, observes the result, and continues reasoning until the goal is achieved.`,tags:[`react`,`reasoning`,`tool use`,`planning`],steps:[{label:`Reason`,icon:`🤔`,detail:`Analyze the current state and determine the next best action.`},{label:`Act`,icon:`⚡`,detail:`Execute a tool, API call, database query, or other action.`},{label:`Observe`,icon:`👀`,detail:`Review the outcome of the action.`},{label:`Update Reasoning`,icon:`🧠`,detail:`Incorporate new information into future decisions.`},{label:`Repeat`,icon:`🔄`,detail:`Continue until the goal is completed.`}],code:`async function reactAgent(question) {
+  let observation = "";
+
+  while (true) {
+    const thought = reason(question, observation);
+
+    const action = decideAction(thought);
+
+    observation = await executeTool(action);
+
+    if (goalAchieved(observation)) {
+      return observation;
+    }
+  }
+}`},{id:`chain-of-thought`,category:`Planning`,title:`Chain-of-Thought (CoT)`,difficulty:`Beginner`,time:`~10 min`,description:`Chain-of-Thought encourages the agent to reason through a problem step-by-step before generating the final answer.`,tags:[`cot`,`reasoning`,`step-by-step`],steps:[{label:`Understand Problem`,icon:`📖`,detail:`Analyze the task and identify requirements.`},{label:`Generate Steps`,icon:`📝`,detail:`Break reasoning into sequential logical steps.`},{label:`Evaluate`,icon:`🔍`,detail:`Validate intermediate reasoning.`},{label:`Answer`,icon:`✅`,detail:`Produce the final output.`}],code:`function chainOfThought(problem) {
+  const steps = [
+    "Understand the problem",
+    "Identify relevant facts",
+    "Apply reasoning",
+    "Generate conclusion"
+  ];
+
+  steps.forEach(step => console.log(step));
+
+  return "Final Answer";
+}`},{id:`tree-of-thoughts`,category:`Planning`,title:`Tree of Thoughts (ToT)`,difficulty:`Advanced`,time:`~20 min`,description:`Tree of Thoughts explores multiple reasoning paths simultaneously and selects the most promising branch.`,tags:[`tot`,`search`,`reasoning`],steps:[{label:`Generate Branches`,icon:`🌳`,detail:`Create multiple possible reasoning paths.`},{label:`Evaluate Branches`,icon:`📊`,detail:`Score each branch based on quality.`},{label:`Expand Best Paths`,icon:`🚀`,detail:`Continue reasoning along promising branches.`},{label:`Select Solution`,icon:`🏆`,detail:`Choose the highest-scoring path.`}],code:`function treeOfThoughts(problem) {
+  const branches = [
+    "Approach A",
+    "Approach B",
+    "Approach C"
+  ];
+
+  const scores = branches.map(branch => ({
+    branch,
+    score: Math.random()
+  }));
+
+  return scores.sort((a, b) => b.score - a.score)[0];
+}`},{id:`plan-and-execute`,category:`Planning`,title:`Plan-and-Execute`,difficulty:`Intermediate`,time:`~15 min`,description:`The agent first creates a complete execution plan and then executes each step sequentially.`,tags:[`planning`,`execution`,`workflow`],steps:[{label:`Create Plan`,icon:`📋`,detail:`Generate all required tasks.`},{label:`Prioritize Tasks`,icon:`📌`,detail:`Determine execution order.`},{label:`Execute`,icon:`⚙️`,detail:`Perform tasks one by one.`},{label:`Track Progress`,icon:`📈`,detail:`Monitor task completion.`},{label:`Complete Goal`,icon:`🎯`,detail:`Deliver final outcome.`}],code:`class PlanAndExecute {
+  createPlan() {
+    return [
+      "Collect Data",
+      "Analyze Data",
+      "Generate Report"
+    ];
+  }
+
+  execute() {
+    const plan = this.createPlan();
+
+    for (const step of plan) {
+      console.log("Executing:", step);
+    }
+
+    console.log("Goal Completed");
+  }
+}`},{id:`self-reflection`,category:`Planning`,title:`Self-Reflection / Reflexion`,difficulty:`Advanced`,time:`~15 min`,description:`The agent evaluates its own outputs, identifies mistakes, and improves responses through iterative feedback loops.`,tags:[`reflection`,`self-correction`,`reasoning`],steps:[{label:`Generate Output`,icon:`✍️`,detail:`Produce an initial response.`},{label:`Critique`,icon:`🔍`,detail:`Analyze weaknesses and errors.`},{label:`Improve`,icon:`🛠️`,detail:`Refine the response.`},{label:`Repeat`,icon:`🔄`,detail:`Continue until quality criteria are met.`}],code:`function reflexion(task) {
+  let answer = generateAnswer(task);
+
+  for (let i = 0; i < 3; i++) {
+    const feedback = critique(answer);
+
+    if (feedback === "Good") {
+      break;
+    }
+
+    answer = improve(answer, feedback);
+  }
+
+  return answer;
+}`},{id:`scratchpad-reasoning`,category:`Planning`,title:`Scratchpad Reasoning`,difficulty:`Intermediate`,time:`~10 min`,description:`Scratchpad reasoning provides temporary working memory where the agent stores intermediate thoughts, calculations, and reasoning steps.`,tags:[`scratchpad`,`memory`,`reasoning`],steps:[{label:`Store Thoughts`,icon:`📝`,detail:`Record intermediate reasoning.`},{label:`Track Progress`,icon:`📊`,detail:`Maintain context throughout execution.`},{label:`Reference Notes`,icon:`📖`,detail:`Use stored information in later steps.`},{label:`Generate Output`,icon:`✅`,detail:`Produce the final result using accumulated reasoning.`}],code:`class ScratchpadAgent {
+  constructor() {
+    this.scratchpad = [];
+  }
+
+  think(thought) {
+    this.scratchpad.push(thought);
+  }
+
+  solve(problem) {
+    this.think("Analyze problem");
+    this.think("Generate solution");
+
+    return {
+      notes: this.scratchpad,
+      answer: "Solution Generated"
+    };
+  }
+}`},{id:`tool-use`,category:`Tools & Actions`,title:`Tool Use`,difficulty:`Beginner`,time:`~10 min`,description:`Tool Use enables agents to extend their capabilities by interacting with external tools such as search engines, calculators, APIs, databases, and code interpreters.`,tags:[`tools`,`actions`,`external systems`],steps:[{label:`Receive Task`,icon:`📥`,detail:`The agent receives a user request.`},{label:`Select Tool`,icon:`🔧`,detail:`Identify the most appropriate tool for the task.`},{label:`Execute Tool`,icon:`⚙️`,detail:`Run the selected tool.`},{label:`Process Result`,icon:`📊`,detail:`Analyze the returned output.`},{label:`Generate Response`,icon:`✅`,detail:`Provide the final answer to the user.`}],code:`async function toolUseAgent(query) {
+  const tool = selectTool(query);
+
+  const result = await executeTool(tool, query);
+
+  return formatResponse(result);
+}`},{id:`function-calling`,category:`Tools & Actions`,title:`Function Calling`,difficulty:`Beginner`,time:`~12 min`,description:`Function Calling allows LLMs to invoke predefined functions with structured inputs and outputs, enabling reliable tool execution.`,tags:[`function calling`,`tools`,`llm`],steps:[{label:`Define Function`,icon:`📝`,detail:`Create a schema describing the function.`},{label:`Expose to LLM`,icon:`🤖`,detail:`Provide available functions to the model.`},{label:`Call Function`,icon:`📞`,detail:`The model selects and invokes the function.`},{label:`Execute Logic`,icon:`⚙️`,detail:`Run the actual implementation.`},{label:`Return Result`,icon:`📤`,detail:`Send structured output back to the model.`}],code:`const functions = [
+  {
+    name: "getWeather",
+    description: "Get weather information"
+  }
+];
+
+async function getWeather(city) {
+  return {
+    city,
+    temperature: "25°C"
+  };
+}
+
+const result = await getWeather("Tokyo");
+console.log(result);`},{id:`code-execution`,category:`Tools & Actions`,title:`Code Execution`,difficulty:`Intermediate`,time:`~15 min`,description:`Code Execution enables agents to generate, execute, and evaluate code dynamically to solve problems and perform calculations.`,tags:[`code`,`execution`,`automation`],steps:[{label:`Understand Task`,icon:`📖`,detail:`Analyze the problem statement.`},{label:`Generate Code`,icon:`💻`,detail:`Create code to solve the task.`},{label:`Execute`,icon:`▶️`,detail:`Run the generated code.`},{label:`Validate Output`,icon:`🔍`,detail:`Check results for correctness.`},{label:`Return Solution`,icon:`✅`,detail:`Provide the final answer.`}],code:`function executeCode() {
+  const numbers = [10, 20, 30];
+
+  const sum = numbers.reduce(
+    (total, num) => total + num,
+    0
+  );
+
+  return sum;
+}
+
+console.log(executeCode());`},{id:`web-browsing`,category:`Tools & Actions`,title:`Web Browsing`,difficulty:`Intermediate`,time:`~15 min`,description:`Web Browsing allows agents to search, retrieve, and analyze live information from websites and online resources.`,tags:[`web search`,`internet`,`retrieval`],steps:[{label:`Receive Query`,icon:`📥`,detail:`User asks for current information.`},{label:`Search Web`,icon:`🔎`,detail:`Find relevant online resources.`},{label:`Retrieve Content`,icon:`🌐`,detail:`Collect information from sources.`},{label:`Analyze Results`,icon:`🧠`,detail:`Extract useful insights.`},{label:`Respond`,icon:`📤`,detail:`Provide summarized findings.`}],code:`async function webBrowsing(query) {
+  const results = await searchWeb(query);
+
+  const content = await fetchPages(results);
+
+  return summarize(content);
+}`},{id:`api-integration`,category:`Tools & Actions`,title:`API Integration`,difficulty:`Intermediate`,time:`~15 min`,description:`API Integration enables agents to interact with external services such as weather systems, databases, payment platforms, CRMs, and enterprise applications.`,tags:[`api`,`integration`,`external services`],steps:[{label:`Identify Service`,icon:`🎯`,detail:`Determine which API is needed.`},{label:`Build Request`,icon:`📦`,detail:`Prepare request parameters.`},{label:`Call API`,icon:`📡`,detail:`Send request to external service.`},{label:`Process Response`,icon:`📊`,detail:`Parse returned data.`},{label:`Deliver Result`,icon:`✅`,detail:`Provide useful information to the user.`}],code:`async function getWeather(city) {
+  const response = await fetch(
+    \`https://api.weather.com/\${city}\`
+  );
+
+  const data = await response.json();
+
+  return data;
+}
+
+getWeather("London")
+  .then(console.log);`},{id:`computer-use`,category:`Tools & Actions`,title:`Computer Use`,difficulty:`Advanced`,time:`~20 min`,description:`Computer Use allows agents to interact directly with graphical user interfaces by clicking, typing, scrolling, navigating applications, and completing tasks like a human operator.`,tags:[`gui`,`automation`,`computer use`],steps:[{label:`Observe Screen`,icon:`👀`,detail:`Analyze the current interface.`},{label:`Plan Interaction`,icon:`🧠`,detail:`Determine required actions.`},{label:`Control Interface`,icon:`🖱️`,detail:`Click, type, scroll, and navigate.`},{label:`Verify Outcome`,icon:`✔️`,detail:`Check whether the task succeeded.`},{label:`Continue Workflow`,icon:`🔄`,detail:`Repeat until the objective is achieved.`}],code:`async function computerUseAgent() {
+  await click("Login Button");
+
+  await type(
+    "username@example.com",
+    "Username Field"
+  );
+
+  await type(
+    "password123",
+    "Password Field"
+  );
+
+  await click("Submit Button");
+
+  console.log("Task Completed");
+}`},{id:`short-term-memory`,category:`Memory`,title:`Short-term Memory`,difficulty:`Beginner`,time:`~10 min`,description:`Short-term memory stores information within the current conversation or prompt context. It enables the agent to maintain continuity during an active session.`,tags:[`memory`,`context`,`session`],steps:[{label:`Receive Input`,icon:`📥`,detail:`The agent receives information from the user.`},{label:`Store Context`,icon:`🧠`,detail:`Relevant information is kept in the active context window.`},{label:`Reference Context`,icon:`📖`,detail:`The agent uses stored information during reasoning.`},{label:`Generate Response`,icon:`💬`,detail:`Responses are informed by recent conversation history.`},{label:`Session Ends`,icon:`🔚`,detail:`Memory is discarded unless explicitly persisted.`}],code:`class ShortTermMemory {
+  constructor() {
+    this.context = [];
+  }
+
+  remember(message) {
+    this.context.push(message);
+  }
+
+  recall() {
+    return this.context;
+  }
+}
+
+const memory = new ShortTermMemory();
+
+memory.remember("User likes Python");
+memory.remember("User works in AI");
+
+console.log(memory.recall());`},{id:`long-term-memory`,category:`Memory`,title:`Long-term Memory`,difficulty:`Intermediate`,time:`~15 min`,description:`Long-term memory persists information across sessions using databases, vector stores, knowledge bases, or other storage systems.`,tags:[`memory`,`vector database`,`persistence`],steps:[{label:`Capture Information`,icon:`📥`,detail:`Important information is identified.`},{label:`Store Permanently`,icon:`💾`,detail:`Data is saved in persistent storage.`},{label:`Retrieve Later`,icon:`🔍`,detail:`Relevant memories are fetched when needed.`},{label:`Use in Reasoning`,icon:`🧠`,detail:`Retrieved memories influence decisions.`},{label:`Update Knowledge`,icon:`🔄`,detail:`Stored information evolves over time.`}],code:`class LongTermMemory {
+  constructor() {
+    this.database = {};
+  }
+
+  save(key, value) {
+    this.database[key] = value;
+  }
+
+  retrieve(key) {
+    return this.database[key];
+  }
+}
+
+const memory = new LongTermMemory();
+
+memory.save("favorite_language", "Python");
+
+console.log(
+  memory.retrieve("favorite_language")
+);`},{id:`episodic-memory`,category:`Memory`,title:`Episodic Memory`,difficulty:`Intermediate`,time:`~12 min`,description:`Episodic memory stores experiences, interactions, and events that occurred during previous agent activities.`,tags:[`episodic memory`,`experiences`,`history`],steps:[{label:`Record Event`,icon:`📝`,detail:`Capture an interaction or experience.`},{label:`Store Episode`,icon:`📚`,detail:`Save event details and outcomes.`},{label:`Recall Experience`,icon:`🔍`,detail:`Retrieve similar past events.`},{label:`Apply Lessons`,icon:`🎯`,detail:`Use past experiences to improve decisions.`}],code:`class EpisodicMemory {
+  constructor() {
+    this.episodes = [];
+  }
+
+  addEpisode(event) {
+    this.episodes.push(event);
+  }
+
+  getEpisodes() {
+    return this.episodes;
+  }
+}
+
+const memory = new EpisodicMemory();
+
+memory.addEpisode({
+  task: "Book Flight",
+  outcome: "Success"
+});
+
+console.log(memory.getEpisodes());`},{id:`semantic-memory`,category:`Memory `,title:`Semantic Memory`,difficulty:`Intermediate`,time:`~12 min`,description:`Semantic memory contains facts, concepts, knowledge, and relationships about the world independent of personal experiences.`,tags:[`facts`,`knowledge`,`semantic memory`],steps:[{label:`Acquire Knowledge`,icon:`📖`,detail:`Learn facts and concepts.`},{label:`Organize Knowledge`,icon:`🗂️`,detail:`Structure information for retrieval.`},{label:`Query Knowledge`,icon:`🔎`,detail:`Search for relevant facts.`},{label:`Apply Knowledge`,icon:`💡`,detail:`Use facts during reasoning.`}],code:`class SemanticMemory {
+  constructor() {
+    this.knowledgeBase = {
+      Paris: "Capital of France",
+      Tokyo: "Capital of Japan"
+    };
+  }
+
+  query(topic) {
+    return this.knowledgeBase[topic];
+  }
+}
+
+const memory = new SemanticMemory();
+
+console.log(
+  memory.query("Tokyo")
+);`},{id:`procedural-memory`,category:`Memory `,title:`Procedural Memory`,difficulty:`Intermediate`,time:`~15 min`,description:`Procedural memory stores skills, workflows, and learned procedures that help agents perform tasks efficiently.`,tags:[`skills`,`procedures`,`workflows`],steps:[{label:`Learn Procedure`,icon:`📚`,detail:`Acquire a sequence of actions.`},{label:`Store Workflow`,icon:`💾`,detail:`Save task execution steps.`},{label:`Execute Skill`,icon:`⚙️`,detail:`Apply the learned procedure.`},{label:`Refine Process`,icon:`🔄`,detail:`Improve execution over time.`}],code:`class ProceduralMemory {
+  constructor() {
+    this.skills = {
+      sendEmail: [
+        "Compose Email",
+        "Validate Recipient",
+        "Send Email"
+      ]
+    };
+  }
+
+  execute(skill) {
+    return this.skills[skill];
+  }
+}
+
+const memory = new ProceduralMemory();
+
+console.log(
+  memory.execute("sendEmail")
+);`},{id:`multi-agent-framework`,category:`Multi-Agent`,title:`Multi-Agent Framework`,difficulty:`Intermediate`,time:`~15 min`,description:`A Multi-Agent Framework consists of multiple specialized AI agents collaborating to solve complex tasks more efficiently than a single agent.`,tags:[`multi-agent`,`collaboration`,`agents`],steps:[{label:`Receive Goal`,icon:`🎯`,detail:`A complex objective is provided.`},{label:`Assign Agents`,icon:`👥`,detail:`Specialized agents are selected.`},{label:`Execute Tasks`,icon:`⚙️`,detail:`Each agent performs its responsibility.`},{label:`Share Results`,icon:`📤`,detail:`Agents communicate findings.`},{label:`Combine Outputs`,icon:`✅`,detail:`Results are merged into a final solution.`}],code:`class MultiAgentFramework {
+  constructor() {
+    this.agents = [
+      "Research Agent",
+      "Analysis Agent",
+      "Writer Agent"
+    ];
+  }
+
+  executeTask(goal) {
+    this.agents.forEach(agent => {
+      console.log(
+        \`\${agent} working on: \${goal}\`
+      );
+    });
+
+    return "Final Solution Generated";
+  }
+}
+
+const system = new MultiAgentFramework();
+
+console.log(
+  system.executeTask("Create Market Report")
+);`},{id:`working-memory`,category:`Memory`,title:`Working Memory`,difficulty:`Intermediate`,time:`~10 min`,description:`Working memory temporarily stores intermediate reasoning states, calculations, and information needed during a single problem-solving process.`,tags:[`working memory`,`reasoning`,`temporary state`],steps:[{label:`Receive Problem`,icon:`📥`,detail:`Accept the task to solve.`},{label:`Store Intermediate Data`,icon:`📝`,detail:`Maintain temporary reasoning information.`},{label:`Process Information`,icon:`🧠`,detail:`Use stored state for calculations and decisions.`},{label:`Generate Output`,icon:`✅`,detail:`Produce the final answer.`},{label:`Clear State`,icon:`🗑️`,detail:`Discard temporary information after completion.`}],code:`class WorkingMemory {
+  constructor() {
+    this.state = [];
+  }
+
+  add(item) {
+    this.state.push(item);
+  }
+
+  solve() {
+    return this.state.join(" -> ");
+  }
+
+  clear() {
+    this.state = [];
+  }
+}
+
+const memory = new WorkingMemory();
+
+memory.add("Analyze");
+memory.add("Calculate");
+memory.add("Answer");
+
+console.log(memory.solve());
+
+memory.clear();`},{id:`orchestrator-agent`,category:`Multi-Agent`,title:`Orchestrator Agent`,difficulty:`Intermediate`,time:`~12 min`,description:`An Orchestrator Agent acts as a coordinator that plans work, delegates tasks to specialized agents, and combines their outputs.`,tags:[`orchestrator`,`coordinator`,`delegation`],steps:[{label:`Receive Goal`,icon:`📥`,detail:`Accept a high-level objective.`},{label:`Create Plan`,icon:`📋`,detail:`Break the task into subtasks.`},{label:`Delegate Work`,icon:`📤`,detail:`Assign tasks to worker agents.`},{label:`Collect Results`,icon:`📊`,detail:`Gather outputs from agents.`},{label:`Finalize Output`,icon:`✅`,detail:`Combine responses into a final result.`}],code:`class OrchestratorAgent {
+  assignTask(agent, task) {
+    console.log(
+      \`Assigning "\${task}" to \${agent}\`
+    );
+  }
+
+  coordinate() {
+    this.assignTask(
+      "Research Agent",
+      "Collect Information"
+    );
+
+    this.assignTask(
+      "Writer Agent",
+      "Generate Report"
+    );
+  }
+}
+
+const orchestrator =
+  new OrchestratorAgent();
+
+orchestrator.coordinate();`},{id:`worker-agent`,category:`Multi-Agent`,title:`Subagent / Worker Agent`,difficulty:`Beginner`,time:`~10 min`,description:`Worker agents are specialized agents that execute tasks assigned by an orchestrator agent.`,tags:[`worker`,`specialized agent`,`execution`],steps:[{label:`Receive Task`,icon:`📥`,detail:`Accept work from an orchestrator.`},{label:`Process Task`,icon:`⚙️`,detail:`Apply domain-specific expertise.`},{label:`Generate Output`,icon:`📄`,detail:`Produce task results.`},{label:`Return Results`,icon:`📤`,detail:`Send results back to the orchestrator.`}],code:`class WorkerAgent {
+  constructor(role) {
+    this.role = role;
+  }
+
+  execute(task) {
+    return {
+      role: this.role,
+      task,
+      status: "Completed"
+    };
+  }
+}
+
+const researcher =
+  new WorkerAgent("Research Agent");
+
+console.log(
+  researcher.execute("Find AI Trends")
+);`},{id:`agent-communication`,category:`Multi-Agent`,title:`Agent Communication`,difficulty:`Intermediate`,time:`~12 min`,description:`Agent Communication enables agents to exchange messages, requests, and results while collaborating on tasks.`,tags:[`communication`,`messages`,`coordination`],steps:[{label:`Create Message`,icon:`✉️`,detail:`Prepare information to share.`},{label:`Send Message`,icon:`📤`,detail:`Transmit data to another agent.`},{label:`Receive Message`,icon:`📥`,detail:`Accept incoming information.`},{label:`Process Content`,icon:`🧠`,detail:`Use received data in reasoning.`},{label:`Respond`,icon:`🔄`,detail:`Return results or follow-up requests.`}],code:`class Agent {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sendMessage(receiver, message) {
+    receiver.receiveMessage(
+      this.name,
+      message
+    );
+  }
+
+  receiveMessage(sender, message) {
+    console.log(
+      \`\${this.name} received from \${sender}: \${message}\`
+    );
+  }
+}
+
+const researcher =
+  new Agent("Research Agent");
+
+const writer =
+  new Agent("Writer Agent");
+
+researcher.sendMessage(
+  writer,
+  "Research completed"
+);`},{id:`role-based-agents`,category:`Multi-Agent`,title:`Role-based Agents`,difficulty:`Intermediate`,time:`~12 min`,description:`Role-based agents are assigned specific expertise or responsibilities such as Researcher, Coder, Reviewer, or Critic.`,tags:[`roles`,`specialization`,`experts`],steps:[{label:`Define Roles`,icon:`👤`,detail:`Assign expertise to agents.`},{label:`Assign Tasks`,icon:`📋`,detail:`Match tasks with roles.`},{label:`Execute Work`,icon:`⚙️`,detail:`Each agent performs specialized tasks.`},{label:`Collaborate`,icon:`🤝`,detail:`Share outputs with other agents.`},{label:`Deliver Result`,icon:`✅`,detail:`Produce a combined solution.`}],code:`const agents = {
+  researcher: "Collect Information",
+  coder: "Develop Solution",
+  critic: "Review Quality"
+};
+
+Object.entries(agents).forEach(
+  ([role, responsibility]) => {
+    console.log(
+      \`\${role}: \${responsibility}\`
+    );
+  }
+);`},{id:`consensus-mechanisms`,category:`Multi-Agent`,title:`Consensus Mechanisms`,difficulty:`Advanced`,time:`~15 min`,description:`Consensus mechanisms allow multiple agents to evaluate, vote, debate, or rank solutions before selecting the best outcome.`,tags:[`consensus`,`voting`,`debate`,`decision-making`],steps:[{label:`Generate Solutions`,icon:`💡`,detail:`Each agent proposes a solution.`},{label:`Evaluate Options`,icon:`🔍`,detail:`Agents analyze alternatives.`},{label:`Vote or Debate`,icon:`🗳️`,detail:`Agents compare strengths and weaknesses.`},{label:`Select Winner`,icon:`🏆`,detail:`Choose the highest-ranked solution.`},{label:`Finalize Decision`,icon:`✅`,detail:`Produce the agreed-upon answer.`}],code:`const votes = [
+  "Solution A",
+  "Solution B",
+  "Solution A",
+  "Solution A"
+];
+
+const results = votes.reduce(
+  (count, vote) => {
+    count[vote] = (count[vote] || 0) + 1;
+    return count;
+  },
+  {}
+);
+
+const winner =
+  Object.entries(results)
+    .sort((a, b) => b[1] - a[1])[0][0];
+
+console.log(
+  "Selected Solution:",
+  winner
+);`},{id:`tool-use-agent`,category:`Foundations`,title:`Tool-Use Agent`,difficulty:`Beginner`,time:`~15 min`,description:`The baseline agentic pattern: give the LLM tools, let it decide when to call them, parse the result, and loop until done.`,tags:[`tools`,`function calling`,`loop`],steps:[{label:`Define Tools`,icon:`🔧`,detail:`Declare tools as JSON schemas with name, description, and input_schema. Clear descriptions are critical — the model reads them to decide when to call.`},{label:`Send to LLM`,icon:`💬`,detail:`Pass messages + tools to claude.messages.create. Claude returns either a text response or a tool_use block.`},{label:`Parse tool_use`,icon:`🔍`,detail:`Inspect response.content for blocks with type === 'tool_use'. Extract tool name and input JSON.`},{label:`Execute Tool`,icon:`⚙️`,detail:`Run the actual function locally (API call, DB query, shell command, etc.) and capture the result.`},{label:`Return tool_result`,icon:`📤`,detail:`Append the assistant's message and a user message containing the tool_result block back into the conversation.`},{label:`Loop Until Done`,icon:`🔄`,detail:`Repeat until stop_reason === 'end_turn'. The agent may call multiple tools across multiple turns before finishing.`}],code:`import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic();
 
@@ -1265,7 +1710,7 @@ async function memoryAgent(userMessage, sessionId) {
 // Multi-turn conversation with persistent memory
 const SESSION_ID = "user-123";
 console.log(await memoryAgent("My name is Alice and I'm working on a climate model.", SESSION_ID));
-console.log(await memoryAgent("What was I working on again?", SESSION_ID)); // Recalls from memory`}],vr=[`All`,`Foundations`,`Planning`,`Multi-Agent`,`Memory`,`Advanced`],yr={Beginner:`#0F6E56`,Intermediate:`#185FA5`,Advanced:`#993C1D`},br={Beginner:`#E1F5EE`,Intermediate:`#E6F1FB`,Advanced:`#FAECE7`};function xr({steps:e}){let[t,n]=(0,x.useState)(null);return(0,N.jsxs)(`div`,{style:{marginTop:16},children:[(0,N.jsx)(`div`,{style:{display:`flex`,flexWrap:`wrap`,gap:8,alignItems:`center`},children:e.map((r,i)=>(0,N.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:6},children:[(0,N.jsxs)(`button`,{onClick:()=>n(t===i?null:i),style:{display:`flex`,alignItems:`center`,gap:6,padding:`6px 12px`,borderRadius:20,border:t===i?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:t===i?`#E6F1FB`:`var(--color-background-primary)`,color:t===i?`#185FA5`:`var(--color-text-primary)`,cursor:`pointer`,fontSize:13,fontWeight:t===i?500:400,transition:`all 0.15s`},children:[(0,N.jsx)(`span`,{children:r.icon}),(0,N.jsx)(`span`,{children:r.label})]}),i<e.length-1&&(0,N.jsx)(`span`,{style:{color:`var(--color-text-tertiary)`,fontSize:12},children:`→`})]},i))}),t!==null&&(0,N.jsxs)(`div`,{style:{marginTop:10,padding:`10px 14px`,borderRadius:8,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.6},children:[(0,N.jsxs)(`span`,{style:{fontWeight:500,color:`var(--color-text-primary)`},children:[e[t].label,`: `]}),e[t].detail]})]})}function Sr({code:e}){let[t,n]=(0,x.useState)(!1);return(0,N.jsxs)(`div`,{style:{position:`relative`,marginTop:16},children:[(0,N.jsx)(`button`,{onClick:()=>{navigator.clipboard.writeText(e),n(!0),setTimeout(()=>n(!1),1800)},style:{position:`absolute`,top:8,right:8,padding:`4px 10px`,borderRadius:6,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,cursor:`pointer`,fontSize:12,color:`var(--color-text-secondary)`,zIndex:1},children:t?`✓ Copied`:`Copy`}),(0,N.jsx)(`pre`,{style:{margin:0,padding:`14px 16px`,borderRadius:10,overflowX:`auto`,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:12,lineHeight:1.65,fontFamily:`var(--font-mono)`,color:`var(--color-text-primary)`,whiteSpace:`pre`},children:(0,N.jsx)(`code`,{children:e})})]})}function Cr({recipe:e,onSelect:t,selected:n}){return(0,N.jsxs)(`div`,{onClick:()=>t(e),style:{padding:`16px 18px`,borderRadius:12,cursor:`pointer`,border:n?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:n?`#061320`:`var(--color-background-primary)`,transition:`all 0.15s`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:6},children:[(0,N.jsx)(`span`,{style:{fontSize:13,color:`var(--color-text-secondary)`,fontWeight:400},children:e.category}),(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,fontWeight:500,background:br[e.difficulty],color:yr[e.difficulty]},children:e.difficulty})]}),(0,N.jsx)(`div`,{style:{fontWeight:500,fontSize:15,marginBottom:4,color:`var(--color-text-primary)`},children:e.title}),(0,N.jsx)(`div`,{style:{fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.5},children:e.description}),(0,N.jsx)(`div`,{style:{marginTop:10,display:`flex`,gap:6,flexWrap:`wrap`},children:e.tags.map(e=>(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,background:`var(--color-background-tertiary)`,color:`var(--color-text-secondary)`,border:`0.5px solid var(--color-border-tertiary)`},children:e},e))})]})}function wr({recipe:e}){let[t,n]=(0,x.useState)(`steps`);return(0,N.jsxs)(`div`,{style:{padding:`24px`,borderRadius:14,background:`var(--color-background-primary)`,border:`0.5px solid var(--color-border-tertiary)`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:4},children:[(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:e.category}),(0,N.jsx)(`h2`,{style:{margin:`4px 0 6px`,fontSize:22,fontWeight:500},children:e.title})]}),(0,N.jsxs)(`div`,{style:{display:`flex`,gap:8,alignItems:`center`,paddingTop:4},children:[(0,N.jsx)(`span`,{style:{fontSize:12,padding:`3px 10px`,borderRadius:20,fontWeight:500,background:br[e.difficulty],color:yr[e.difficulty]},children:e.difficulty}),(0,N.jsxs)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:[`⏱ `,e.time]})]})]}),(0,N.jsx)(`p`,{style:{margin:`0 0 20px`,color:`var(--color-text-secondary)`,fontSize:14,lineHeight:1.6},children:e.description}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:4,marginBottom:18,borderBottom:`0.5px solid var(--color-border-tertiary)`,paddingBottom:0},children:[`steps`,`code`].map(e=>(0,N.jsx)(`button`,{onClick:()=>n(e),style:{padding:`8px 16px`,border:`none`,background:`none`,cursor:`pointer`,fontSize:14,fontWeight:t===e?500:400,color:t===e?`var(--color-text-primary)`:`var(--color-text-secondary)`,borderBottom:t===e?`2px solid #185FA5`:`2px solid transparent`,marginBottom:-1,transition:`all 0.12s`},children:e===`steps`?`Pipeline Steps`:`Code`},e))}),t===`steps`&&(0,N.jsx)(xr,{steps:e.steps}),t===`code`&&(0,N.jsx)(Sr,{code:e.code})]})}function Tr({recipes:e,selected:t,onSelect:n,category:r,setCategory:i,search:a,setSearch:o}){let s=e.filter(e=>{let t=r===`All`||e.category===r,n=e.title.toLowerCase().includes(a.toLowerCase())||e.tags.some(e=>e.toLowerCase().includes(a.toLowerCase()));return t&&n});return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100%`,gap:0},children:[(0,N.jsx)(`div`,{style:{padding:`0 0 16px`},children:(0,N.jsx)(`input`,{type:`text`,placeholder:`Search recipes…`,value:a,onChange:e=>o(e.target.value),style:{width:`100%`,boxSizing:`border-box`,padding:`8px 12px`,borderRadius:8,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,color:`var(--color-text-primary)`,fontSize:13}})}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:6,flexWrap:`wrap`,marginBottom:16},children:vr.map(e=>(0,N.jsx)(`button`,{onClick:()=>i(e),style:{padding:`4px 12px`,borderRadius:20,fontSize:12,cursor:`pointer`,border:r===e?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:r===e?`#E6F1FB`:`var(--color-background-primary)`,color:r===e?`#185FA5`:`var(--color-text-secondary)`,fontWeight:r===e?500:400},children:e},e))}),(0,N.jsx)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:10,overflowY:`auto`,flex:1},children:s.length===0?(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,fontSize:13,padding:`12px 0`},children:`No recipes found.`}):s.map(e=>(0,N.jsx)(Cr,{recipe:e,onSelect:n,selected:t?.id===e.id},e.id))})]})}function Er(){return(0,N.jsxs)(`div`,{style:{padding:`20px 32px 16px`,borderBottom:`0.5px solid var(--color-border-tertiary)`,display:`flex`,alignItems:`center`,gap:16},children:[(0,N.jsx)(`div`,{style:{width:40,height:40,borderRadius:10,background:`#E1F5EE`,display:`flex`,alignItems:`center`,justifyContent:`center`,fontSize:20},children:`🤖`}),(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`h1`,{style:{margin:0,fontSize:20,fontWeight:500,letterSpacing:`-0.3px`},children:`Agentic AI Cookbook`}),(0,N.jsx)(`p`,{style:{margin:0,fontSize:13,color:`var(--color-text-secondary)`},children:`End-to-end patterns for building autonomous AI agents`})]}),(0,N.jsx)(`div`,{style:{marginLeft:`auto`,display:`flex`,gap:20},children:[{label:`Recipes`,value:_r.length},{label:`Patterns`,value:vr.length-1}].map(({label:e,value:t})=>(0,N.jsxs)(`div`,{style:{textAlign:`center`},children:[(0,N.jsx)(`div`,{style:{fontSize:18,fontWeight:500},children:t}),(0,N.jsx)(`div`,{style:{fontSize:11,color:`var(--color-text-tertiary)`},children:e})]},e))})]})}function Dr(){let[e,t]=(0,x.useState)(_r[0]),[n,r]=(0,x.useState)(`All`),[i,a]=(0,x.useState)(``);return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100vh`,fontFamily:`var(--font-sans, system-ui, sans-serif)`,background:`var(--color-background-tertiary, #152060)`,color:`var(--color-text-primary)`},children:[(0,N.jsx)(Er,{}),(0,N.jsxs)(`div`,{style:{display:`flex`,flex:1,overflow:`hidden`},children:[(0,N.jsx)(`div`,{style:{width:320,minWidth:260,padding:`20px 20px`,borderRight:`0.5px solid var(--color-border-tertiary)`,background:`var(--color-background-primary)`,overflowY:`auto`},children:(0,N.jsx)(Tr,{recipes:_r,selected:e,onSelect:t,category:n,setCategory:r,search:i,setSearch:a})}),(0,N.jsx)(`div`,{style:{flex:1,overflowY:`auto`,padding:`24px 28px`},children:e?(0,N.jsx)(wr,{recipe:e}):(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,padding:40,textAlign:`center`},children:`Select a recipe to get started`})})]})]})}var Or=[{id:`swarm-handoff`,category:`Swarm`,title:`Agent Handoffs with Swarm`,difficulty:`Beginner`,time:`~20 min`,description:`Use OpenAI Swarm-style handoffs to transfer control between specialized agents mid-conversation. Each agent owns a domain and passes the baton when out of scope.`,tags:[`swarm`,`handoff`,`routing`],steps:[{label:`Define Agents`,icon:`🤖`,detail:`Create agents with a name, system prompt, and tool list. Each agent is a specialist — keep system prompts tightly scoped to one domain (billing, support, sales).`},{label:`Handoff Tool`,icon:`🔀`,detail:`Give each agent a transfer_to_X tool for every agent it may hand off to. The tool returns the target agent object — the loop detects this and switches context.`},{label:`Run Loop`,icon:`🔄`,detail:`The orchestration loop calls the active agent, checks if a tool result is an Agent object, and if so switches the active agent for the next turn.`},{label:`Preserve History`,icon:`📚`,detail:`Pass the full conversation history to every agent on every turn. Agents can read what happened before the handoff to avoid asking the user to repeat themselves.`},{label:`Context Variables`,icon:`📦`,detail:`Maintain a shared context_variables dict passed to every tool call. Agents read and write to it — e.g. storing account_id so downstream agents don't re-fetch it.`}],code:`import Anthropic from "@anthropic-ai/sdk";
+console.log(await memoryAgent("What was I working on again?", SESSION_ID)); // Recalls from memory`}],vr=[`All`,`Core Concepts`,`Planning`,`Tools & Actions`,`Memory`,`Multi-Agent`,`Advanced`],yr={Beginner:`#0F6E56`,Intermediate:`#185FA5`,Advanced:`#993C1D`},br={Beginner:`#E1F5EE`,Intermediate:`#E6F1FB`,Advanced:`#FAECE7`};function xr({steps:e}){let[t,n]=(0,x.useState)(null);return(0,N.jsxs)(`div`,{style:{marginTop:16},children:[(0,N.jsx)(`div`,{style:{display:`flex`,flexWrap:`wrap`,gap:8,alignItems:`center`},children:e.map((r,i)=>(0,N.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:6},children:[(0,N.jsxs)(`button`,{onClick:()=>n(t===i?null:i),style:{display:`flex`,alignItems:`center`,gap:6,padding:`6px 12px`,borderRadius:20,border:t===i?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:t===i?`#E6F1FB`:`var(--color-background-primary)`,color:t===i?`#185FA5`:`var(--color-text-primary)`,cursor:`pointer`,fontSize:13,fontWeight:t===i?500:400,transition:`all 0.15s`},children:[(0,N.jsx)(`span`,{children:r.icon}),(0,N.jsx)(`span`,{children:r.label})]}),i<e.length-1&&(0,N.jsx)(`span`,{style:{color:`var(--color-text-tertiary)`,fontSize:12},children:`→`})]},i))}),t!==null&&(0,N.jsxs)(`div`,{style:{marginTop:10,padding:`10px 14px`,borderRadius:8,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.6},children:[(0,N.jsxs)(`span`,{style:{fontWeight:500,color:`var(--color-text-primary)`},children:[e[t].label,`: `]}),e[t].detail]})]})}function Sr({code:e}){let[t,n]=(0,x.useState)(!1);return(0,N.jsxs)(`div`,{style:{position:`relative`,marginTop:16},children:[(0,N.jsx)(`button`,{onClick:()=>{navigator.clipboard.writeText(e),n(!0),setTimeout(()=>n(!1),1800)},style:{position:`absolute`,top:8,right:8,padding:`4px 10px`,borderRadius:6,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,cursor:`pointer`,fontSize:12,color:`var(--color-text-secondary)`,zIndex:1},children:t?`✓ Copied`:`Copy`}),(0,N.jsx)(`pre`,{style:{margin:0,padding:`14px 16px`,borderRadius:10,overflowX:`auto`,background:`var(--color-background-secondary)`,border:`0.5px solid var(--color-border-tertiary)`,fontSize:12,lineHeight:1.65,fontFamily:`var(--font-mono)`,color:`var(--color-text-primary)`,whiteSpace:`pre`},children:(0,N.jsx)(`code`,{children:e})})]})}function Cr({recipe:e,onSelect:t,selected:n}){return(0,N.jsxs)(`div`,{onClick:()=>t(e),style:{padding:`16px 18px`,borderRadius:12,cursor:`pointer`,border:n?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:n?`#061320`:`var(--color-background-primary)`,transition:`all 0.15s`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:6},children:[(0,N.jsx)(`span`,{style:{fontSize:13,color:`var(--color-text-secondary)`,fontWeight:400},children:e.category}),(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,fontWeight:500,background:br[e.difficulty],color:yr[e.difficulty]},children:e.difficulty})]}),(0,N.jsx)(`div`,{style:{fontWeight:500,fontSize:15,marginBottom:4,color:`var(--color-text-primary)`},children:e.title}),(0,N.jsx)(`div`,{style:{fontSize:13,color:`var(--color-text-secondary)`,lineHeight:1.5},children:e.description}),(0,N.jsx)(`div`,{style:{marginTop:10,display:`flex`,gap:6,flexWrap:`wrap`},children:e.tags.map(e=>(0,N.jsx)(`span`,{style:{fontSize:11,padding:`2px 8px`,borderRadius:20,background:`var(--color-background-tertiary)`,color:`var(--color-text-secondary)`,border:`0.5px solid var(--color-border-tertiary)`},children:e},e))})]})}function wr({recipe:e}){let[t,n]=(0,x.useState)(`steps`);return(0,N.jsxs)(`div`,{style:{padding:`24px`,borderRadius:14,background:`var(--color-background-primary)`,border:`0.5px solid var(--color-border-tertiary)`},children:[(0,N.jsxs)(`div`,{style:{display:`flex`,justifyContent:`space-between`,alignItems:`flex-start`,marginBottom:4},children:[(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:e.category}),(0,N.jsx)(`h2`,{style:{margin:`4px 0 6px`,fontSize:22,fontWeight:500},children:e.title})]}),(0,N.jsxs)(`div`,{style:{display:`flex`,gap:8,alignItems:`center`,paddingTop:4},children:[(0,N.jsx)(`span`,{style:{fontSize:12,padding:`3px 10px`,borderRadius:20,fontWeight:500,background:br[e.difficulty],color:yr[e.difficulty]},children:e.difficulty}),(0,N.jsxs)(`span`,{style:{fontSize:12,color:`var(--color-text-tertiary)`},children:[`⏱ `,e.time]})]})]}),(0,N.jsx)(`p`,{style:{margin:`0 0 20px`,color:`var(--color-text-secondary)`,fontSize:14,lineHeight:1.6},children:e.description}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:4,marginBottom:18,borderBottom:`0.5px solid var(--color-border-tertiary)`,paddingBottom:0},children:[`steps`,`code`].map(e=>(0,N.jsx)(`button`,{onClick:()=>n(e),style:{padding:`8px 16px`,border:`none`,background:`none`,cursor:`pointer`,fontSize:14,fontWeight:t===e?500:400,color:t===e?`var(--color-text-primary)`:`var(--color-text-secondary)`,borderBottom:t===e?`2px solid #185FA5`:`2px solid transparent`,marginBottom:-1,transition:`all 0.12s`},children:e===`steps`?`Pipeline Steps`:`Code`},e))}),t===`steps`&&(0,N.jsx)(xr,{steps:e.steps}),t===`code`&&(0,N.jsx)(Sr,{code:e.code})]})}function Tr({recipes:e,selected:t,onSelect:n,category:r,setCategory:i,search:a,setSearch:o}){let s=e.filter(e=>{let t=r===`All`||e.category===r,n=e.title.toLowerCase().includes(a.toLowerCase())||e.tags.some(e=>e.toLowerCase().includes(a.toLowerCase()));return t&&n});return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100%`,gap:0},children:[(0,N.jsx)(`div`,{style:{padding:`0 0 16px`},children:(0,N.jsx)(`input`,{type:`text`,placeholder:`Search recipes…`,value:a,onChange:e=>o(e.target.value),style:{width:`100%`,boxSizing:`border-box`,padding:`8px 12px`,borderRadius:8,border:`0.5px solid var(--color-border-secondary)`,background:`var(--color-background-secondary)`,color:`var(--color-text-primary)`,fontSize:13}})}),(0,N.jsx)(`div`,{style:{display:`flex`,gap:6,flexWrap:`wrap`,marginBottom:16},children:vr.map(e=>(0,N.jsx)(`button`,{onClick:()=>i(e),style:{padding:`4px 12px`,borderRadius:20,fontSize:12,cursor:`pointer`,border:r===e?`1.5px solid #185FA5`:`0.5px solid var(--color-border-tertiary)`,background:r===e?`#E6F1FB`:`var(--color-background-primary)`,color:r===e?`#185FA5`:`var(--color-text-secondary)`,fontWeight:r===e?500:400},children:e},e))}),(0,N.jsx)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:10,overflowY:`auto`,flex:1},children:s.length===0?(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,fontSize:13,padding:`12px 0`},children:`No recipes found.`}):s.map(e=>(0,N.jsx)(Cr,{recipe:e,onSelect:n,selected:t?.id===e.id},e.id))})]})}function Er(){return(0,N.jsxs)(`div`,{style:{padding:`20px 32px 16px`,borderBottom:`0.5px solid var(--color-border-tertiary)`,display:`flex`,alignItems:`center`,gap:16},children:[(0,N.jsx)(`div`,{style:{width:40,height:40,borderRadius:10,background:`#E1F5EE`,display:`flex`,alignItems:`center`,justifyContent:`center`,fontSize:20},children:`🤖`}),(0,N.jsxs)(`div`,{children:[(0,N.jsx)(`h1`,{style:{margin:0,fontSize:20,fontWeight:500,letterSpacing:`-0.3px`},children:`Agentic AI Cookbook`}),(0,N.jsx)(`p`,{style:{margin:0,fontSize:13,color:`var(--color-text-secondary)`},children:`End-to-end patterns for building autonomous AI agents`})]}),(0,N.jsx)(`div`,{style:{marginLeft:`auto`,display:`flex`,gap:20},children:[{label:`Recipes`,value:_r.length},{label:`Patterns`,value:vr.length-1}].map(({label:e,value:t})=>(0,N.jsxs)(`div`,{style:{textAlign:`center`},children:[(0,N.jsx)(`div`,{style:{fontSize:18,fontWeight:500},children:t}),(0,N.jsx)(`div`,{style:{fontSize:11,color:`var(--color-text-tertiary)`},children:e})]},e))})]})}function Dr(){let[e,t]=(0,x.useState)(_r[0]),[n,r]=(0,x.useState)(`All`),[i,a]=(0,x.useState)(``);return(0,N.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,height:`100vh`,fontFamily:`var(--font-sans, system-ui, sans-serif)`,background:`var(--color-background-tertiary, #152060)`,color:`var(--color-text-primary)`},children:[(0,N.jsx)(Er,{}),(0,N.jsxs)(`div`,{style:{display:`flex`,flex:1,overflow:`hidden`},children:[(0,N.jsx)(`div`,{style:{width:320,minWidth:260,padding:`20px 20px`,borderRight:`0.5px solid var(--color-border-tertiary)`,background:`var(--color-background-primary)`,overflowY:`auto`},children:(0,N.jsx)(Tr,{recipes:_r,selected:e,onSelect:t,category:n,setCategory:r,search:i,setSearch:a})}),(0,N.jsx)(`div`,{style:{flex:1,overflowY:`auto`,padding:`24px 28px`},children:e?(0,N.jsx)(wr,{recipe:e}):(0,N.jsx)(`div`,{style:{color:`var(--color-text-tertiary)`,padding:40,textAlign:`center`},children:`Select a recipe to get started`})})]})]})}var Or=[{id:`swarm-handoff`,category:`Swarm`,title:`Agent Handoffs with Swarm`,difficulty:`Beginner`,time:`~20 min`,description:`Use OpenAI Swarm-style handoffs to transfer control between specialized agents mid-conversation. Each agent owns a domain and passes the baton when out of scope.`,tags:[`swarm`,`handoff`,`routing`],steps:[{label:`Define Agents`,icon:`🤖`,detail:`Create agents with a name, system prompt, and tool list. Each agent is a specialist — keep system prompts tightly scoped to one domain (billing, support, sales).`},{label:`Handoff Tool`,icon:`🔀`,detail:`Give each agent a transfer_to_X tool for every agent it may hand off to. The tool returns the target agent object — the loop detects this and switches context.`},{label:`Run Loop`,icon:`🔄`,detail:`The orchestration loop calls the active agent, checks if a tool result is an Agent object, and if so switches the active agent for the next turn.`},{label:`Preserve History`,icon:`📚`,detail:`Pass the full conversation history to every agent on every turn. Agents can read what happened before the handoff to avoid asking the user to repeat themselves.`},{label:`Context Variables`,icon:`📦`,detail:`Maintain a shared context_variables dict passed to every tool call. Agents read and write to it — e.g. storing account_id so downstream agents don't re-fetch it.`}],code:`import Anthropic from "@anthropic-ai/sdk";
 
 const claude = new Anthropic();
 
