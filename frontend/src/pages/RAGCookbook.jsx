@@ -7,6 +7,552 @@ import ReactMarkdown from "react-markdown";
 const RECIPES = [
 
   {
+  id: "query-basic",
+  category: "Query",
+  title: "Query Processing Pipeline",
+  difficulty: "Beginner",
+  time: "~20 min",
+
+  description:
+    "Core pipeline that transforms raw user queries into retrieval-ready structured queries.",
+
+  tags: ["query", "pipeline", "nlp"],
+
+  steps: [
+    { label: "Input Query", icon: "⌨️", detail: "Raw user query is received." },
+    { label: "Normalization", icon: "🧹", detail: "Clean and standardize text." },
+    { label: "Intent Detection", icon: "🧠", detail: "Understand user intent." },
+    { label: "Transformation", icon: "🔄", detail: "Convert into structured form." },
+    { label: "Routing", icon: "🚦", detail: "Send to correct retriever." },
+    { label: "Output Query", icon: "📤", detail: "Final optimized query." }
+  ],
+
+  code: `
+def process_query(query):
+    query = normalize(query)
+    intent = detect_intent(query)
+    query = transform(query, intent)
+    return route(query, intent)
+`
+},
+{
+  id: "multi-query-retrieval",
+  category: "Query",
+  title: "Multi-Query Retrieval",
+  difficulty: "Advanced",
+  time: "~25 min",
+
+  description:
+    "Improves retrieval performance by generating multiple query variations and merging results from each.",
+
+  tags: ["query", "retrieval", "expansion", "rag"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User provides the original query."
+    },
+    {
+      label: "Query Expansion",
+      icon: "🔀",
+      detail: "Generate multiple paraphrased queries."
+    },
+    {
+      label: "Parallel Retrieval",
+      icon: "🔍",
+      detail: "Run search for each query variant."
+    },
+    {
+      label: "Merge Results",
+      icon: "🧩",
+      detail: "Combine retrieved documents."
+    },
+    {
+      label: "Deduplication",
+      icon: "🧹",
+      detail: "Remove duplicate documents."
+    }
+  ],
+
+  code: `
+def multi_query_retrieval(query):
+    queries = expand_query(query)
+
+    results = []
+    for q in queries:
+        results.extend(retrieve(q))
+
+    return list(set(results))
+`
+},
+{
+  id: "self-query-retrieval",
+  category: "Query",
+  title: "Self-Query Retrieval",
+  difficulty: "Advanced",
+  time: "~30 min",
+
+  description:
+    "Automatically converts natural language queries into structured queries with metadata filters for precise retrieval.",
+
+  tags: ["query", "metadata", "retrieval", "llm"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User provides a natural language query."
+    },
+    {
+      label: "Intent + Metadata Extraction",
+      icon: "🏷️",
+      detail: "Extract filters like date, category, or attributes."
+    },
+    {
+      label: "Structured Query Generation",
+      icon: "🧾",
+      detail: "Convert query into structured format."
+    },
+    {
+      label: "Filtered Retrieval",
+      icon: "🔍",
+      detail: "Retrieve documents using filters + embeddings."
+    }
+  ],
+
+  code: `
+def self_query_retrieval(query):
+    structured = llm_to_structured_query(query)
+
+    results = vector_db.search(
+        text=structured["text"],
+        filter=structured["metadata"]
+    )
+
+    return results
+`
+},
+{
+  id: "step-back-prompting",
+  category: "Query",
+  title: "Step-Back Prompting",
+  difficulty: "Advanced",
+  time: "~25 min",
+
+  description:
+    "Improves reasoning by converting a specific query into a more general abstraction before retrieval, then refining the answer back to the original context.",
+
+  tags: ["query", "reasoning", "abstraction", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User provides a specific question."
+    },
+    {
+      label: "Step Back Transformation",
+      icon: "⬅️",
+      detail: "Convert query into a more general concept."
+    },
+    {
+      label: "General Retrieval",
+      icon: "📚",
+      detail: "Retrieve broad foundational knowledge."
+    },
+    {
+      label: "Context Mapping",
+      icon: "🔗",
+      detail: "Map general knowledge back to specific case."
+    },
+    {
+      label: "Final Answer",
+      icon: "✨",
+      detail: "Generate refined response."
+    }
+  ],
+
+  code: `
+def step_back_prompting(query):
+    general_query = llm.step_back(query)
+
+    docs = retrieve(general_query)
+
+    answer = llm.refine(query=query, context=docs)
+
+    return answer
+`
+},
+{
+  id: "sub-question-generation",
+  category: "Query",
+  title: "Sub-Question Generation",
+  difficulty: "Advanced",
+  time: "~30 min",
+
+  description:
+    "Breaks complex queries into smaller sub-questions, retrieves answers individually, and combines them into a final response.",
+
+  tags: ["query", "decomposition", "reasoning", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Complex Query",
+      icon: "🧠",
+      detail: "User provides a multi-part or complex question."
+    },
+    {
+      label: "Decomposition",
+      icon: "✂️",
+      detail: "Split query into smaller sub-questions."
+    },
+    {
+      label: "Independent Retrieval",
+      icon: "🔍",
+      detail: "Retrieve information for each sub-question."
+    },
+    {
+      label: "Answer Aggregation",
+      icon: "🧩",
+      detail: "Combine all sub-answers into one response."
+    },
+    {
+      label: "Final Response",
+      icon: "✨",
+      detail: "Generate coherent final output."
+    }
+  ],
+
+  code: `
+def sub_question_generation(query):
+    sub_questions = decompose(query)
+
+    answers = []
+    for q in sub_questions:
+        answers.append(retrieve(q))
+
+    final_answer = aggregate(answers)
+
+    return final_answer
+`
+},
+{
+  id: "cot-retrieval",
+  category: "Query",
+  title: "Chain-of-Thought Retrieval",
+  difficulty: "Advanced",
+  time: "~30 min",
+
+  description:
+    "Uses step-by-step reasoning to guide retrieval at each intermediate stage, improving multi-step question answering accuracy.",
+
+  tags: ["query", "reasoning", "cot", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User provides a complex reasoning question."
+    },
+    {
+      label: "Reasoning Breakdown",
+      icon: "🧠",
+      detail: "Decompose problem into logical steps."
+    },
+    {
+      label: "Step-wise Retrieval",
+      icon: "🔍",
+      detail: "Retrieve evidence for each reasoning step."
+    },
+    {
+      label: "Intermediate Synthesis",
+      icon: "🧩",
+      detail: "Combine step-level findings."
+    },
+    {
+      label: "Final Answer",
+      icon: "✨",
+      detail: "Produce final grounded response."
+    }
+  ],
+
+  code: `
+def cot_retrieval(query):
+    steps = llm.reason_steps(query)
+
+    docs = []
+    for step in steps:
+        docs.extend(retrieve(step))
+
+    return llm.generate_answer(query, docs)
+`
+},
+{
+  id: "follow-up-query-generation",
+  category: "Query",
+  title: "Follow-Up Query Generation",
+  difficulty: "Advanced",
+  time: "~25 min",
+
+  description:
+    "Generates additional follow-up queries based on missing information in conversation to improve completeness of retrieval.",
+
+  tags: ["query", "conversation", "retrieval", "llm"],
+
+  steps: [
+    {
+      label: "Conversation Input",
+      icon: "💬",
+      detail: "User query with chat history context."
+    },
+    {
+      label: "Gap Detection",
+      icon: "🕳️",
+      detail: "Identify missing or unclear information."
+    },
+    {
+      label: "Follow-up Query Generation",
+      icon: "🔄",
+      detail: "Generate additional clarifying queries."
+    },
+    {
+      label: "Retrieval Execution",
+      icon: "🔍",
+      detail: "Run retrieval for generated queries."
+    },
+    {
+      label: "Answer Refinement",
+      icon: "✨",
+      detail: "Combine results into final response."
+    }
+  ],
+
+  code: `
+def follow_up_query_generation(query, history):
+    followups = llm.generate_followups(query, history)
+
+    results = []
+    for q in followups:
+        results.append(retrieve(q))
+
+    return llm.summarize(results)
+`
+},
+{
+  id: "conversational-query-reformulation",
+  category: "Query",
+  title: "Conversational Query Reformulation",
+  difficulty: "Advanced",
+  time: "~25 min",
+
+  description:
+    "Rewrites context-dependent conversational queries into standalone, retrieval-ready queries using chat history.",
+
+  tags: ["query", "conversation", "reformulation", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Conversation",
+      icon: "💬",
+      detail: "User query with chat history."
+    },
+    {
+      label: "Context Understanding",
+      icon: "🧠",
+      detail: "Analyze previous conversation turns."
+    },
+    {
+      label: "Query Rewrite",
+      icon: "✍️",
+      detail: "Convert ambiguous query into standalone form."
+    },
+    {
+      label: "Retrieval Execution",
+      icon: "🔍",
+      detail: "Run search with reformulated query."
+    },
+    {
+      label: "Final Answer",
+      icon: "✨",
+      detail: "Generate response using retrieved context."
+    }
+  ],
+
+  code: `
+def reformulate_query(query, history):
+    standalone_query = llm.rewrite(query, history)
+
+    results = retrieve(standalone_query)
+
+    return results
+`
+},
+{
+  id: "context-aware-querying",
+  category: "Query",
+  title: "Context-Aware Querying",
+  difficulty: "Advanced",
+  time: "~30 min",
+
+  description:
+    "Enhances queries using user context such as role, domain, preferences, and prior interactions to improve retrieval relevance.",
+
+  tags: ["query", "context", "personalization", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User provides a query."
+    },
+    {
+      label: "Context Collection",
+      icon: "👤",
+      detail: "Gather user profile, role, and history."
+    },
+    {
+      label: "Query Enrichment",
+      icon: "🔧",
+      detail: "Inject contextual signals into query."
+    },
+    {
+      label: "Contextual Retrieval",
+      icon: "🔍",
+      detail: "Retrieve results based on enriched query."
+    },
+    {
+      label: "Ranking & Filtering",
+      icon: "📊",
+      detail: "Prioritize results based on relevance to context."
+    }
+  ],
+
+  code: `
+def context_aware_querying(query, user_context):
+    enriched_query = inject_context(query, user_context)
+
+    results = retrieve(enriched_query)
+
+    ranked = rank_by_context(results, user_context)
+
+    return ranked
+`
+},
+{
+  id: "metadata-query-generation",
+  category: "Query",
+  title: "Metadata Query Generation",
+  difficulty: "Advanced",
+  time: "~30 min",
+
+  description:
+    "Transforms natural language queries into structured metadata filters combined with text search for precise retrieval.",
+
+  tags: ["query", "metadata", "filters", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User provides a natural language query."
+    },
+    {
+      label: "Metadata Extraction",
+      icon: "🏷️",
+      detail: "Identify filters like date, category, author, or domain."
+    },
+    {
+      label: "Structured Query Build",
+      icon: "🧾",
+      detail: "Convert into hybrid text + metadata query."
+    },
+    {
+      label: "Filtered Retrieval",
+      icon: "🔍",
+      detail: "Retrieve documents using both filters and embeddings."
+    },
+    {
+      label: "Result Ranking",
+      icon: "📊",
+      detail: "Rank results based on relevance and constraints."
+    }
+  ],
+
+  code: `
+def metadata_query_generation(query):
+    metadata = extract_metadata(query)
+
+    results = db.search(
+        text=query,
+        filter=metadata
+    )
+
+    return results
+`
+},
+{
+  id: "agent-based-query-planning",
+  category: "Query",
+  title: "Agent-Based Query Planning",
+  difficulty: "Advanced",
+  time: "~40 min",
+
+  description:
+    "Uses an autonomous LLM agent to plan, decompose, and execute multi-step query strategies using tools and iterative reasoning.",
+
+  tags: ["query", "agent", "planning", "tool-use", "retrieval"],
+
+  steps: [
+    {
+      label: "Input Query",
+      icon: "⌨️",
+      detail: "User submits a complex query."
+    },
+    {
+      label: "Task Understanding",
+      icon: "🧠",
+      detail: "Agent interprets intent and requirements."
+    },
+    {
+      label: "Plan Generation",
+      icon: "📋",
+      detail: "Break query into actionable steps."
+    },
+    {
+      label: "Tool Execution",
+      icon: "🛠️",
+      detail: "Run retrieval, search, or external tools."
+    },
+    {
+      label: "Iteration Loop",
+      icon: "🔄",
+      detail: "Refine plan based on intermediate results."
+    },
+    {
+      label: "Final Answer",
+      icon: "✨",
+      detail: "Synthesize final response from all outputs."
+    }
+  ],
+
+  code: `
+def agent_based_query_planning(query):
+    plan = agent.create_plan(query)
+
+    results = []
+
+    for step in plan:
+        result = execute_tool(step)
+        results.append(result)
+
+        plan = agent.refine_plan(plan, result)
+
+    return agent.summarize(results)
+`
+},
+
+  {
   id: "fixed-chunking",
   category: "Chunking",
   title: "Fixed Chunking",
