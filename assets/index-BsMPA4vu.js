@@ -14,74 +14,102 @@ def process_query(query):
     intent = detect_intent(query)
     query = transform(query, intent)
     return route(query, intent)
-`},{id:`multi-query-retrieval`,category:`Query`,title:`Multi-Query Retrieval`,description:`Generates multiple query variations to improve retrieval coverage.`,steps:[{label:`Input Query`,icon:`⌨️`,detail:`Original query.`},{label:`Expand Queries`,icon:`🔀`,detail:`Create paraphrases.`},{label:`Retrieve`,icon:`🔍`,detail:`Search per query.`},{label:`Merge Results`,icon:`🧩`,detail:`Combine outputs.`}],code:`
-queries = expand(query)
+`},{id:`multi-query-retrieval`,category:`Query`,title:`Multi-Query Retrieval`,difficulty:`Advanced`,time:`~25 min`,description:`Improves retrieval performance by generating multiple query variations and merging results from each.`,tags:[`query`,`retrieval`,`expansion`,`rag`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User provides the original query.`},{label:`Query Expansion`,icon:`🔀`,detail:`Generate multiple paraphrased queries.`},{label:`Parallel Retrieval`,icon:`🔍`,detail:`Run search for each query variant.`},{label:`Merge Results`,icon:`🧩`,detail:`Combine retrieved documents.`},{label:`Deduplication`,icon:`🧹`,detail:`Remove duplicate documents.`}],code:`
+def multi_query_retrieval(query):
+    queries = expand_query(query)
 
-results = []
-for q in queries:
-    results += retrieve(q)
+    results = []
+    for q in queries:
+        results.extend(retrieve(q))
 
-final = deduplicate(results)
-`},{id:`self-query-retrieval`,category:`Query`,title:`Self-Query Retrieval`,description:`LLM converts natural language queries into structured filter + search queries.`,steps:[{label:`User Query`,icon:`⌨️`,detail:`Input question.`},{label:`Extract Metadata`,icon:`🏷️`,detail:`Detect filters.`},{label:`Build Structured Query`,icon:`🧾`,detail:`Text + metadata.`},{label:`Retrieve`,icon:`🔍`,detail:`Filtered search.`}],code:`
-structured = llm_to_structured(query)
+    return list(set(results))
+`},{id:`self-query-retrieval`,category:`Query`,title:`Self-Query Retrieval`,difficulty:`Advanced`,time:`~30 min`,description:`Automatically converts natural language queries into structured queries with metadata filters for precise retrieval.`,tags:[`query`,`metadata`,`retrieval`,`llm`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User provides a natural language query.`},{label:`Intent + Metadata Extraction`,icon:`🏷️`,detail:`Extract filters like date, category, or attributes.`},{label:`Structured Query Generation`,icon:`🧾`,detail:`Convert query into structured format.`},{label:`Filtered Retrieval`,icon:`🔍`,detail:`Retrieve documents using filters + embeddings.`}],code:`
+def self_query_retrieval(query):
+    structured = llm_to_structured_query(query)
 
-results = vector_db.search(
-    text=structured.text,
-    filter=structured.metadata
-)
-`},{id:`hyde-retrieval`,category:`Query`,title:`HyDE Retrieval`,description:`Generates a hypothetical document to improve semantic retrieval.`,steps:[{label:`Query`,icon:`⌨️`,detail:`User input.`},{label:`Generate Hypothesis`,icon:`🧪`,detail:`Fake answer document.`},{label:`Embed`,icon:`🔢`,detail:`Convert to vector.`},{label:`Retrieve`,icon:`🔍`,detail:`Semantic search.`}],code:`
-hypothetical = llm.generate(query)
+    results = vector_db.search(
+        text=structured["text"],
+        filter=structured["metadata"]
+    )
 
-embedding = embed(hypothetical)
+    return results
+`},{id:`step-back-prompting`,category:`Query`,title:`Step-Back Prompting`,difficulty:`Advanced`,time:`~25 min`,description:`Improves reasoning by converting a specific query into a more general abstraction before retrieval, then refining the answer back to the original context.`,tags:[`query`,`reasoning`,`abstraction`,`retrieval`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User provides a specific question.`},{label:`Step Back Transformation`,icon:`⬅️`,detail:`Convert query into a more general concept.`},{label:`General Retrieval`,icon:`📚`,detail:`Retrieve broad foundational knowledge.`},{label:`Context Mapping`,icon:`🔗`,detail:`Map general knowledge back to specific case.`},{label:`Final Answer`,icon:`✨`,detail:`Generate refined response.`}],code:`
+def step_back_prompting(query):
+    general_query = llm.step_back(query)
 
-results = vector_db.search(embedding)
-`},{id:`step-back-prompting`,category:`Query`,title:`Step-Back Prompting`,description:`Rewrites specific queries into general concepts before retrieval.`,steps:[{label:`Specific Query`,icon:`🎯`,detail:`Original question.`},{label:`Generalize`,icon:`⬅️`,detail:`Step back abstraction.`},{label:`Retrieve Knowledge`,icon:`📚`,detail:`General info search.`},{label:`Refine Answer`,icon:`✨`,detail:`Apply to specific case.`}],code:`
-general = step_back(query)
+    docs = retrieve(general_query)
 
-docs = retrieve(general)
+    answer = llm.refine(query=query, context=docs)
 
-answer = refine(docs, query)
-`},{id:`sub-question-generation`,category:`Query`,title:`Sub-Question Generation`,description:`Breaks complex queries into smaller sub-questions for targeted retrieval.`,steps:[{label:`Complex Query`,icon:`🧠`,detail:`Multi-part question.`},{label:`Decompose`,icon:`✂️`,detail:`Split into sub-questions.`},{label:`Retrieve Each`,icon:`🔍`,detail:`Answer individually.`},{label:`Combine`,icon:`🧩`,detail:`Merge results.`}],code:`
-sub_questions = decompose(query)
+    return answer
+`},{id:`sub-question-generation`,category:`Query`,title:`Sub-Question Generation`,difficulty:`Advanced`,time:`~30 min`,description:`Breaks complex queries into smaller sub-questions, retrieves answers individually, and combines them into a final response.`,tags:[`query`,`decomposition`,`reasoning`,`retrieval`],steps:[{label:`Input Complex Query`,icon:`🧠`,detail:`User provides a multi-part or complex question.`},{label:`Decomposition`,icon:`✂️`,detail:`Split query into smaller sub-questions.`},{label:`Independent Retrieval`,icon:`🔍`,detail:`Retrieve information for each sub-question.`},{label:`Answer Aggregation`,icon:`🧩`,detail:`Combine all sub-answers into one response.`},{label:`Final Response`,icon:`✨`,detail:`Generate coherent final output.`}],code:`
+def sub_question_generation(query):
+    sub_questions = decompose(query)
 
-answers = [retrieve(q) for q in sub_questions]
+    answers = []
+    for q in sub_questions:
+        answers.append(retrieve(q))
 
-final = aggregate(answers)
-`},{id:`cot-retrieval`,category:`Query`,title:`Chain-of-Thought Retrieval`,description:`Uses step-by-step reasoning to guide retrieval and evidence gathering.`,steps:[{label:`Query`,icon:`⌨️`,detail:`Input question.`},{label:`Reasoning Steps`,icon:`🧠`,detail:`Break logic chain.`},{label:`Retrieve Evidence`,icon:`🔍`,detail:`Search per step.`},{label:`Final Answer`,icon:`✨`,detail:`Synthesize response.`}],code:`
-steps = cot_reason(query)
+    final_answer = aggregate(answers)
 
-docs = []
-for s in steps:
-    docs += retrieve(s)
+    return final_answer
+`},{id:`cot-retrieval`,category:`Query`,title:`Chain-of-Thought Retrieval`,difficulty:`Advanced`,time:`~30 min`,description:`Uses step-by-step reasoning to guide retrieval at each intermediate stage, improving multi-step question answering accuracy.`,tags:[`query`,`reasoning`,`cot`,`retrieval`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User provides a complex reasoning question.`},{label:`Reasoning Breakdown`,icon:`🧠`,detail:`Decompose problem into logical steps.`},{label:`Step-wise Retrieval`,icon:`🔍`,detail:`Retrieve evidence for each reasoning step.`},{label:`Intermediate Synthesis`,icon:`🧩`,detail:`Combine step-level findings.`},{label:`Final Answer`,icon:`✨`,detail:`Produce final grounded response.`}],code:`
+def cot_retrieval(query):
+    steps = llm.reason_steps(query)
 
-answer = generate(docs)
-`},{id:`follow-up-query-generation`,category:`Query`,title:`Follow-Up Query Generation`,description:`Generates additional queries based on missing information in conversation.`,steps:[{label:`Context`,icon:`💬`,detail:`Chat history.`},{label:`Gap Detection`,icon:`🕳️`,detail:`Missing info.`},{label:`Generate Queries`,icon:`🔄`,detail:`Follow-up questions.`},{label:`Retrieve`,icon:`🔍`,detail:`Improve answer.`}],code:`
-followups = llm.generate_followups(history)
+    docs = []
+    for step in steps:
+        docs.extend(retrieve(step))
 
-results = [retrieve(q) for q in followups]
-`},{id:`conversational-query-reformulation`,category:`Query`,title:`Conversational Query Reformulation`,description:`Rewrites context-dependent queries into standalone retrieval queries.`,steps:[{label:`User Query`,icon:`⌨️`,detail:`Ambiguous query.`},{label:`Add Context`,icon:`🧠`,detail:`Use chat history.`},{label:`Rewrite`,icon:`✍️`,detail:`Make standalone query.`},{label:`Retrieve`,icon:`🔍`,detail:`Search system.`}],code:`
-standalone = rewrite(query, history)
+    return llm.generate_answer(query, docs)
+`},{id:`follow-up-query-generation`,category:`Query`,title:`Follow-Up Query Generation`,difficulty:`Advanced`,time:`~25 min`,description:`Generates additional follow-up queries based on missing information in conversation to improve completeness of retrieval.`,tags:[`query`,`conversation`,`retrieval`,`llm`],steps:[{label:`Conversation Input`,icon:`💬`,detail:`User query with chat history context.`},{label:`Gap Detection`,icon:`🕳️`,detail:`Identify missing or unclear information.`},{label:`Follow-up Query Generation`,icon:`🔄`,detail:`Generate additional clarifying queries.`},{label:`Retrieval Execution`,icon:`🔍`,detail:`Run retrieval for generated queries.`},{label:`Answer Refinement`,icon:`✨`,detail:`Combine results into final response.`}],code:`
+def follow_up_query_generation(query, history):
+    followups = llm.generate_followups(query, history)
 
-results = retrieve(standalone)
-`},{id:`context-aware-querying`,category:`Query`,title:`Context-Aware Querying`,description:`Enhances queries using user context like role, domain, and preferences.`,steps:[{label:`User Context`,icon:`👤`,detail:`Role + history.`},{label:`Enhance Query`,icon:`🔧`,detail:`Inject context.`},{label:`Retrieve`,icon:`🔍`,detail:`Context-aware search.`},{label:`Rank Results`,icon:`📊`,detail:`Prioritize relevance.`}],code:`
-enhanced = inject_context(query, context)
+    results = []
+    for q in followups:
+        results.append(retrieve(q))
 
-results = retrieve(enhanced)
-`},{id:`metadata-query-generation`,category:`Query`,title:`Metadata Query Generation`,description:`Generates structured metadata filters for precise retrieval.`,steps:[{label:`Query`,icon:`⌨️`,detail:`User input.`},{label:`Extract Filters`,icon:`🏷️`,detail:`Identify metadata.`},{label:`Build Query`,icon:`🧾`,detail:`Structured search.`},{label:`Retrieve`,icon:`🔍`,detail:`Filtered results.`}],code:`
-filters = extract_metadata(query)
+    return llm.summarize(results)
+`},{id:`conversational-query-reformulation`,category:`Query`,title:`Conversational Query Reformulation`,difficulty:`Advanced`,time:`~25 min`,description:`Rewrites context-dependent conversational queries into standalone, retrieval-ready queries using chat history.`,tags:[`query`,`conversation`,`reformulation`,`retrieval`],steps:[{label:`Input Conversation`,icon:`💬`,detail:`User query with chat history.`},{label:`Context Understanding`,icon:`🧠`,detail:`Analyze previous conversation turns.`},{label:`Query Rewrite`,icon:`✍️`,detail:`Convert ambiguous query into standalone form.`},{label:`Retrieval Execution`,icon:`🔍`,detail:`Run search with reformulated query.`},{label:`Final Answer`,icon:`✨`,detail:`Generate response using retrieved context.`}],code:`
+def reformulate_query(query, history):
+    standalone_query = llm.rewrite(query, history)
 
-results = db.search(
-    text=query,
-    filter=filters
-)
-`},{id:`agent-based-query-planning`,category:`Query`,title:`Agent-Based Query Planning`,description:`LLM agent dynamically plans and executes multi-step query strategies.`,steps:[{label:`Query`,icon:`⌨️`,detail:`Complex input.`},{label:`Plan`,icon:`🧠`,detail:`Create execution plan.`},{label:`Execute Tools`,icon:`🛠️`,detail:`Run retrieval steps.`},{label:`Iterate`,icon:`🔄`,detail:`Refine results.`},{label:`Answer`,icon:`✨`,detail:`Final output.`}],code:`
-plan = agent.plan(query)
+    results = retrieve(standalone_query)
 
-results = []
-for step in plan:
-    results.append(execute(step))
+    return results
+`},{id:`context-aware-querying`,category:`Query`,title:`Context-Aware Querying`,difficulty:`Advanced`,time:`~30 min`,description:`Enhances queries using user context such as role, domain, preferences, and prior interactions to improve retrieval relevance.`,tags:[`query`,`context`,`personalization`,`retrieval`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User provides a query.`},{label:`Context Collection`,icon:`👤`,detail:`Gather user profile, role, and history.`},{label:`Query Enrichment`,icon:`🔧`,detail:`Inject contextual signals into query.`},{label:`Contextual Retrieval`,icon:`🔍`,detail:`Retrieve results based on enriched query.`},{label:`Ranking & Filtering`,icon:`📊`,detail:`Prioritize results based on relevance to context.`}],code:`
+def context_aware_querying(query, user_context):
+    enriched_query = inject_context(query, user_context)
 
-answer = agent.summarize(results)
+    results = retrieve(enriched_query)
+
+    ranked = rank_by_context(results, user_context)
+
+    return ranked
+`},{id:`metadata-query-generation`,category:`Query`,title:`Metadata Query Generation`,difficulty:`Advanced`,time:`~30 min`,description:`Transforms natural language queries into structured metadata filters combined with text search for precise retrieval.`,tags:[`query`,`metadata`,`filters`,`retrieval`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User provides a natural language query.`},{label:`Metadata Extraction`,icon:`🏷️`,detail:`Identify filters like date, category, author, or domain.`},{label:`Structured Query Build`,icon:`🧾`,detail:`Convert into hybrid text + metadata query.`},{label:`Filtered Retrieval`,icon:`🔍`,detail:`Retrieve documents using both filters and embeddings.`},{label:`Result Ranking`,icon:`📊`,detail:`Rank results based on relevance and constraints.`}],code:`
+def metadata_query_generation(query):
+    metadata = extract_metadata(query)
+
+    results = db.search(
+        text=query,
+        filter=metadata
+    )
+
+    return results
+`},{id:`agent-based-query-planning`,category:`Query`,title:`Agent-Based Query Planning`,difficulty:`Advanced`,time:`~40 min`,description:`Uses an autonomous LLM agent to plan, decompose, and execute multi-step query strategies using tools and iterative reasoning.`,tags:[`query`,`agent`,`planning`,`tool-use`,`retrieval`],steps:[{label:`Input Query`,icon:`⌨️`,detail:`User submits a complex query.`},{label:`Task Understanding`,icon:`🧠`,detail:`Agent interprets intent and requirements.`},{label:`Plan Generation`,icon:`📋`,detail:`Break query into actionable steps.`},{label:`Tool Execution`,icon:`🛠️`,detail:`Run retrieval, search, or external tools.`},{label:`Iteration Loop`,icon:`🔄`,detail:`Refine plan based on intermediate results.`},{label:`Final Answer`,icon:`✨`,detail:`Synthesize final response from all outputs.`}],code:`
+def agent_based_query_planning(query):
+    plan = agent.create_plan(query)
+
+    results = []
+
+    for step in plan:
+        result = execute_tool(step)
+        results.append(result)
+
+        plan = agent.refine_plan(plan, result)
+
+    return agent.summarize(results)
 `},{id:`fixed-chunking`,category:`Chunking`,title:`Fixed Chunking`,difficulty:`Beginner`,time:`~10 min`,description:`Fixed Chunking divides documents into chunks of a predefined size regardless of semantic boundaries. It is simple, fast, and widely used in basic RAG systems.`,tags:[`chunking`,`fixed-chunking`,`document-processing`,`rag`],steps:[{label:`Load Document`,icon:`📄`,detail:`Read the source document.`},{label:`Define Chunk Size`,icon:`📏`,detail:`Choose a fixed size such as 500 tokens.`},{label:`Split Text`,icon:`✂️`,detail:`Break the document into equal-sized chunks.`},{label:`Add Overlap`,icon:`🔗`,detail:`Include overlap between chunks to preserve context.`},{label:`Generate Embeddings`,icon:`🔢`,detail:`Convert chunks into vector embeddings.`},{label:`Store Chunks`,icon:`🗄️`,detail:`Save embeddings and metadata in a vector database.`}],code:`function fixedChunk(
   text,
   chunkSize = 500,
