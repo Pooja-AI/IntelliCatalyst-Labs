@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
@@ -68,7 +68,7 @@ import MultiAgentProjectDetails from "./pages/MultiAgentProjectDetails";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Routes>
       <Navbar />
 
       <Routes>
@@ -143,7 +143,7 @@ function App() {
         <Route path="/a2a" element={<A2A />} />
 
       </Routes>
-    </BrowserRouter>
+    </Routes>
   );
 }
 
