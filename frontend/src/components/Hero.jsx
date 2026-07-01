@@ -28,7 +28,7 @@ return ( <section className="hero">
 
     <div className="hero-buttons">
 
-      <button className="primary-btn">
+      <button className="primary-btn" >
         Explore Projects
       </button>
 
