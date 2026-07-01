@@ -1,12 +1,11 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
-import RECIPES from "./pages/RAGCookbook"
 import AgenticAICookbook   from "./pages/AgenticAICookbook";
 import FRAMEWORKS from "./pages/MultiAgentFrameworks";
 import MCP from "./pages/MCP";
@@ -68,7 +67,7 @@ import MultiAgentProjectDetails from "./pages/MultiAgentProjectDetails";
 
 function App() {
   return (
-    <Routes>
+    <BrowserRouter>
       <Navbar />
 
       <Routes>
@@ -127,8 +126,7 @@ function App() {
         <Route path="/multi-agent-ai" element={<MultiAgent />} />
         <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
 
-        {/* Retrieval-Augmented Generation */}
-        <Route path="/rag-cookbook" element={<RECIPES />} />
+        
 
         {/* Agentic AI */}
         <Route path="/agentic-cookbook" element={<AgenticAICookbook />}/>
@@ -143,7 +141,7 @@ function App() {
         <Route path="/a2a" element={<A2A />} />
 
       </Routes>
-    </Routes>
+    </BrowserRouter>
   );
 }
 

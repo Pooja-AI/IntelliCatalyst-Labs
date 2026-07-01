@@ -14,7 +14,7 @@ function Books() {
 
         {/* RAG COOKBOOK */}
         <Link
-          to="/rag-cookbook"
+          to="https://pooja-ai.github.io/rag-knowledge-tutor/"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">

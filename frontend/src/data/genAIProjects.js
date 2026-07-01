@@ -1,5 +1,8 @@
 import CorrosionDetection from "../assets/architecture/corrosion-detection.png";
 import CorrosionDetectionDocs from "../assets/docs/CorrosionDetectionDocs.pdf";
+import SmartContentCreation from "../assets/architecture/smartcontent_creation.png"
+import ResumeOptimizationTool from "../assets/architecture/ResumeOptimizationTool.png"
+import MeetingNotes from "../assets/architecture/MeetingNotes.png"
 const genAIProjects = [
   {
     id: "corrosion-detection-genai",
@@ -32,265 +35,168 @@ const genAIProjects = [
   },
 
   {
-    id: "content-assistant",
-    title: "Smart Content Creation Assistant",
-    category: "Content Generation",
-    description:
-      "AI-powered tool for generating blogs, articles, and long-form content.",
+  id: "smart-content-creation-assistant",
 
-    problemStatement:
-      "Content creators need faster and high-quality content generation tools.",
+  title: "Smart Content Creation Assistant",
 
-    architecture: "/architecture/content-gen.png",
+  category: "Generative AI",
 
-    workflow: [
-      "Topic input",
-      "Prompt optimization",
-      "LLM content generation",
-      "SEO refinement",
-      "Final output formatting"
-    ],
+  description:
+    "An enterprise-grade AI-powered content creation platform that generates SEO-optimized blogs, articles, marketing copy, social media posts, and long-form content using Multi-Agent AI, RAG, and LLMs.",
 
-    deployment:
-      "Deployed as a web-based content generation tool using LLM APIs.",
+  problemStatement:
+    "Content teams spend significant time researching, drafting, optimizing, fact-checking, and formatting content. Existing AI tools often produce generic, inaccurate, or non-SEO-friendly content without domain knowledge or collaboration capabilities.",
 
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "GPT", "NLP"]
-  },
+  architecture: SmartContentCreation,
+
+  workflow: [
+    "User submits topic or content request",
+    "Intent detection & prompt enhancement",
+    "Content planning using Planner Agent",
+    "Research Agent performs web search and RAG retrieval",
+    "Knowledge retrieval from Vector Database",
+    "Outline generation",
+    "Writer Agent generates section-wise content",
+    "SEO Agent optimizes headings, keywords, and metadata",
+    "Fact Checker validates claims and citations",
+    "Reviewer Agent improves grammar, readability, and tone",
+    "Quality evaluation using Ragas/DeepEval",
+    "Human feedback (optional)",
+    "Export to PDF, DOCX, HTML, Markdown, or CMS"
+  ],
+
+  features: [
+    "Multi-Agent AI Workflow",
+    "Retrieval-Augmented Generation (RAG)",
+    "Hybrid Search (Vector + Keyword)",
+    "SEO Optimization",
+    "Automatic Outline Generation",
+    "Citation Generation",
+    "Fact Checking",
+    "Grammar & Readability Enhancement",
+    "Content Templates",
+    "Human-in-the-Loop Review",
+    "Version History",
+    "Streaming Content Generation",
+    "Analytics Dashboard",
+    "Multi-Format Export",
+    "Multi-LLM Support"
+  ],
+
+  deployment:
+    "Containerized using Docker and deployed on Kubernetes with FastAPI backend, Next.js frontend, LangGraph orchestration, Redis caching, PostgreSQL database, Qdrant vector database, and cloud object storage.",
+
+  github: "https://github.com/Pooja-AI/Forge-Smart-Content-Creation-Assistant",
+
+  demo: "",
+
+  documentation: "",
+
+  tech: [
+    "Python",
+    "FastAPI",
+    "Next.js",
+    "React",
+    "LangGraph",
+    "LangChain",
+    "OpenAI GPT-5.5",
+    "Claude",
+    "Gemini",
+    "RAG",
+    "Qdrant",
+    "PostgreSQL",
+    "Redis",
+    "OpenAI Embeddings",
+    "Tavily Search",
+    "Docker",
+    "Kubernetes",
+    "GitHub Actions",
+    "LangSmith",
+    "Ragas",
+    "DeepEval",
+    "OpenTelemetry",
+    "AWS S3"
+  ]
+},
 
   {
     id: "resume-optimizer",
     title: "AI Resume Optimization Tool",
     category: "Career AI",
     description:
-      "AI system to improve resumes with suggestions, formatting, and keyword optimization.",
+      "AI-powered resume analyzer that scores resumes for ATS compatibility, identifies missing keywords against a target job description, and rewrites weak bullet points using a self-hosted open-source LLM.",
 
     problemStatement:
       "Job seekers struggle to optimize resumes for ATS and recruiter expectations.",
 
-    architecture: "/architecture/resume-ai.png",
+    architecture: ResumeOptimizationTool,
 
     workflow: [
-      "Resume parsing",
-      "Skill extraction",
-      "LLM-based analysis",
-      "Improvement suggestions",
-      "Optimized resume generation"
+      "Resume upload (PDF / DOCX / TXT) or paste-text input",
+      "Text extraction & parsing (pdfplumber, python-docx)",
+      "Job description keyword matching",
+      "LLM-based analysis via self-hosted Ollama (Llama 3.1 / Mistral / Phi-3)",
+      "Rule-based offline fallback when no LLM is running",
+      "ATS scoring, strengths/weaknesses, and section feedback generation",
+      "Bullet-point rewrite suggestions",
+      "Results rendered in React UI"
     ],
 
     deployment:
-      "Deployed as SaaS-based resume optimization platform.",
+      "Containerized with Docker Compose (FastAPI backend + React/Vite frontend + Ollama LLM server); deployable as a self-hosted SaaS-style resume optimization platform on any container host (Render, Railway, Fly.io, AWS ECS, or a GPU VPS for the LLM).",
 
-    github: "",
+    github: "https://github.com/Pooja-AI/Resumatic-AI-ResumeOptimizationTool.git",
     demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Prompt Engineering"]
+    documentation: "README.md (included in project root — setup, API reference, Docker deployment guide)",
+    tech: [
+      "Python",
+      "FastAPI",
+      "React",
+      "Vite",
+      "Open-source LLMs (Llama 3.1 / Mistral / Phi-3 via Ollama)",
+      "Prompt Engineering",
+      "pdfplumber",
+      "python-docx",
+      "Docker"
+    ]
   },
 
-  {
-    id: "meeting-summarizer",
-    title: "Meeting Notes Summarizer and Action Generator",
-    category: "Productivity AI",
-    description:
-      "AI system to summarize meetings and extract actionable insights.",
+ {
+  id: "meeting-summarizer",
+  title: "Meeting Notes Summarizer and Action Generator",
+  category: "Productivity AI",
 
-    problemStatement:
-      "Meetings generate large amounts of unstructured notes that are difficult to process.",
+  description:
+   "An AI-powered meeting intelligence platform that transforms meeting audio or notes into structured summaries, action items, decisions, and key insights. It uses locally hosted speech-to-text and open-source LLMs to ensure privacy, offline capability, and zero dependency on paid APIs.",
+  problemStatement:
+    "Meetings generate large volumes of unstructured notes, recordings, and verbal commitments that are time-consuming to revisit and easy to lose track of. Important decisions get buried in rambling discussion, action items go unassigned or forgotten, and teams spend valuable time manually transcribing and summarizing calls after the fact. This project automates that entire process — turning a raw recording into clear, structured, shareable minutes within minutes of the meeting ending.",
 
-    architecture: "/architecture/meeting-summary.png",
+  architecture: MeetingNotes,
 
-    workflow: [
-      "Audio transcription",
-      "Text cleaning",
-      "Summarization using LLMs",
-      "Action item extraction",
-      "Output generation"
-    ],
+  workflow: [
+    "Audio upload (drag-and-drop file, or paste raw notes/transcript directly)",
+    "Speech-to-text transcription using faster-whisper, with timestamped segments and language detection",
+    "Text cleaning — filler-word removal, repeated-word deduplication, and sentence-aware chunking for long transcripts",
+    "Structured summarization & action item extraction via a locally-run open-weight instruct LLM (Hugging Face transformers), prompted to return a strict JSON schema",
+    "Output generation — executive summary, key points, decisions, prioritized action items (owner/due date/priority), and risks/open questions, rendered in an interactive UI"
+  ],
 
-    deployment:
-      "Deployed using speech-to-text + LLM summarization pipeline.",
+  deployment:
+    "FastAPI backend exposing /transcribe, /summarize, and /process endpoints, paired with a React (Vite) frontend featuring a custom tape-deck-inspired UI with live waveform feedback during processing. Fully containerized with Docker Compose for one-command deployment. Speech-to-text runs via faster-whisper (CPU or GPU); summarization runs via a swappable open-weight model (default Mistral-7B-Instruct, with Qwen2.5 and Phi-3-mini supported as lighter alternatives) loaded directly through Hugging Face transformers — no OpenAI/Anthropic API key or paid LLM service required. Includes an automatic fallback to a lightweight BART summarization pipeline if the primary LLM can't be loaded.",
 
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Speech-to-Text"]
-  },
-
-  {
-    id: "learning-generator",
-    title: "Personalized Learning Content Generator",
-    category: "Education AI",
-    description:
-      "AI system that generates personalized learning materials for students.",
-
-    problemStatement:
-      "Students need personalized learning content tailored to their skill level.",
-
-    architecture: "/architecture/learning-ai.png",
-
-    workflow: [
-      "User profile analysis",
-      "Knowledge gap detection",
-      "Prompt generation",
-      "Content creation",
-      "Personalization layer"
-    ],
-
-    deployment:
-      "Deployed using RAG + LLM-based educational assistant system.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "RAG"]
-  },
-
-  {
-    id: "marketing-copy",
-    title: "AI Marketing Copy Generator",
-    category: "Marketing AI",
-    description:
-      "Generates marketing ads, social media posts, and promotional content.",
-
-    problemStatement:
-      "Marketing teams require fast and creative copy generation for campaigns.",
-
-    architecture: "/architecture/marketing-gen.png",
-
-    workflow: [
-      "Campaign input",
-      "Tone selection",
-      "Prompt engineering",
-      "Content generation",
-      "Optimization"
-    ],
-
-    deployment:
-      "Deployed using LLM-based marketing automation tool.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "GPT", "Prompt Engineering"]
-  },
-
-  {
-    id: "story-generator",
-    title: "AI Story and Script Writing Assistant",
-    category: "Creative AI",
-    description:
-      "Generates creative stories, scripts, and narrative content using AI.",
-
-    problemStatement:
-      "Writers need creative assistance for story and script development.",
-
-    architecture: "/architecture/story-ai.png",
-
-    workflow: [
-      "Idea input",
-      "Story structure generation",
-      "Character building",
-      "Narrative generation",
-      "Final script output"
-    ],
-
-    deployment:
-      "Deployed using LLM creative writing pipeline.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Creative Prompting"]
-  },
-
-  {
-    id: "product-description",
-    title: "AI Product Description Generator",
-    category: "E-commerce AI",
-    description:
-      "Generates SEO-friendly product descriptions for e-commerce platforms.",
-
-    problemStatement:
-      "E-commerce sellers need scalable product description generation.",
-
-    architecture: "/architecture/product-desc.png",
-
-    workflow: [
-      "Product input",
-      "Feature extraction",
-      "Prompt creation",
-      "LLM generation",
-      "SEO optimization"
-    ],
-
-    deployment:
-      "Deployed as SaaS tool for e-commerce content generation.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Prompt Engineering"]
-  },
-
-  {
-    id: "code-explainer",
-    title: "Code Explanation and Documentation Generator",
-    category: "Developer AI",
-    description:
-      "AI system that explains code and generates documentation automatically.",
-
-    problemStatement:
-      "Developers spend significant time documenting and understanding code.",
-
-    architecture: "/architecture/code-ai.png",
-
-    workflow: [
-      "Code input parsing",
-      "AST analysis",
-      "LLM explanation generation",
-      "Documentation formatting",
-      "Output generation"
-    ],
-
-    deployment:
-      "Deployed using LLM-based developer assistant tool.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Code Understanding"]
-  },
-
-  {
-    id: "idea-generator",
-    title: "AI Startup Idea Generator",
-    category: "Innovation AI",
-    description:
-      "Generates startup and project ideas using generative AI models.",
-
-    problemStatement:
-      "Entrepreneurs struggle to generate innovative startup ideas consistently.",
-
-    architecture: "/architecture/idea-gen.png",
-
-    workflow: [
-      "User interest input",
-      "Domain selection",
-      "LLM brainstorming",
-      "Idea ranking",
-      "Final idea output"
-    ],
-
-    deployment:
-      "Deployed using LLM-based idea generation engine.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "Brainstorming AI"]
-  }
+  github: "https://github.com/Pooja-AI/meeting-summarizer.git",
+  demo: "",
+  documentation: "https://github.com/Pooja-AI/meeting-summarizer.git#readme",
+  tech: [
+    "Python",
+    "FastAPI",
+    "React",
+    "faster-whisper",
+    "Hugging Face Transformers",
+    "Mistral-7B-Instruct / Qwen2.5",
+    "Docker"
+  ]
+}
 ];
 
 export default genAIProjects;
