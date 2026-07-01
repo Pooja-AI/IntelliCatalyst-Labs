@@ -7,7 +7,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
-import AgenticAICookbook   from "./pages/AgenticAICookbook";
 import FRAMEWORKS from "./pages/MultiAgentFrameworks";
 import MCP from "./pages/MCP";
 import A2A from "./pages/A2A";
@@ -128,9 +127,6 @@ function App() {
         <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
 
         
-
-        {/* Agentic AI */}
-        <Route path="/agentic-cookbook" element={<AgenticAICookbook />}/>
 
         {/* Multi-Agent AI */}
         <Route path="/multi-agent-cookbook" element={<FRAMEWORKS />} />

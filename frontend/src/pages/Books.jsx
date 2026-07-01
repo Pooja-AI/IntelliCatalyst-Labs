@@ -23,25 +23,16 @@ function Books() {
             </div>
           </a>
 
-
-        {/* <Link
-          to="https://pooja-ai.github.io/rag-knowledge-tutor/"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>RAG</h3>
-          </div>
-        </Link> */}
-
         {/* AgenticAI COOKBOOK */}
-        <Link
-          to="/agentic-cookbook"
+        
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/"
+          
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <div className="project-card">
-            <h3>Agentic AI</h3>
-          </div>
-        </Link>
+             <div className="project-card">
+              <h3>Agentic AI</h3>
+            </div>
+          </a>
 
         {/* Multi-Agent AI COOKBOOK */}
         <Link
