@@ -12,15 +12,26 @@ function Books() {
 
       <div className="projects-grid">
 
+        
         {/* RAG COOKBOOK */}
-        <Link
+        <a
+            href="https://pooja-ai.github.io/rag-knowledge-tutor/"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="project-card">
+              <h3>RAG</h3>
+            </div>
+          </a>
+
+
+        {/* <Link
           to="https://pooja-ai.github.io/rag-knowledge-tutor/"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
             <h3>RAG</h3>
           </div>
-        </Link>
+        </Link> */}
 
         {/* AgenticAI COOKBOOK */}
         <Link
