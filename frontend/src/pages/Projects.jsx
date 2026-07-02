@@ -53,33 +53,13 @@ function Projects() {
           </div>
         </Link>
 
-        {/* LLMOPS */}
-        <Link
-          to="/llmops"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>LLMOps & GenAI Lifecycle Management</h3>
-          </div>
-        </Link>
-
-        {/* MLOPS */}
-        <Link
-          to="/mlops"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>MLOps Pipeline</h3>
-          </div>
-        </Link>
-
          {/* MACHINE LEARNING */}
         <Link
           to="/machine-learning"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
-            <h3>Machine Learning Models</h3>
+            <h3>Machine Learning </h3>
           </div>
         </Link>
 
@@ -89,50 +69,30 @@ function Projects() {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
-            <h3>Deep Learning Models</h3>
+            <h3>Deep Learning </h3>
           </div>
         </Link>
 
-        {/* RL */}
+         {/* MLOPS */}
         <Link
-          to="/reinforcement-learning"
+          to="/mlops"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="project-card">
-            <h3>Reinforcement Learning Systems</h3>
+            <h3>MLOps</h3>
+          </div>
+        </Link>
+
+         {/* LLMOPS */}
+        <Link
+          to="/llmops"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="project-card">
+            <h3>LLMOps</h3>
           </div>
         </Link>
        
-
-        {/* NLP */}
-        <Link
-          to="/natural-language-processing"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>Natural Language Processing (NLP)</h3>
-          </div>
-        </Link>
-
-        {/* DATA SCIENCE */}
-        <Link
-          to="/data-science"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>Data Science & Analytics</h3>
-          </div>
-        </Link>
-
-        {/* SYSTEM DESIGN */}
-        <Link
-          to="/system-design"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <div className="project-card">
-            <h3>System Design & Architecture Patterns</h3>
-          </div>
-        </Link>
 
       </div>
     </section>
