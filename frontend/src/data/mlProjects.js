@@ -2,6 +2,15 @@ import EmailArchitecture from "../assets/architecture/email_classification_syste
 import EmailClassificationPDF from "../assets/docs/Email_Classification_System.pdf";
 import CreditRiskAssessment from "../assets/architecture/Credit-risk-assessment-system.png";
 import CreditRiskAssessmentPDF from "../assets/docs/Credit-risk-assessment-system.pdf";
+import MarketBasketAnalysis from "../assets/architecture/market-basket-analysis.png";
+import CstomerSegmentation from "../assets/architecture/customer-segmentation.png";
+import MovieRecommendation from "../assets/architecture/movie-recommendation.png";
+import RetailSalesForecasting from "../assets/architecture/retail-sales.png";
+import ResumeScreening from "../assets/architecture/resume-screening.png";
+import DynamicPricing from "../assets/architecture/dynamic-pricing.png";
+import EmployeeAttrition from "../assets/architecture/employee-attrition.png";
+import CustomerChurn from "../assets/architecture/customer-churn.png";
+import InsuranceFraud from "../assets/architecture/insurance-fraud.png";
 const mlProjects = [
   {
   id: "credit-risk",
@@ -101,7 +110,7 @@ tech: [
     "An end-to-end machine learning system that predicts employee attrition using HR analytics and real-time prediction APIs to help organizations improve workforce retention.",
   problemStatement:
     "Identify employees at high risk of leaving the organization to support proactive retention strategies and reduce hiring costs.",
-  architecture: "",
+  architecture: EmployeeAttrition,
   workflow: [
     "Employee HR data ingestion",
     "Data cleaning and preprocessing",
@@ -143,7 +152,7 @@ tech: [
   problemStatement:
     "Identify customers who are likely to discontinue a service so businesses can take proactive retention measures and reduce revenue loss.",
 
-  architecture: "",
+  architecture: CustomerChurn,
 
   workflow: [
     "Customer data ingestion",
@@ -476,7 +485,7 @@ tech: [
   problemStatement:
     "Optimize product pricing dynamically to maximize revenue while maintaining market competitiveness and customer demand.",
 
-  architecture: "",
+  architecture: DynamicPricing,
 
   workflow: [
     "Sales data ingestion",
@@ -528,7 +537,7 @@ tech: [
   problemStatement:
     "Automate resume screening to reduce recruiter workload, improve hiring efficiency, and rank candidates based on job relevance.",
 
-  architecture: "",
+  architecture: ResumeScreening,
 
   workflow: [
     "Resume ingestion (PDF/DOCX)",
@@ -632,7 +641,7 @@ tech: [
   problemStatement:
     "Forecast future sales accurately to optimize inventory management, supply chain planning, and business decision-making.",
 
-  architecture: "",
+  architecture: RetailSalesForecasting,
 
   workflow: [
     "Retail sales data ingestion",
@@ -687,7 +696,7 @@ tech: [
   problemStatement:
     "Group customers into meaningful segments based on purchasing patterns, demographics, and spending behavior to improve targeted marketing and customer engagement.",
 
-  architecture: "",
+  architecture: CstomerSegmentation,
 
   workflow: [
     "Customer transaction data ingestion",
@@ -737,7 +746,7 @@ tech: [
   problemStatement:
     "Recommend relevant movies to users based on genres, cast, storyline, and viewing preferences to improve user engagement.",
 
-  architecture: "",
+  architecture: MovieRecommendation,
 
   workflow: [
     "Movie metadata ingestion",
@@ -771,7 +780,7 @@ tech: [
     "Kubernetes",
     "Redis",
     "MLflow",
-    "React"
+      "React"
   ]
 },
 {
@@ -785,7 +794,7 @@ tech: [
   problemStatement:
     "Identify products that are frequently purchased together to optimize store layout, promotions, and recommendation systems.",
 
-  architecture: "",
+  architecture: MarketBasketAnalysis,
 
   workflow: [
     "Retail transaction ingestion",
@@ -807,7 +816,7 @@ tech: [
 
   demo: "",
 
-  documentation: "",
+  documentation: "https://github.com/Pooja-AI/market-basket-analysis/blob/main/README.md",
 
   tech: [
     "Python",
