@@ -5,6 +5,9 @@ function MLOps() {
   return (
     <section className="projects">
       <h1>MLOps Projects</h1>
+      <p className="subtitle">
+        MLOps Projects
+      </p>
 
       <div className="projects-grid">
         {mlopsProjects.map((project) => (

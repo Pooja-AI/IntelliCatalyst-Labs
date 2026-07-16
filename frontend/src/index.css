@@ -435,11 +435,21 @@ body {
 }
 
 .project-card {
+  /* background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 20px;
+  border-radius: 14px;
+  transition: 0.3s; */
   background: rgba(30, 41, 59, 0.8);
   border: 1px solid rgba(56, 189, 248, 0.2);
   padding: 20px;
   border-radius: 14px;
-  transition: 0.3s;
+
+  height: 120px;       /* Fixed box height */
+  width: 100%;         /* Fill the grid column */
+  overflow: hidden;    /* Prevent content from increasing box size */
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {

@@ -5,6 +5,9 @@ function Deeplearning() {
   return (
     <section className="projects">
       <h1>Deep Learning Projects</h1>
+      <p className="subtitle">
+        Deep Learning Projects
+      </p>
 
       <div className="projects-grid">
         {dlProjects.map((project) => (

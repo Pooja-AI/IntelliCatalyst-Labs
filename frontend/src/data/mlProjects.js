@@ -202,7 +202,7 @@ tech: [
   problemStatement:
     "Detect potentially fraudulent insurance claims before approval to reduce financial losses, accelerate claim processing, and improve fraud investigation efficiency.",
 
-  architecture: "",
+  architecture: InsuranceFraud,
 
   workflow: [
     "Insurance claims data ingestion",

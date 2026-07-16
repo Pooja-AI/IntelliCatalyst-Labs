@@ -5,6 +5,9 @@ function MachineLearning() {
   return (
     <section className="projects">
       <h1>Machine Learning Projects</h1>
+      <p className="subtitle">
+        Machine Learning Projects
+      </p>
 
       <div className="projects-grid">
         {mlProjects.map((project) => (

@@ -7,14 +7,14 @@ return ( <section className="hero">
       AI/ML • Generative AI • Agentic AI • RAG • LLMOps • MLOps
     </span>
 
-    <h1>IntelliCatalyst Labs</h1>
+    <h1>IntelliCatalyst AI Labs</h1>
 
     <h2>
       Engineering the Future of Intelligent Systems
     </h2>
 
     <p>
-      IntelliCatalyst Labs is a premier AI innovation platform dedicated
+      IntelliCatalyst AI Labs is a premier AI innovation platform dedicated
       to building, exploring, and showcasing cutting-edge solutions in
       Artificial Intelligence, Machine Learning, Generative AI,
       Agentic AI, Multi-Agent Systems, and Enterprise AI Architecture.

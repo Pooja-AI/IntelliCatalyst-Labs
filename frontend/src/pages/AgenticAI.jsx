@@ -5,6 +5,9 @@ function AgenticAI() {
   return (
     <section className="projects">
       <h1>Agentic AI Projects</h1>
+      <p className="subtitle">
+        Agentic AI Projects
+      </p>
 
       <div className="projects-grid">
         {agenticAIProjects.map((project) => (

@@ -5,6 +5,9 @@ function RAG() {
   return (
     <section className="projects">
       <h1>Retrieval-Augmented Generation Projects</h1>
+      <p className="subtitle">
+        Retrieval-Augmented Generation Projects
+      </p>
 
       <div className="projects-grid">
         {ragProjects.map((project) => (

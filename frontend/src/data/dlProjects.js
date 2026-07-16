@@ -1,3 +1,8 @@
+import IDP from "../assets/architecture/IDP.png";
+import MedicalImaging from "../assets/architecture/MedicalImaging.png";
+import ManufacturingVisualInspection from "../assets/architecture/ManufacturingVisualInspection.png";
+import SmartTrafficAnalytics from "../assets/architecture/SmartTrafficAnalytics.png";
+import ResumeIntelligencePlatform from "../assets/architecture/ResumeIntelligencePlatform.png";
 const dlProjects = [
   {
   id: "intelligent-document-processing",
@@ -12,7 +17,7 @@ const dlProjects = [
   problemStatement:
     "Manual document processing is time-consuming, error-prone, and expensive. Organizations require an intelligent system capable of automatically extracting structured information from diverse document types with high accuracy to accelerate business workflows and reduce operational costs.",
 
-  architecture: "",
+  architecture: IDP,
 
   workflow: [
     "Document ingestion from REST APIs, Cloud Storage, Email, and Local Uploads",
@@ -89,7 +94,7 @@ const dlProjects = [
   problemStatement:
     "Medical image interpretation is time-intensive and requires specialized expertise. Healthcare organizations need an intelligent system capable of providing fast, accurate, and explainable diagnostic predictions to improve patient outcomes and reduce radiologist workload.",
 
-  architecture: "",
+  architecture: MedicalImaging,
 
   workflow: [
     "Medical image ingestion from PACS, DICOM servers, cloud storage, and REST APIs",
@@ -165,7 +170,7 @@ const dlProjects = [
   problemStatement:
     "Manual quality inspection is slow, inconsistent, and expensive. Manufacturing industries require an intelligent vision system capable of detecting product defects with high accuracy to improve production quality, reduce waste, and automate inspection workflows.",
 
-  architecture: "",
+  architecture: ManufacturingVisualInspection,
 
   workflow: [
     "Image ingestion from industrial cameras, IoT devices, and production lines",
@@ -243,7 +248,7 @@ const dlProjects = [
   problemStatement:
     "Traditional traffic monitoring systems require extensive manual supervision and cannot efficiently analyze high-volume video streams. Smart cities require an AI-powered platform capable of real-time traffic analysis, rule violation detection, and intelligent transportation insights to improve road safety and traffic management.",
 
-  architecture: "",
+  architecture: SmartTrafficAnalytics,
 
   workflow: [
     "Live video ingestion from CCTV cameras, RTSP streams, drones, and IP cameras",
@@ -321,7 +326,7 @@ const dlProjects = [
   problemStatement:
     "Manual resume screening is time-consuming, inconsistent, and inefficient. Organizations require an intelligent system capable of extracting candidate information, matching resumes with job descriptions, ranking applicants, and providing explainable hiring recommendations.",
 
-  architecture: "",
+  architecture: ResumeIntelligencePlatform,
 
   workflow: [
     "Resume ingestion (PDF, DOCX, TXT)",

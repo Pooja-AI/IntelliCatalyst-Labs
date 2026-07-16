@@ -5,6 +5,9 @@ function MultiAgentAI() {
   return (
     <section className="projects">
       <h1>Multi-Agent Projects</h1>
+      <p className="subtitle">
+        Multi-Agent Projects
+      </p>
 
       <div className="projects-grid">
         {multiAgentProjects.map((project) => (
