@@ -1,5 +1,24 @@
 import { Link } from "react-router-dom";
 
+import {
+  FaRobot,
+  FaDatabase,
+  FaBrain,
+  FaUsersCog,
+  FaServer,
+  FaExchangeAlt,
+  FaShieldAlt,
+  FaLock,
+  FaEye,
+  FaBalanceScale,
+  FaCloudUploadAlt,
+  FaClipboardCheck,
+  FaChartLine,
+  FaNetworkWired,
+  FaComments,
+  FaCamera
+} from "react-icons/fa";
+
 function Books() {
   return (
     <section className="projects">
@@ -7,185 +26,167 @@ function Books() {
       <h1>AI Books</h1>
 
       <p className="subtitle">
-        AI knowledge library
+        AI Knowledge Library • Learn • Build • Deploy
       </p>
 
       <div className="projects-grid">
 
-        {/* LLM COOKBOOK */}
-        <Link
-          to="/LLM"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* LLM */}
+        <Link to="/LLM" className="project-link-card">
           <div className="project-card">
+            <FaRobot className="project-icon" />
             <h3>LLM</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        
-        {/* RAG COOKBOOK */}
+        {/* RAG */}
         <a
-            href="https://pooja-ai.github.io/rag-knowledge-tutor/"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="project-card">
-              <h3>RAG</h3>
-            </div>
-          </a>
-
-        {/* AgenticAI COOKBOOK */}
-        
-        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/"
-          
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-             <div className="project-card">
-              <h3>Agentic AI</h3>
-            </div>
-          </a>
-
-        {/* Multi-Agent Systems COOKBOOK */}
-        <Link
-          to="/multi-agent-cookbook"
-          style={{ textDecoration: "none", color: "inherit" }}
+          href="https://pooja-ai.github.io/rag-knowledge-tutor/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-link-card"
         >
           <div className="project-card">
+            <FaDatabase className="project-icon" />
+            <h3>RAG</h3>
+            <span className="view-more">Open →</span>
+          </div>
+        </a>
+
+        {/* Agentic AI */}
+        <a
+          href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-link-card"
+        >
+          <div className="project-card">
+            <FaBrain className="project-icon" />
+            <h3>Agentic AI</h3>
+            <span className="view-more">Open →</span>
+          </div>
+        </a>
+
+        {/* Multi-Agent */}
+        <Link to="/multi-agent-cookbook" className="project-link-card">
+          <div className="project-card">
+            <FaUsersCog className="project-icon" />
             <h3>Multi-Agent Systems</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        
-
-        {/* MCP COOKBOOK */}
-        <Link
-          to="/mcp"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* MCP */}
+        <Link to="/mcp" className="project-link-card">
           <div className="project-card">
+            <FaServer className="project-icon" />
             <h3>MCP</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        {/* A2A COOKBOOK */}
-        <Link
-          to="/a2a"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* A2A */}
+        <Link to="/a2a" className="project-link-card">
           <div className="project-card">
+            <FaExchangeAlt className="project-icon" />
             <h3>A2A</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        
-
-         {/*AI Safety COOKBOOK */}
-        <Link
-          to="/ai-safety"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* AI Safety */}
+        <Link to="/ai-safety" className="project-link-card">
           <div className="project-card">
+            <FaShieldAlt className="project-icon" />
             <h3>AI Safety</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-         {/*AI Security COOKBOOK */}
-        <Link
-          to="/ai-security"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* AI Security */}
+        <Link to="/ai-security" className="project-link-card">
           <div className="project-card">
+            <FaLock className="project-icon" />
             <h3>AI Security</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-         {/*Explainable AI COOKBOOK */}
-        <Link
-          to="/explainable-ai"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* Explainable AI */}
+        <Link to="/explainable-ai" className="project-link-card">
           <div className="project-card">
-            <h3>Explainable AI </h3>
+            <FaEye className="project-icon" />
+            <h3>Explainable AI</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-         {/*Responsible AI  COOKBOOK */}
-        <Link
-          to="/responsible-ai"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* Responsible AI */}
+        <Link to="/responsible-ai" className="project-link-card">
           <div className="project-card">
-            <h3>Responsible AI </h3>
+            <FaBalanceScale className="project-icon" />
+            <h3>Responsible AI</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        {/* AI Deployment COOKBOOK */}
-        <Link
-          to="/ai-deployment"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* AI Deployment */}
+        <Link to="/ai-deployment" className="project-link-card">
           <div className="project-card">
-            <h3> AI Deployment</h3>
+            <FaCloudUploadAlt className="project-icon" />
+            <h3>AI Deployment</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        {/*AI Evaluation COOKBOOK */}
-        <Link
-          to="/ai-evaluation"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* AI Evaluation */}
+        <Link to="/ai-evaluation" className="project-link-card">
           <div className="project-card">
+            <FaClipboardCheck className="project-icon" />
             <h3>AI Evaluation</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-      
-
-        {/* Machine Learning COOKBOOK */}
-        <Link
-          to="/machine-learning"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* Machine Learning */}
+        <Link to="/machine-learning" className="project-link-card">
           <div className="project-card">
+            <FaChartLine className="project-icon" />
             <h3>Machine Learning</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        {/* Deep Learning COOKBOOK */}
-        <Link
-          to="/deep-learning"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* Deep Learning */}
+        <Link to="/deep-learning" className="project-link-card">
           <div className="project-card">
+            <FaNetworkWired className="project-icon" />
             <h3>Deep Learning</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        {/* NLP COOKBOOK */}
-        <Link
-          to="/nlp"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* NLP */}
+        <Link to="/nlp" className="project-link-card">
           <div className="project-card">
-            <h3>NLP</h3>
+            <FaComments className="project-icon" />
+            <h3>Natural Language Processing</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
 
-        {/* Computer vision COOKBOOK */}
-        <Link
-          to="/computer-vision"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* Computer Vision */}
+        <Link to="/computer-vision" className="project-link-card">
           <div className="project-card">
+            <FaCamera className="project-icon" />
             <h3>Computer Vision</h3>
+            <span className="view-more">Open →</span>
           </div>
         </Link>
-
-
-
-
-
 
       </div>
+
     </section>
   );
 }
