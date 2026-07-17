@@ -3,10 +3,17 @@ import CorrosionDetectionDocs from "../assets/docs/CorrosionDetectionDocs.pdf";
 import SmartContentCreation from "../assets/architecture/smartcontent_creation.png"
 import ResumeOptimizationTool from "../assets/architecture/ResumeOptimizationTool.png"
 import MeetingNotes from "../assets/architecture/MeetingNotes.png"
+import CorrosionBanner from "../assets/banners/corrosion-banner.png";
+import CorrosionLogo from "../assets/logos/corrosion-logo.png";
+import  smartContentCreationLogo from "../assets/banners/smartcontent-banner.png";
+import ResumeOptimizationLogo from "../assets/banners/airesume-banner.png";
+import MeetingNotesLogo from "../assets/banners/meetingnotes-banner.png";
 const genAIProjects = [
   {
     id: "corrosion-detection-genai",
     title: "Corrosion Detection GenAI - Vision + LLM Inspection Assistant",
+    banner: CorrosionBanner,
+    logo: CorrosionLogo,
     category: "Computer Vision & GenAI",
     description:
       "Multimodal AI system that detects corrosion in images of metal structures using a CNN/YOLO/ViT vision model, then uses an LLM to generate inspection reports and answer follow-up questions via a chat assistant.",
@@ -38,6 +45,7 @@ const genAIProjects = [
   id: "smart-content-creation-assistant",
 
   title: "Smart Content Creation Assistant",
+  banner: smartContentCreationLogo,
 
   category: "Generative AI",
 
@@ -122,6 +130,7 @@ const genAIProjects = [
   {
     id: "resume-optimizer",
     title: "AI Resume Optimization Tool",
+    banner: ResumeOptimizationLogo,
     category: "Career AI",
     description:
       "AI-powered resume analyzer that scores resumes for ATS compatibility, identifies missing keywords against a target job description, and rewrites weak bullet points using a self-hosted open-source LLM.",
@@ -164,6 +173,7 @@ const genAIProjects = [
  {
   id: "meeting-summarizer",
   title: "Meeting Notes Summarizer and Action Generator",
+  banner: MeetingNotesLogo,
   category: "Productivity AI",
 
   description:

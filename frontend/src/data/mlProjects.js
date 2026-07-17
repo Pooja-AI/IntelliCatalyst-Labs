@@ -11,10 +11,29 @@ import DynamicPricing from "../assets/architecture/dynamic-pricing.png";
 import EmployeeAttrition from "../assets/architecture/employee-attrition.png";
 import CustomerChurn from "../assets/architecture/customer-churn.png";
 import InsuranceFraud from "../assets/architecture/insurance-fraud.png";
+import CreditRiskBanner from "../assets/banners/creditrisk-banner.png";
+import EmailClassificationBanner from "../assets/banners/emailclassification-banner.png";
+import EmployeeAttritionBanner from "../assets/banners/employeeattrition-banner.png";
+import CustomerChurnBanner from "../assets/banners/customerchurn-bannerG.png";  
+import InsuranceFraudBanner from "../assets/banners/insurencefrud-bannerG.png";
+import HospitalReadmissionBanner from "../assets/banners/hospital-banner.png";
+import SmartCropBanner from "../assets/banners/SmartCrop-bannerG.png";
+import dynamicPricingBanner from "../assets/banners/dynamic-banner.png";
+import AirQualityBanner from "../assets/banners/airquality-banner.png";
+import marketBasketAnalysisBanner from "../assets/banners/market-banner.png";
+import MovieRecommendationBanner from "../assets/banners/movierecommendation-banner.png";
+import customerSegmentationBanner from "../assets/banners/customersegmentation-banner.png";
+import RetailSalesForecastingBanner from "../assets/banners/retail-banner.png";
+import NetworkBanner from "../assets/banners/network-banner.png";
+import StudentPerformanceBanner from "../assets/banners/student-banner.png";
+import InventoryDemandForecastingBanner from "../assets/banners/inventory-banner.png";
+import AIResumescreen from "../assets/banners/airesumescreen-banner.png";
+
 const mlProjects = [
   {
   id: "credit-risk",
   title: "Credit Risk Assessment System",
+  banner: CreditRiskBanner,
   category: "Machine Learning | Classification | MLOps",
   description:
     "An end-to-end cloud-native ML system that assesses credit risk of loan applicants using machine learning models and real-time scoring APIs.",
@@ -62,6 +81,7 @@ const mlProjects = [
   {
 id: "email-classification",
 title: "Enterprise Email Classification System",
+banner: EmailClassificationBanner,
 category: "Natural Language Processing",
 description: "Automated email classification system using traditional NLP techniques and Machine Learning algorithms to categorize incoming emails into predefined classes.",
 problemStatement: "Organizations receive thousands of emails daily. Manually categorizing emails is time-consuming and error-prone. This system automatically classifies emails into predefined categories using NLP and Machine Learning.",
@@ -105,6 +125,7 @@ tech: [
 {
   id: "employee-attrition",
   title: "Employee Attrition Prediction System",
+  banner: EmployeeAttritionBanner,
   category: "Machine Learning | Classification | MLOps",
   description:
     "An end-to-end machine learning system that predicts employee attrition using HR analytics and real-time prediction APIs to help organizations improve workforce retention.",
@@ -145,6 +166,7 @@ tech: [
 {
   id: "customer-churn",
   title: "Customer Churn Prediction Platform",
+  banner: CustomerChurnBanner,
   category: "Machine Learning | Classification | Customer Analytics",
   description:
     "An end-to-end machine learning platform that predicts customer churn using behavioral and transactional data, enabling businesses to improve customer retention through real-time prediction APIs.",
@@ -195,6 +217,7 @@ tech: [
 {
   id: "insurance-fraud",
   title: "Insurance Fraud Detection System",
+  banner: InsuranceFraudBanner,
   category: "Machine Learning | Classification | Fraud Analytics",
   description:
     "An end-to-end machine learning platform that detects fraudulent insurance claims using predictive analytics and anomaly detection models, enabling insurers to identify high-risk claims in real time.",
@@ -245,6 +268,7 @@ tech: [
 {
   id: "hospital-readmission",
   title: "Hospital Readmission Prediction System",
+  banner: HospitalReadmissionBanner,
   category: "Machine Learning | Classification | Healthcare AI",
   description:
     "An end-to-end machine learning platform that predicts the likelihood of patient readmission using electronic health records and clinical data to support proactive healthcare decisions.",
@@ -294,6 +318,7 @@ tech: [
 {
   id: "crop-recommendation",
   title: "Smart Crop Recommendation System",
+  banner: SmartCropBanner,
   category: "Machine Learning | Classification | Agriculture AI",
   description:
     "An end-to-end machine learning platform that recommends the most suitable crops based on soil nutrients, weather conditions, and environmental factors to improve agricultural productivity.",
@@ -345,6 +370,7 @@ tech: [
 {
   id: "inventory-demand",
   title: "Inventory Demand Forecasting System",
+  banner: InventoryDemandForecastingBanner,
   category: "Machine Learning | Regression | Supply Chain Analytics",
   description:
     "An end-to-end machine learning platform that forecasts product demand using historical sales, seasonal trends, promotions, and inventory data to optimize supply chain operations.",
@@ -396,6 +422,7 @@ tech: [
 {
   id: "student-performance",
   title: "Student Performance Prediction System",
+  banner: StudentPerformanceBanner,
   category: "Machine Learning | Classification | Education AI",
   description:
     "An end-to-end cloud-native machine learning platform that predicts student academic performance using educational and behavioral data with scalable real-time prediction APIs.",
@@ -438,6 +465,7 @@ tech: [
 {
   id: "air-quality",
   title: "Air Quality Prediction System",
+  banner: AirQualityBanner,
   category: "Machine Learning | Regression | Environmental AI",
   description:
     "An enterprise forecasting platform that predicts Air Quality Index (AQI) using weather and pollution sensor data.",
@@ -478,6 +506,7 @@ tech: [
 {
   id: "dynamic-pricing",
   title: "Dynamic Pricing Optimization System",
+  banner: dynamicPricingBanner,
   category: "Machine Learning | Regression | Retail AI",
   description:
     "An enterprise pricing intelligence platform that recommends optimal product prices using demand forecasting, competitor analysis, and inventory analytics.",
@@ -530,6 +559,7 @@ tech: [
 {
   id: "resume-screening",
   title: "AI Resume Screening System",
+  banner: AIResumescreen,
   category: "Machine Learning | NLP | Recruitment AI",
   description:
     "An enterprise NLP platform that automatically classifies, ranks, and matches resumes against job descriptions using traditional NLP and machine learning techniques.",
@@ -581,6 +611,7 @@ tech: [
 {
   id: "network-intrusion",
   title: "Network Intrusion Detection System",
+  banner: NetworkBanner,
   category: "Machine Learning | Cybersecurity | Classification",
   description:
     "An enterprise cybersecurity platform that detects malicious network traffic and cyberattacks using machine learning models and anomaly detection techniques.",
@@ -634,6 +665,7 @@ tech: [
 {
   id: "retail-sales",
   title: "Retail Sales Forecasting System",
+  banner: RetailSalesForecastingBanner,
   category: "Machine Learning | Regression | Supply Chain Analytics",
   description:
     "An enterprise forecasting platform that predicts future retail sales using historical sales, promotions, holidays, inventory, and seasonal trends for intelligent business planning.",
@@ -688,6 +720,7 @@ tech: [
 {
   id: "customer-segmentation",
   title: "Customer Segmentation System",
+  banner: customerSegmentationBanner,
   category: "Machine Learning | Unsupervised Learning | Customer Analytics",
 
   description:
@@ -738,6 +771,7 @@ tech: [
 {
   id: "movie-recommendation",
   title: "Movie Recommendation System",
+  banner: MovieRecommendationBanner,
   category: "Machine Learning | Recommendation Systems | NLP",
 
   description:
@@ -786,6 +820,7 @@ tech: [
 {
   id: "market-basket-analysis",
   title: "Market Basket Analysis System",
+  banner: marketBasketAnalysisBanner,
   category: "Machine Learning | Association Rule Mining | Retail Analytics",
 
   description:
