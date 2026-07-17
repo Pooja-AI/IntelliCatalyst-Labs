@@ -5,7 +5,8 @@
 }
 
 body {
-  background: #0f172a;
+  /* background: #0f172a; */
+  background:radial-gradient(circle at top, #0f172a, #020617);
   color: white;
   font-family: Inter, Arial, sans-serif;
 }
@@ -412,13 +413,15 @@ body {
 .projects {
   padding: 80px 20px;
   text-align: center;
-  background: #0f172a;
+  /* background: #0f172a; */
+  background:radial-gradient(circle at top, #0f172a, #020617);
+
   color: white;
 }
 
 .projects h1 {
   font-size: 48px;
-  color: #38bdf8;
+  color: #f2f2f2;
 }
 
 .subtitle {
@@ -458,7 +461,7 @@ body {
 }
 
 .project-card h3 {
-  color: #38bdf8;
+  color: #f2f2f2;
   margin-bottom: 10px;
 }
 
