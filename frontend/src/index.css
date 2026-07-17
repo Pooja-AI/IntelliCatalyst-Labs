@@ -681,21 +681,406 @@ nav a:hover{
 }
 
 
-/* ==========================================
-   PROJECT DETAILS PAGE
-========================================== */
+/* New */
+
+/* =====================================
+   PROJECT DETAILS
+===================================== */
 
 .project-container {
-
-  max-width: 1100px;
-
+  max-width: 1200px;
   margin: auto;
-
-  padding: 60px 25px;
-
+  padding: 70px 20px;
   color: white;
+}
+
+
+
+/* =====================================
+   TITLE
+===================================== */
+
+.title{
+  text-align:center;
+  font-size:52px;
+  font-weight:800;
+  margin-bottom:20px;
+  line-height:1.2;
+
+  background:linear-gradient(90deg,#ffffff,#7dd3fc,#00e5ff);
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.project-container>.subtitle{
+
+  max-width:900px;
+
+  margin:auto auto 60px;
+
+  text-align:center;
+
+  color:#94a3b8;
+
+  font-size:20px;
+
+  line-height:1.8;
+}
+
+/* =====================================
+   SECTION
+===================================== */
+
+.section{
+
+  position:relative;
+
+  margin-bottom:45px;
+
+  padding:35px;
+
+  background:rgba(15,23,42,.72);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid rgba(0,229,255,.15);
+
+  border-radius:22px;
+
+  transition:.35s;
+
+  overflow:hidden;
 
 }
+
+/* Glow */
+
+.section::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:180px;
+
+  height:180px;
+
+  background:#00E5FF;
+
+  filter:blur(120px);
+
+  opacity:.08;
+
+  right:-70px;
+
+  top:-70px;
+
+}
+
+.section:hover{
+
+  transform:translateY(-6px);
+
+  border-color:#00E5FF;
+
+  box-shadow:0 20px 40px rgba(0,229,255,.12);
+
+}
+
+/* =====================================
+   HEADINGS
+===================================== */
+
+.section h2{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:14px;
+
+  font-size:34px;
+
+  margin-bottom:28px;
+
+  color:#38bdf8;
+
+  font-weight:700;
+
+}
+
+.section h2::after{
+
+  content:"";
+
+  flex:1;
+
+  height:1px;
+
+  background:rgba(255,255,255,.08);
+
+}
+
+.section h2::before{
+
+  content:"";
+
+  flex:1;
+
+  height:1px;
+
+  background:rgba(255,255,255,.08);
+
+}
+
+/* =====================================
+   PARAGRAPH
+===================================== */
+
+.section p{
+
+  color:#d1d5db;
+
+  line-height:1.9;
+
+  font-size:18px;
+
+  text-align:center;
+
+}
+
+/* =====================================
+   IMAGE
+===================================== */
+
+.section img{
+
+  width:100%;
+
+  border-radius:18px;
+
+  background:white;
+
+  padding:18px;
+
+  transition:.35s;
+
+  cursor:pointer;
+
+}
+
+.section img:hover{
+
+  transform:scale(1.02);
+
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+
+}
+
+/* =====================================
+   WORKFLOW
+===================================== */
+
+.section ol{
+
+  margin-top:20px;
+
+  padding-left:0;
+
+  list-style:none;
+
+}
+
+.section ol li{
+
+  position:relative;
+
+  padding:18px 20px 18px 70px;
+
+  margin-bottom:18px;
+
+  background:rgba(255,255,255,.04);
+
+  border-radius:14px;
+
+  transition:.3s;
+
+}
+
+.section ol li:hover{
+
+  background:rgba(0,229,255,.08);
+
+  transform:translateX(8px);
+
+}
+
+.section ol li::before{
+
+  counter-increment:item;
+
+  content:counter(item);
+
+  position:absolute;
+
+  left:18px;
+
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:34px;
+
+  height:34px;
+
+  border-radius:50%;
+
+  background:#00E5FF;
+
+  color:#071018;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-weight:bold;
+
+}
+
+.section ol{
+
+  counter-reset:item;
+
+}
+
+/* =====================================
+   TECH STACK
+===================================== */
+
+.section ul{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:15px;
+
+  list-style:none;
+
+  padding:0;
+
+  justify-content:center;
+
+}
+
+.section ul li{
+
+  padding:10px 18px;
+
+  background:rgba(0,229,255,.08);
+
+  border:1px solid rgba(0,229,255,.18);
+
+  border-radius:30px;
+
+  color:#dbeafe;
+
+  transition:.3s;
+
+}
+
+.section ul li:hover{
+
+  background:#00E5FF;
+
+  color:#071018;
+
+  transform:translateY(-4px);
+
+}
+
+/* =====================================
+   LINKS
+===================================== */
+
+.section a{
+
+  display:inline-block;
+
+  margin:12px 10px;
+
+  padding:12px 24px;
+
+  background:linear-gradient(90deg,#00E5FF,#3B82F6);
+
+  color:white;
+
+  border-radius:12px;
+
+  text-decoration:none;
+
+  transition:.35s;
+
+  font-weight:600;
+
+}
+
+.section a:hover{
+
+  transform:translateY(-3px);
+
+  box-shadow:0 15px 30px rgba(0,229,255,.25);
+
+}
+
+/* =====================================
+   ACTIVITY LOG
+===================================== */
+
+.section ul li{
+
+  font-size:16px;
+
+}
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media(max-width:768px){
+
+.title{
+
+font-size:38px;
+
+}
+
+.section{
+
+padding:25px;
+
+}
+
+.section h2{
+
+font-size:28px;
+
+}
+
+.project-container>.subtitle{
+
+font-size:17px;
+
+}
+
+}
+
+
 
 /* =====================================
    PROJECTS SECTION

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 function MLOpsCard({ project }) {
   return (
     <Link
       to={`/mlops/${project.id}`}
-      style={{ textDecoration: "none", color: "inherit" }}
+      className="project-link-card"
       onClick={() => {
         console.log("🚀 Project Clicked");
         console.log("Title:", project.title);
@@ -12,8 +13,23 @@ function MLOpsCard({ project }) {
       }}
     >
       <div className="project-card">
-        <h3>{project.title}</h3>
-        <p>{project.description}</p>
+        <div className="project-preview">
+          <img
+            src={project.banner || project.image || project.logo}
+            alt={project.title}
+            className="project-banner"
+          />
+
+          <div className="project-overlay">
+            <div className="project-overlay-content">
+              <h3>{project.title}</h3>
+
+              <span className="view-project">
+                View Project <FaExternalLinkAlt />
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </Link>
   );

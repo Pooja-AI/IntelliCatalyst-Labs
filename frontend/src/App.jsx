@@ -2,8 +2,6 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
 // import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-
-
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
@@ -19,10 +17,6 @@ import MLProjectDetails from "./pages/MLProjectDetails";
 // DL
 import Deeplearning from "./pages/Deeplearning";
 import DLProjectDetails from "./pages/DLProjectDetails";
-
-// RL
-import ReinforcementLearning from "./pages/ReinforcementLearning";
-import RLProjectDetails from "./pages/RLProjectDetails";
 
 // MLOps
 import MLOps from "./pages/MLOps";
@@ -40,21 +34,15 @@ import LLMOpsProjectDetails from "./pages/LLMOpsProjectDetails";
 import AgenticAI from "./pages/AgenticAI";
 import AgenticAIProjectDetails from "./pages/AgenticAIProjectDetails";
 
-//NLP
-import NaturalLanguageProcessing from "./pages/NaturalLanguageProcessing";
-import NLPProjectDetails from "./pages/NLPProjectDetails";
+
 
 //Generative AI
 import GenerativeAI from "./pages/GenerativeAI";
 import GenAIProjectDetails from "./pages/GenAIProjectDetails";
 
-//System Design
-import SystemDesign from "./pages/SystemDesign";
-import SystemDesignProjectDetails from "./pages/SystemDesignProjectDetails";  
 
-//Data Science
-import DataScience from "./pages/DataScience";
-import DataScienceProjectDetails from "./pages/DataScienceProjectDetails";
+
+
 
 //Multi-Agent AI
 import MultiAgent from "./pages/MultiAgentAI";
@@ -87,10 +75,7 @@ function App() {
         {/* Deep Learning */}
         <Route path="/deep-learning" element={<Deeplearning />} />
         <Route path="/deep-learning/:id" element={<DLProjectDetails />} />
-
-        {/* Reinforcement Learning */}
-        <Route path="/reinforcement-learning" element={<ReinforcementLearning />} />
-        <Route path="/reinforcement-learning/:id" element={<RLProjectDetails />} />
+    
 
         {/* MLOps */}
         <Route path="/mlops" element={<MLOps />} />
@@ -107,29 +92,15 @@ function App() {
         {/* Agentic AI */}
         <Route path="/agentic-ai" element={<AgenticAI />} />
         <Route path="/agentic-ai/:id" element={<AgenticAIProjectDetails />} />
-
-        {/* Natural Language Processing */}
-        <Route path="/natural-language-processing" element={<NaturalLanguageProcessing />} />
-        <Route path="/natural-language-processing/:id" element={<NLPProjectDetails />} />
-
+     
         {/* Generative AI */}
         <Route path="/generative-ai" element={<GenerativeAI />} />
         <Route path="/generative-ai/:id" element={<GenAIProjectDetails />} />
 
-        {/* System Design */}
-        <Route path="/system-design" element={<SystemDesign />} />
-        <Route path="/system-design/:id" element={<SystemDesignProjectDetails />} />
-
-        {/* Data Science */}
-        <Route path="/data-science" element={<DataScience />} />
-        <Route path="/data-science/:id" element={<DataScienceProjectDetails />} />
-
         {/* Multi-Agent AI */}
         <Route path="/multi-agent-ai" element={<MultiAgent />} />
         <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
-
         
-
         {/* Multi-Agent AI */}
         <Route path="/multi-agent-cookbook" element={<FRAMEWORKS />} />
 
