@@ -1,7 +1,21 @@
+import LLMOpsPipelineBanner from "../assets/banners/llmops-pipeline-banner.png";
+import PromptLifecycleBanner from "../assets/banners/prompt-lifecycle-banner.png";
+import LLMFineTuningBanner from "../assets/banners/llm-finetuning-banner.png";
+import RAGMonitoringBanner from "../assets/banners/rag-monitoring-banner.png";
+import LLMFeedbackLoopBanner from "../assets/banners/llm-feedback-loop-banner.png";
+import LLMRoutingBanner from "../assets/banners/llm-routing-banner.png";
+import AIModelMonitoringBanner from "../assets/banners/ai-model-monitoring-banner.png";
+import PromptABTestingBanner from "../assets/banners/prompt-ab-testing-banner.png";
+import AIGovernanceBanner from "../assets/banners/ai-governance-system-banner.png";
+import VectorDBLifecycleBanner from "../assets/banners/vector-db-lifecycle-banner.png";
+import LLMEvaluationBanner from "../assets/banners/llm-evaluation-banner.png";
+import LLMDeploymentBanner from "../assets/banners/llm-deployment-banner.png";
+
 const llmopsProjects = [
   {
     id: "end-to-end-llmops-pipeline",
     title: "End-to-End LLMOps Pipeline for Enterprise Applications",
+    banner: LLMOpsPipelineBanner,
     category: "LLMOps Pipeline",
     description:
       "Complete lifecycle pipeline for building, deploying, and managing LLM applications at scale.",
@@ -32,6 +46,7 @@ const llmopsProjects = [
   {
     id: "prompt-lifecycle-management",
     title: "Prompt Lifecycle Management System",
+    banner: PromptLifecycleBanner,
     category: "Prompt Engineering Ops",
     description:
       "System for versioning, testing, and deploying prompts in production environments.",
@@ -61,6 +76,7 @@ const llmopsProjects = [
   {
     id: "llm-fine-tuning-pipeline",
     title: "LLM Fine-Tuning Pipeline with Experiment Tracking",
+    banner: LLMFineTuningBanner,
     category: "Model Training Ops",
     description:
       "Pipeline for fine-tuning LLMs with tracking and evaluation.",
@@ -91,6 +107,8 @@ const llmopsProjects = [
   {
     id: "rag-monitoring-pipeline",
     title: "RAG Pipeline with Continuous Evaluation and Monitoring",
+    banner: RAGMonitoringBanner,
+  
     category: "RAG Ops",
     description:
       "System to continuously monitor and evaluate RAG pipeline performance.",
@@ -120,6 +138,7 @@ const llmopsProjects = [
   {
     id: "llm-evaluation-framework",
     title: "LLM Evaluation Framework for Response Quality",
+    banner: LLMEvaluationBanner,
     category: "LLM Evaluation",
     description:
       "Framework for evaluating LLM outputs and detecting hallucinations.",
@@ -149,6 +168,7 @@ const llmopsProjects = [
   {
     id: "llm-ci-cd-deployment",
     title: "LLM Deployment Pipeline using CI/CD",
+    banner: LLMDeploymentBanner,
     category: "Deployment Ops",
     description:
       "Automated deployment system for LLM applications.",
@@ -178,6 +198,7 @@ const llmopsProjects = [
   {
     id: "ai-model-monitoring-system",
     title: "AI Model Monitoring System",
+    banner: AIModelMonitoringBanner,
     category: "Monitoring Ops",
     description:
       "System for tracking AI model performance, drift, and latency.",
@@ -207,6 +228,7 @@ const llmopsProjects = [
   {
     id: "prompt-ab-testing",
     title: "Prompt A/B Testing and Optimization Platform",
+    banner: PromptABTestingBanner,
     category: "Prompt Optimization",
     description:
       "Platform for testing and optimizing prompt versions.",
@@ -236,6 +258,7 @@ const llmopsProjects = [
   {
     id: "llm-feedback-loop",
     title: "LLM Feedback Loop System",
+    banner: LLMFeedbackLoopBanner,
     category: "Human-in-the-Loop AI",
     description:
       "System to improve LLMs using human feedback.",
@@ -265,6 +288,7 @@ const llmopsProjects = [
   {
     id: "vector-db-lifecycle",
     title: "Vector Database Lifecycle Management System",
+    banner: VectorDBLifecycleBanner,
     category: "RAG Infrastructure",
     description:
       "System for managing vector database indexing and updates.",
@@ -294,6 +318,7 @@ const llmopsProjects = [
   {
     id: "llm-routing-system",
     title: "Multi-Model LLM Routing System",
+    banner: LLMRoutingBanner,
     category: "AI Optimization",
     description:
       "System to route queries to best LLM based on cost and performance.",
@@ -323,6 +348,7 @@ const llmopsProjects = [
   {
     id: "ai-governance-system",
     title: "Enterprise AI Governance and Compliance System",
+    banner: AIGovernanceBanner,
     category: "AI Governance",
     description:
       "System ensuring safety, compliance, and governance in AI workflows.",

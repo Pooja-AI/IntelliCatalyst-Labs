@@ -3,11 +3,23 @@ import MedicalImaging from "../assets/architecture/MedicalImaging.png";
 import ManufacturingVisualInspection from "../assets/architecture/ManufacturingVisualInspection.png";
 import SmartTrafficAnalytics from "../assets/architecture/SmartTrafficAnalytics.png";
 import ResumeIntelligencePlatform from "../assets/architecture/ResumeIntelligencePlatform.png";
+import IntelligentDocumentProcessingBanner from "../assets/banners/intelligent-banner.png";
+import MedicalImagingBanner from "../assets/banners/Medical-banner.png";
+import ManufacturingVisualInspectionBanner from "../assets/banners/Manufacturing-banner.png";
+import SmartTrafficAnalyticsBanner from "../assets/banners/smarttraffic-banner.png";
+import EResumeIntelligenceBanner from "../assets/banners/ERIP-banner.png";
+import ESKSBanner from "../assets/banners/ESKS-banner.png";
+import AIVisualSearchBanner from "../assets/banners/AIVisual-banner.png";
+import VideoIntelligenceBanner from "../assets/banners/AIVideo-banner.png";
+import AIImageGenerationBanner from "../assets/banners/AIImage-banner.png";
+import AutonomousVisionIntelligenceBanner from "../assets/banners/Avision-banner.png";
+
 const dlProjects = [
   {
   id: "intelligent-document-processing",
 
   title: "Intelligent Document Processing (IDP) Platform",
+  banner: IntelligentDocumentProcessingBanner,
 
   category: "Deep Learning | Document AI | OCR | NLP",
 
@@ -85,6 +97,7 @@ const dlProjects = [
   id: "medical-imaging-diagnosis",
 
   title: "Medical Imaging Diagnosis Platform",
+  banner: MedicalImagingBanner,
 
   category: "Deep Learning | Computer Vision | Healthcare AI",
 
@@ -161,11 +174,14 @@ const dlProjects = [
   id: "manufacturing-visual-inspection",
 
   title: "Manufacturing Visual Inspection Platform",
+  banner: ManufacturingVisualInspectionBanner,
 
   category: "Deep Learning | Computer Vision | Industrial AI",
 
   description:
     "An enterprise-grade visual inspection platform that automatically detects manufacturing defects, performs product quality inspection, identifies missing components, measures dimensional deviations, and classifies defects using state-of-the-art deep learning models. The platform enables real-time quality control for smart factories through scalable cloud-native APIs.",
+
+
 
   problemStatement:
     "Manual quality inspection is slow, inconsistent, and expensive. Manufacturing industries require an intelligent vision system capable of detecting product defects with high accuracy to improve production quality, reduce waste, and automate inspection workflows.",
@@ -239,6 +255,7 @@ const dlProjects = [
   id: "smart-traffic-analytics",
 
   title: "Smart Traffic Analytics Platform",
+  banner: SmartTrafficAnalyticsBanner,
 
   category: "Deep Learning | Video Analytics | Smart Cities AI",
 
@@ -317,6 +334,7 @@ const dlProjects = [
   id: "resume-intelligence",
 
   title: "Enterprise Resume Intelligence Platform",
+  banner: EResumeIntelligenceBanner,
 
   category: "Deep Learning | NLP | Recruitment AI",
 
@@ -392,6 +410,7 @@ const dlProjects = [
   id: "enterprise-semantic-search",
 
   title: "Enterprise Semantic Search & Knowledge Discovery Platform",
+  banner: ESKSBanner,
 
   category: "Deep Learning | NLP | Semantic Search | Enterprise AI",
 
@@ -465,6 +484,7 @@ const dlProjects = [
   id: "visual-search-product-recommendation",
 
   title: "AI Visual Search & Product Recommendation Platform",
+  banner: AIVisualSearchBanner,
 
   category: "Deep Learning | Multimodal AI | Computer Vision",
 
@@ -540,6 +560,7 @@ const dlProjects = [
   id: "video-intelligence-platform",
 
   title: "AI Video Intelligence Platform",
+  banner: VideoIntelligenceBanner,
 
   category: "Deep Learning | Video Analytics | Video Understanding",
 
@@ -617,6 +638,7 @@ const dlProjects = [
   id: "image-generation-platform",
 
   title: "AI Image Generation & Editing Platform",
+  banner: AIImageGenerationBanner,
 
   category: "Deep Learning | Generative AI | Computer Vision",
 
@@ -705,6 +727,7 @@ const dlProjects = [
   id: "autonomous-vision-intelligence",
 
   title: "Autonomous Vision Intelligence Platform",
+  banner: AutonomousVisionIntelligenceBanner,
 
   category: "Deep Learning | Multimodal AI | Vision AI",
 

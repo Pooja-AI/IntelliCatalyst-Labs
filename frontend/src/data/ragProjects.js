@@ -1,8 +1,17 @@
 import EnterpriseQA from "../assets/architecture/enterprise-knowledge-qa.png"
+import EABotBanner from "../assets/banners/EABot-banner.png"
+import CSBotBanner from "../assets/banners/CSBot-banner.png"
+import LegalBotBanner from "../assets/banners/LegalBot-banner.png"
+import HealthcareBotBanner from "../assets/banners/HealthBot-banner.png"
+import TechDocBotBanner from "../assets/banners/TechBot-banner.png"
+import HRBotBanner from "../assets/banners/HRBot-banner.png"
+import FRBotBanner from "../assets/banners/FRABot-banner.png"
+import RPQABotBanner from "../assets/banners/RPQABot-banner.png"
 const ragProjects = [
   {
     id: "enterprise-knowledge-qa",
     title: "Enterprise Knowledge Base Q&A System",
+    banner: EABotBanner,
     category: "RAG Systems",
     description:
       "Enterprise-grade Q&A system over an internal knowledge base using a full Retrieval-Augmented Generation pipeline, with 7 advanced retrieval techniques toggleable live from the UI.",
@@ -35,6 +44,7 @@ const ragProjects = [
   {
     id: "customer-support-rag",
     title: "Customer Support Knowledge Retrieval Bot",
+    banner: CSBotBanner,
     category: "Enterprise Support AI",
     description:
       "AI-powered system that retrieves answers from enterprise knowledge base for customer support automation.",
@@ -64,6 +74,7 @@ const ragProjects = [
   {
     id: "legal-rag",
     title: "Legal Document Q&A System using RAG",
+    banner: LegalBotBanner,
     category: "Legal AI",
     description:
       "Query legal documents and extract precise answers using AI-powered retrieval.",
@@ -93,6 +104,7 @@ const ragProjects = [
   {
     id: "healthcare-rag",
     title: "Healthcare Report Understanding Assistant",
+    banner: HealthcareBotBanner,
     category: "Healthcare AI",
     description:
       "AI system for analyzing medical reports and generating insights using RAG.",
@@ -122,6 +134,7 @@ const ragProjects = [
   {
     id: "tech-doc-chat",
     title: "Technical Documentation Chat System",
+    banner: TechDocBotBanner,
     category: "Developer AI",
     description:
       "Chat system for interacting with technical documentation using semantic search.",
@@ -151,6 +164,7 @@ const ragProjects = [
   {
     id: "hr-policy-assistant",
     title: "HR Policy and Employee Handbook Assistant",
+    banner: HRBotBanner,
     category: "Enterprise HR AI",
     description:
       "AI assistant for answering HR policy and employee handbook queries.",
@@ -180,6 +194,7 @@ const ragProjects = [
   {
     id: "financial-rag",
     title: "Financial Report Analysis Assistant using RAG",
+    banner: FRBotBanner,
     category: "Finance AI",
     description:
       "AI system for analyzing financial reports and extracting insights.",
@@ -209,6 +224,7 @@ const ragProjects = [
   {
     id: "research-paper-qa",
     title: "Academic Research Paper Q&A System",
+    banner: RPQABotBanner,
     category: "Research AI",
     description:
       "AI system for querying academic papers and extracting insights.",
