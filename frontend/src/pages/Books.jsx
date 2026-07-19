@@ -70,7 +70,7 @@ function Books() {
 
         {/* Multi-Agent */}
          <a
-          href="https://pooja-ai.github.io/Multi-Agent-knowledge-tutor/"
+          href="https://pooja-ai.github.io/Multi-Agent-knowledge-tutor"
           className="project-link-card"
         >
           <div className="project-card">
