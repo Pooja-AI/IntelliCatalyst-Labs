@@ -103,31 +103,33 @@ function Books() {
         </a>
 
         {/* AI Safety */}
-        <Link to="/ai-safety" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AISafety-Knowledge-tutor"
+         className="project-link-card">
           <div className="project-card">
             <FaShieldAlt className="project-icon" />
             <h3>AI Safety</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* AI Security */}
-        <Link to="/ai-security" className="project-link-card">
+        <a href="https://pooja-ai.github.io//AISafety-Knowledge-tutor/#/AISecurity"
+         className="project-link-card">
           <div className="project-card">
             <FaLock className="project-icon" />
             <h3>AI Security</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* Explainable AI */}
-        <Link to="/explainable-ai" className="project-link-card">
+        <a href="https://pooja-ai.github.io//AISafety-Knowledge-tutor/#/ExplainableAI" className="project-link-card">
           <div className="project-card">
             <FaEye className="project-icon" />
             <h3>Explainable AI</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* Responsible AI */}
         <Link to="/responsible-ai" className="project-link-card">
