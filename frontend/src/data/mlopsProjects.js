@@ -1,7 +1,10 @@
+import MachineLearningPipelineBanner from "../assets/banners/MachineLearningPipeline-banner.png";
+import AutomatedRetrainingBanner from "../assets/banners/AutomatedRetraining.png";
 const mlopsProjects = [
   {
     id: "end-to-end-ml-pipeline",
     title: "End-to-End Machine Learning Pipeline for Production Deployment",
+    banner: MachineLearningPipelineBanner,
     category: "MLOps Pipeline",
     description:
       "Complete machine learning pipeline from data ingestion to production deployment.",
@@ -32,6 +35,7 @@ const mlopsProjects = [
   {
     id: "automated-retraining-pipeline",
     title: "Automated Model Training and Retraining Pipeline",
+    banner: AutomatedRetrainingBanner,
     category: "Automation",
     description:
       "Pipeline that automatically retrains models based on new data or drift detection.",

@@ -32,19 +32,21 @@ function Books() {
       <div className="projects-grid">
 
         {/* LLM */}
-        <Link to="/LLM" className="project-link-card">
+        <a
+          href="https://pooja-ai.github.io/LLM-Knowledge-tutor/"
+          className="project-link-card"
+        >
           <div className="project-card">
-            <FaRobot className="project-icon" />
+            <FaDatabase className="project-icon" />
             <h3>LLM</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
+
 
         {/* RAG */}
         <a
           href="https://pooja-ai.github.io/rag-knowledge-tutor/"
-          target="_blank"
-          rel="noopener noreferrer"
           className="project-link-card"
         >
           <div className="project-card">
@@ -57,8 +59,6 @@ function Books() {
         {/* Agentic AI */}
         <a
           href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/"
-          target="_blank"
-          rel="noopener noreferrer"
           className="project-link-card"
         >
           <div className="project-card">
@@ -69,13 +69,16 @@ function Books() {
         </a>
 
         {/* Multi-Agent */}
-        <Link to="/multi-agent-cookbook" className="project-link-card">
+         <a
+          href="https://pooja-ai.github.io/Multi-Agent-knowledge-tutor/"
+          className="project-link-card"
+        >
           <div className="project-card">
-            <FaUsersCog className="project-icon" />
-            <h3>Multi-Agent Systems</h3>
+            <FaBrain className="project-icon" />
+            <h3>Multi Agent</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* MCP */}
         <Link to="/mcp" className="project-link-card">
