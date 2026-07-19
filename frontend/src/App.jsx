@@ -6,8 +6,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
-import MCP from "./pages/MCP";
-import A2A from "./pages/A2A";
 
 // ML
 import MachineLearning from "./pages/MachineLearning";
@@ -100,13 +98,6 @@ function App() {
         <Route path="/multi-agent-ai" element={<MultiAgent />} />
         <Route path="/multi-agent-ai/:id" element={<MultiAgentProjectDetails />} />
         
-        
-
-        {/* MCP */}
-        <Route path="/mcp" element={<MCP />} />
-
-        {/* A2A */}
-        <Route path="/a2a" element={<A2A />} />
 
       </Routes>
     </HashRouter>

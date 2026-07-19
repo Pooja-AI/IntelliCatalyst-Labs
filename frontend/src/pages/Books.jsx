@@ -81,22 +81,26 @@ function Books() {
         </a>
 
         {/* MCP */}
-        <Link to="/mcp" className="project-link-card">
+    
+        <a href="https://pooja-ai.github.io/MCP-Knowledge-tutor/"
+         className="project-link-card">
           <div className="project-card">
             <FaServer className="project-icon" />
             <h3>MCP</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+          </a>
+        
 
         {/* A2A */}
-        <Link to="/a2a" className="project-link-card">
+        <a href="https://pooja-ai.github.io/A2A-knowledge-tutor" 
+        className="project-link-card">
           <div className="project-card">
             <FaExchangeAlt className="project-icon" />
             <h3>A2A</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* AI Safety */}
         <Link to="/ai-safety" className="project-link-card">
