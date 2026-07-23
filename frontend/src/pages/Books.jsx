@@ -132,13 +132,13 @@ function Books() {
         </a>
 
         {/* Responsible AI */}
-        <Link to="/responsible-ai" className="project-link-card">
+        <a href="http://localhost:5173/AISafety-Knowledge-tutor/#/ExplainableAI" className="project-link-card">
           <div className="project-card">
             <FaBalanceScale className="project-icon" />
             <h3>Responsible AI</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* AI Deployment */}
         <Link to="/ai-deployment" className="project-link-card">
@@ -159,22 +159,23 @@ function Books() {
         </Link>
 
         {/* Machine Learning */}
-        <Link to="/machine-learning" className="project-link-card">
+        <a href="https://pooja-ai.github.io/machinelearning-knowledge-tutor/"
+         className="project-link-card">
           <div className="project-card">
             <FaChartLine className="project-icon" />
             <h3>Machine Learning</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* Deep Learning */}
-        <Link to="/deep-learning" className="project-link-card">
+        <a href="https://pooja-ai.github.io/DeepLearning-knowledge-tutor"  className="project-link-card">
           <div className="project-card">
             <FaNetworkWired className="project-icon" />
             <h3>Deep Learning</h3>
             <span className="view-more">Open →</span>
           </div>
-        </Link>
+        </a>
 
         {/* NLP */}
         <Link to="/nlp" className="project-link-card">
