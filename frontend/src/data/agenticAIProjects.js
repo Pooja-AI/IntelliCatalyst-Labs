@@ -1,5 +1,16 @@
 import ProductivityAgent from "../assets/architecture/ProductivityAgent.png"
 import AgentProductivityBanner from "../assets/banners/AgentProductivity-banner.png"
+import AutonomousDataanalysis from "../assets/architecture/autonomous-data-analysis-arch.png"
+import AutonomousDataanalysisBanner from "../assets/banners/autonomous-data-analysis.png"
+import MultiagentWorkflow from "../assets/architecture/multiagentworkflow.png"
+import MultiAgentBanner from "../assets/banners/MultiAgentOrch.png"
+import ResearchAgentBanner from "../assets/banners/ResearchAgent-banner.png"
+import ResearchAgent from "../assets/architecture/research-agent-arch.png"
+import CustomerSupportAgent from "../assets/architecture/CustomerSupportAgent.png"
+import CustomerSupportAgentBanner from "../assets/banners/CustomerSupportAgentBanner.png"
+import SalesAgent from "../assets/architecture/SalesAgent.png"
+import SalesAgentBanner from "../assets/banners/SalesAgent.png"
+
 const agenticAIProjects = [
   {
     id: "personal-productivity-agent",
@@ -35,6 +46,7 @@ const agenticAIProjects = [
   {
     id: "autonomous-data-analysis",
     title: "Autonomous Data Analysis Agent",
+    banner:AutonomousDataanalysisBanner,
     category: "Data Agents",
     description:
       "AI agent that automatically fetches, analyzes, and generates structured reports from data sources.",
@@ -42,7 +54,7 @@ const agenticAIProjects = [
     problemStatement:
       "Data analysts spend time manually processing and summarizing datasets. This agent automates end-to-end analysis.",
 
-    architecture: "/architecture/data-agent.png",
+    architecture: AutonomousDataanalysis,
 
     workflow: [
       "Data source connection",
@@ -65,6 +77,7 @@ const agenticAIProjects = [
   {
     id: "multi-agent-workflow",
     title: "Multi-Agent Workflow Automation System",
+    banner: MultiAgentBanner,
     category: "Multi-Agent Systems",
     description:
       "Collaborative AI agents working together to execute complex enterprise workflows.",
@@ -72,7 +85,7 @@ const agenticAIProjects = [
     problemStatement:
       "Single agents cannot efficiently handle complex multi-step workflows requiring specialization and coordination.",
 
-    architecture: "/architecture/multi-agent.png",
+    architecture: MultiagentWorkflow,
 
     workflow: [
       "Task decomposition",
@@ -94,6 +107,7 @@ const agenticAIProjects = [
   {
     id: "research-agent",
     title: "AI Research Agent",
+    banner:ResearchAgentBanner,
     category: "Research Agents",
     description:
       "Autonomous agent that searches, summarizes, and generates structured research reports.",
@@ -101,7 +115,7 @@ const agenticAIProjects = [
     problemStatement:
       "Researchers spend significant time gathering and summarizing information manually from multiple sources.",
 
-    architecture: "/architecture/research-agent.png",
+    architecture: ResearchAgent,
 
     workflow: [
       "Query understanding",
@@ -123,6 +137,7 @@ const agenticAIProjects = [
   {
     id: "customer-support-agent",
     title: "Customer Support Agent with Tool Calling",
+    banner:CustomerSupportAgentBanner,
     category: "Enterprise Agents",
     description:
       "AI agent that handles customer queries using tool calling, escalation logic, and knowledge retrieval.",
@@ -130,7 +145,7 @@ const agenticAIProjects = [
     problemStatement:
       "Customer support teams face high response delays due to manual handling of repetitive queries.",
 
-    architecture: "/architecture/support-agent.png",
+    architecture: CustomerSupportAgent,
 
     workflow: [
       "Query classification",
@@ -150,63 +165,79 @@ const agenticAIProjects = [
   },
 
   {
-    id: "sales-agent",
-    title: "AI Sales Agent",
-    category: "Business Agents",
-    description:
-      "AI-powered sales automation agent for lead qualification and customer engagement.",
+  id: "sales-agent",
 
-    problemStatement:
-      "Sales teams spend time manually qualifying leads and following up with prospects.",
+  title: "Enterprise AI Sales Agent",
+  banner:SalesAgentBanner,
 
-    architecture: "/architecture/sales-agent.png",
+  category: "Business Agents",
 
-    workflow: [
-      "Lead ingestion",
-      "Lead scoring",
-      "Personalized messaging",
-      "Follow-up automation",
-      "CRM updates"
-    ],
+  description:
+    "Production-grade AI Sales Agent that automates lead qualification, customer engagement, personalized outreach, proposal generation, CRM updates, and follow-up workflows using LLMs, RAG, Tool Calling, and Multi-Agent orchestration.",
 
-    deployment:
-      "Deployed with CRM integration and LLM-based communication engine.",
+  problemStatement:
+    "Sales teams spend significant time qualifying leads, personalizing communication, updating CRM systems, scheduling meetings, and following up with prospects, reducing productivity and slowing revenue growth.",
 
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "CRM Automation", "LLMs"]
-  },
+  architecture: SalesAgent,
 
-  {
-    id: "devops-agent",
-    title: "AI DevOps Assistant Agent",
-    category: "DevOps Agents",
-    description:
-      "Autonomous monitoring agent that detects system issues and suggests fixes.",
+  workflow: [
+    "Lead Ingestion",
+    "Customer Data Enrichment",
+    "AI Lead Scoring",
+    "Intent Detection",
+    "Knowledge Retrieval (RAG)",
+    "Personalized Email & Proposal Generation",
+    "Meeting Scheduling",
+    "CRM Update",
+    "Follow-up Automation",
+    "Opportunity Prediction",
+    "Sales Analytics Dashboard",
+    "Human Approval (Optional)"
+  ],
 
-    problemStatement:
-      "DevOps teams need real-time system monitoring and intelligent failure detection.",
+  deployment:
+    "Deployed on Microsoft Azure using Azure OpenAI, Azure AI Search, Azure Functions, Azure Logic Apps, Azure Cosmos DB, Azure API Management, Azure Container Apps, Azure Monitor, and GitHub Actions CI/CD.",
 
-    architecture: "/architecture/devops-agent.png",
+  github: "",
+  demo: "",
+  documentation: "",
 
-    workflow: [
-      "System monitoring",
-      "Log analysis",
-      "Anomaly detection",
-      "Issue diagnosis",
-      "Fix recommendation"
-    ],
-
-    deployment:
-      "Integrated with monitoring systems and cloud infrastructure APIs.",
-
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Monitoring", "LLMs", "DevOps"]
-  },
-
+  tech: [
+    "Python",
+    "FastAPI",
+    "Azure OpenAI",
+    "GPT-4o",
+    "LangGraph",
+    "Semantic Kernel",
+    "LangChain",
+    "LlamaIndex",
+    "RAG",
+    "Tool Calling",
+    "Function Calling",
+    "MCP",
+    "A2A",
+    "Azure AI Search",
+    "Azure Functions",
+    "Azure Logic Apps",
+    "Azure Cosmos DB",
+    "Azure Blob Storage",
+    "Azure API Management",
+    "Azure Container Apps",
+    "Azure Monitor",
+    "Azure Application Insights",
+    "Azure Key Vault",
+    "Microsoft Entra ID",
+    "Docker",
+    "GitHub Actions",
+    "Dynamics 365",
+    "Salesforce",
+    "HubSpot",
+    "Microsoft Graph API",
+    "Redis",
+    "OpenTelemetry",
+    "Langfuse"
+  ]
+},
   {
     id: "travel-agent",
     title: "Travel Planning Agent",
