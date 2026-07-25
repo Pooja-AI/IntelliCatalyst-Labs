@@ -28,6 +28,7 @@ const agenticAIProjects = [
     tech: ["Python", "LLMs", "Tool Calling", "Agents"]
   },
 
+
   {
     id: "autonomous-data-analysis",
     title: "Autonomous Data Analysis Agent",

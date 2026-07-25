@@ -56,17 +56,17 @@ function Books() {
           </div>
         </a>
 
-        {/* Agentic AI */}
-        <a
-          href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/"
-          className="project-link-card"
-        >
+         {/* Agentic AI */}
+        <Link to="/agentic-ai-projects" className="project-link-card">
           <div className="project-card">
             <FaBrain className="project-icon" />
-            <h3>Agentic AI</h3>
-            <span className="view-more">Open →</span>
+            <h3>Agentic AI Systems</h3>
+            <span className="view-more">
+              Explore →
+            </span>
           </div>
-        </a>
+        </Link>
+        
 
         {/* Multi-Agent */}
          <a

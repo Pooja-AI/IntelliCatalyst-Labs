@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
+import AgenticAIProjects from "./pages/AgenticAIConcepts"
+
 
 // ML
 import MachineLearning from "./pages/MachineLearning";
@@ -32,12 +34,9 @@ import AgenticAI from "./pages/AgenticAI";
 import AgenticAIProjectDetails from "./pages/AgenticAIProjectDetails";
 
 
-
 //Generative AI
 import GenerativeAI from "./pages/GenerativeAI";
 import GenAIProjectDetails from "./pages/GenAIProjectDetails";
-
-
 
 
 
@@ -64,6 +63,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/about" element={<About />} />
         <Route path="/books" element={<Books />} />
+        <Route path="/agentic-ai-projects" element={<AgenticAIProjects />} />
 
         {/* Machine Learning */}
         <Route path="/machine-learning" element={<MachineLearning />} />
@@ -89,6 +89,8 @@ function App() {
         {/* Agentic AI */}
         <Route path="/agentic-ai" element={<AgenticAI />} />
         <Route path="/agentic-ai/:id" element={<AgenticAIProjectDetails />} />
+
+        
      
         {/* Generative AI */}
         <Route path="/generative-ai" element={<GenerativeAI />} />
