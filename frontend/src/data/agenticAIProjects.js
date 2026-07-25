@@ -1,7 +1,10 @@
+import ProductivityAgent from "../assets/architecture/ProductivityAgent.png"
+import AgentProductivityBanner from "../assets/banners/AgentProductivity-banner.png"
 const agenticAIProjects = [
   {
     id: "personal-productivity-agent",
     title: "AI Personal Productivity Agent",
+    banner:AgentProductivityBanner,
     category: "Autonomous Agents",
     description:
       "Autonomous AI agent that plans, prioritizes, and executes personal productivity tasks using tool-calling and reasoning loops.",
@@ -9,7 +12,7 @@ const agenticAIProjects = [
     problemStatement:
       "Individuals struggle to manage tasks efficiently across multiple tools and calendars. This agent automates planning and execution of daily workflows.",
 
-    architecture: "/architecture/productivity-agent.png",
+    architecture: ProductivityAgent,
 
     workflow: [
       "User input task collection",
@@ -22,9 +25,9 @@ const agenticAIProjects = [
     deployment:
       "Deployed as an autonomous agent system with API-based tool integration and LLM orchestration layer.",
 
-    github: "",
+    github: "https://github.com/Pooja-AI/productivity-agent",
     demo: "",
-    documentation: "",
+    documentation: "https://github.com/Pooja-AI/productivity-agent/blob/main/README.md",
     tech: ["Python", "LLMs", "Tool Calling", "Agents"]
   },
 

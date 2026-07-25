@@ -186,12 +186,12 @@ function AgenticAIProjects() {
         </Link>
 
         {/* Module 20 */}
-        <Link to="/agentic-ai/real-world-projects" className="project-link-card">
+        <a href="https://pooja-ai.github.io/IntelliCatalyst-Labs/#/agentic-ai" className="project-link-card">
           <div className="project-card">
             <FaLaptopCode className="project-icon" />
             <h3>Real-World Projects</h3>
           </div>
-        </Link>
+        </a>
 
       </div>
 
