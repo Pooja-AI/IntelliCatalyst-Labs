@@ -10,6 +10,13 @@ import CustomerSupportAgent from "../assets/architecture/CustomerSupportAgent.pn
 import CustomerSupportAgentBanner from "../assets/banners/CustomerSupportAgentBanner.png"
 import SalesAgent from "../assets/architecture/SalesAgent.png"
 import SalesAgentBanner from "../assets/banners/SalesAgent.png"
+import TravelAgent from "../assets/architecture/TravelAgent.png"
+import TravelAgentBanner from "../assets/banners/TravelAgent-banner.png"
+import Businessanalystagent from "../assets/architecture/Businessanalystagent.png"
+import BusinessanalystagentBanner from "../assets/banners/Businessanalystagent-banner.png"
+import EmailManagement from "../assets/architecture/Emailmanagement.png"
+import EnterpriseEmailBanner from "../assets/banners/EnterpriseEmail-banner.png"
+
 
 const agenticAIProjects = [
   {
@@ -239,91 +246,244 @@ const agenticAIProjects = [
   ]
 },
   {
-    id: "travel-agent",
-    title: "Travel Planning Agent",
-    category: "Planning Agents",
-    description:
-      "AI agent that generates travel itineraries and booking suggestions.",
+  id: "travel-agent",
 
-    problemStatement:
-      "Travel planning is time-consuming and requires coordination across multiple platforms.",
+  title: "Enterprise Agentic AI Travel Planning Platform",
+  banner:TravelAgentBanner,
 
-    architecture: "/architecture/travel-agent.png",
+  category: "Planning Agents",
 
-    workflow: [
-      "User preference collection",
-      "Destination analysis",
-      "Itinerary generation",
-      "Budget optimization",
-      "Booking suggestions"
-    ],
+  description:
+    "Production-ready multi-agent Agentic AI platform that autonomously plans, optimizes, books, and manages end-to-end travel using Amazon Bedrock, LangGraph, RAG, enterprise knowledge, and external travel services. The platform leverages intelligent planning, reasoning, reflection, and dynamic replanning to deliver personalized, policy-compliant travel experiences.",
 
-    deployment:
-      "Deployed using API-based travel recommendation system with LLM planner.",
+  problemStatement:
+    "Enterprise and personal travel planning requires coordinating flights, hotels, transportation, budgets, travel policies, visa regulations, weather conditions, and real-time disruptions across multiple platforms. Manual planning is inefficient, difficult to optimize, and challenging to adapt to changing travel conditions.",
 
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "LLMs", "APIs"]
-  },
+  architecture: TravelAgent,
+
+  workflow: [
+    "User submits travel preferences, destination, travel dates, budget, and constraints through the web application",
+    "Amazon API Gateway invokes AWS Lambda, which authenticates the user using Amazon Cognito",
+    "Amazon Bedrock receives the system prompt, user prompt, conversation context, and retrieved knowledge",
+    "Amazon Bedrock Guardrails validate prompts and enforce enterprise safety policies",
+    "LangGraph Coordinator Agent validates the request and orchestrates the complete multi-agent workflow",
+    "Planner Agent decomposes the travel goal into parallel executable tasks using Plan-and-Execute reasoning",
+    "Flight, Hotel, Transportation, Weather, Visa, Budget, and Policy Agents retrieve real-time information using external travel APIs and enterprise tools",
+    "RAG Agent retrieves travel policies, destination knowledge, previous itineraries, and organizational guidelines from Amazon Bedrock Knowledge Bases using Amazon OpenSearch Vector Engine",
+    "Reasoning Engine applies ReAct, Chain-of-Thought, Reflection, and Dynamic Planning to generate optimized itinerary options",
+    "Budget Optimization Agent selects the most cost-effective itinerary while satisfying business rules and user constraints",
+    "Policy & Compliance Agent validates enterprise travel policies, approvals, and visa requirements",
+    "Reflection Agent evaluates, refines, and improves itinerary quality before finalization",
+    "Human-in-the-Loop requests approval for premium bookings or policy exceptions when required",
+    "Dynamic Replanning Agent continuously monitors delays, cancellations, weather updates, and schedule changes through event-driven workflows",
+    "Notification Agent sends itinerary updates, booking confirmations, reminders, and travel alerts",
+    "Final personalized itinerary, booking recommendations, estimated cost, and travel notifications are delivered to the user"
+  ],
+
+  deployment:
+    "Production-ready deployment on AWS using Amazon Bedrock, Bedrock Knowledge Bases, Amazon API Gateway, AWS Lambda, AWS Step Functions, Amazon EventBridge, Amazon OpenSearch Vector Engine, Amazon DynamoDB, Amazon S3, Amazon Cognito, AWS IAM, Amazon CloudWatch, Docker, Amazon EKS, GitHub Actions CI/CD, and Terraform with auto scaling, monitoring, security, and high availability.",
+
+  github: "",
+
+  demo: "",
+
+  documentation: "",
+
+  tech: [
+    "Python",
+    "Amazon Bedrock",
+    "Bedrock Knowledge Bases",
+    "LangGraph",
+    "LangChain",
+    "AWS Lambda",
+    "Amazon API Gateway",
+    "AWS Step Functions",
+    "Amazon EventBridge",
+    "Amazon OpenSearch Vector Engine",
+    "Amazon DynamoDB",
+    "Amazon S3",
+    "Amazon Cognito",
+    "Amazon CloudWatch",
+    "AWS IAM",
+    "AWS Secrets Manager",
+    "Docker",
+    "Kubernetes (Amazon EKS)",
+    "GitHub Actions",
+    "Terraform",
+    "REST APIs",
+    "RAG",
+    "MCP",
+    "A2A",
+    "OpenTelemetry",
+    "Langfuse"
+  ]
+},
+  {
+  id: "business-analyst-agent",
+
+  title: "Enterprise Agentic AI Business Intelligence & Analytics Platform",
+  banner:BusinessanalystagentBanner,
+
+  category: "Analytics Agents",
+
+  description:
+    "Production-ready multi-agent Agentic AI platform that autonomously ingests enterprise data, analyzes KPIs, performs root cause analysis, generates actionable business insights, forecasts trends, and creates executive reports using Azure OpenAI, Azure AI Search, RAG, and intelligent multi-agent collaboration.",
+
+  problemStatement:
+    "Business teams spend significant time collecting data from multiple enterprise systems, calculating KPIs, analyzing trends, identifying anomalies, preparing dashboards, and generating executive reports. Manual analytics delays decision-making, lacks scalability, and makes real-time business intelligence difficult.",
+
+  architecture: Businessanalystagent,
+
+  workflow: [
+    "Business users submit analytics requests, business questions, KPIs, or reporting requirements through the web application",
+    "Azure API Management authenticates requests using Microsoft Entra ID and routes them to Azure Functions",
+    "Azure OpenAI receives the system prompt, user query, conversation context, and retrieved enterprise knowledge",
+    "Azure AI Content Safety validates prompts and enforces enterprise governance policies",
+    "LangGraph Coordinator Agent validates requests and orchestrates the complete multi-agent workflow",
+    "Planner Agent decomposes complex business questions into parallel analytical tasks using Plan-and-Execute reasoning",
+    "Data Ingestion Agents collect structured and unstructured data from Azure SQL Database, Azure Data Lake Storage, Microsoft Fabric, Power BI, SAP, Salesforce, Dynamics 365, and REST APIs",
+    "RAG Agent retrieves business policies, KPI definitions, historical reports, SOPs, and enterprise documentation from Azure AI Search",
+    "Analytics Agents perform KPI computation, trend analysis, anomaly detection, forecasting, customer segmentation, root cause analysis, and predictive analytics",
+    "Reasoning Engine applies ReAct, Chain-of-Thought, Reflection, and Dynamic Planning to generate business insights and recommendations",
+    "Business Rule Agent validates insights against enterprise governance policies and KPI thresholds",
+    "Reflection Agent reviews analytical outputs, verifies reasoning quality, and improves recommendations",
+    "Human-in-the-Loop requests approval before publishing executive reports or strategic recommendations",
+    "Report Generation Agent creates interactive dashboards, executive summaries, Power BI reports, and downloadable documents",
+    "Notification Agent delivers insights, alerts, anomaly notifications, and scheduled reports through Microsoft Teams, Outlook, and Power BI"
+  ],
+
+  deployment:
+    "Production-ready deployment on Microsoft Azure using Azure OpenAI, Azure AI Search, Azure API Management, Azure Functions, Azure Logic Apps, Azure Event Grid, Azure Service Bus, Azure SQL Database, Azure Data Lake Storage Gen2, Azure Monitor, Microsoft Entra ID, AKS, Docker, GitHub Actions, and Azure DevOps with enterprise security, scalability, monitoring, CI/CD, and high availability.",
+
+  github: "",
+
+  demo: "",
+
+  documentation: "",
+
+  tech: [
+    "Python",
+    "Azure OpenAI",
+    "Azure AI Search",
+    "LangGraph",
+    "LangChain",
+    "Azure Functions",
+    "Azure API Management",
+    "Azure Logic Apps",
+    "Azure Event Grid",
+    "Azure Service Bus",
+    "Azure SQL Database",
+    "Azure Data Lake Storage Gen2",
+    "Microsoft Fabric",
+    "Power BI",
+    "Azure Blob Storage",
+    "Azure Cosmos DB",
+    "Microsoft Entra ID",
+    "Azure Monitor",
+    "Azure Application Insights",
+    "Azure Key Vault",
+    "Azure Kubernetes Service (AKS)",
+    "Docker",
+    "GitHub Actions",
+    "Azure DevOps",
+    "Terraform",
+    "REST APIs",
+    "RAG",
+    "MCP",
+    "A2A",
+    "OpenTelemetry",
+    "Langfuse",
+    "Pandas",
+    "NumPy",
+    "Scikit-learn"
+  ]
+},
 
   {
-    id: "business-analyst-agent",
-    title: "AI Business Analyst Agent",
-    category: "Analytics Agents",
-    description:
-      "AI agent that performs KPI analysis and generates business insights automatically.",
+  id: "email-management-agent",
 
-    problemStatement:
-      "Business analysts spend significant time manually generating reports and dashboards.",
+  title: "Enterprise Agentic AI Email Management & Productivity Platform",
+  banner: EnterpriseEmailBanner,
 
-    architecture: "/architecture/business-agent.png",
+  category: "Productivity Agents",
 
-    workflow: [
-      "Data ingestion",
-      "KPI computation",
-      "Trend analysis",
-      "Insight generation",
-      "Report creation"
-    ],
+  description:
+    "Production-ready multi-agent Agentic AI platform that intelligently manages enterprise emails by classifying messages, prioritizing actions, generating contextual responses, scheduling follow-ups, detecting risks, summarizing conversations, and automating email workflows using Azure OpenAI, Azure AI Search, RAG, and Azure-native services.",
 
-    deployment:
-      "Deployed as BI automation layer integrated with dashboards.",
+  problemStatement:
+    "Organizations receive thousands of emails daily across multiple departments. Employees spend significant time prioritizing emails, drafting responses, tracking conversations, scheduling follow-ups, identifying urgent requests, and ensuring compliance. Manual email management reduces productivity, delays response times, and increases operational risk.",
 
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Pandas", "LLMs", "BI"]
-  },
+  architecture: EmailManagement,
 
-  {
-    id: "email-management-agent",
-    title: "Autonomous Email Management Agent",
-    category: "Productivity Agents",
-    description:
-      "AI agent that sorts, prioritizes, and responds to emails intelligently.",
+  workflow: [
+    "Users connect Outlook or enterprise mailboxes through Microsoft Entra ID authentication",
+    "Azure API Management securely routes requests to Azure Functions and Azure Logic Apps",
+    "Email Ingestion Agent continuously monitors Microsoft Graph API and enterprise mailboxes",
+    "Azure OpenAI receives the system prompt, email content, conversation history, user preferences, and retrieved enterprise knowledge",
+    "Azure AI Content Safety validates prompts and filters malicious or unsafe content",
+    "LangGraph Coordinator Agent validates incoming emails and orchestrates the multi-agent workflow",
+    "Planner Agent decomposes email processing into parallel tasks using Plan-and-Execute reasoning",
+    "Classification Agent categorizes emails into business, support, HR, finance, legal, sales, meetings, and personal folders",
+    "Priority Agent scores emails based on urgency, sender importance, deadlines, sentiment, and business rules",
+    "RAG Agent retrieves enterprise policies, SOPs, historical conversations, templates, FAQs, and customer knowledge from Azure AI Search",
+    "Reasoning Engine applies ReAct, Chain-of-Thought, Reflection, and Dynamic Planning to determine the optimal response strategy",
+    "Response Generation Agent drafts context-aware, policy-compliant email replies using Azure OpenAI",
+    "Summarization Agent generates concise conversation summaries and extracts action items",
+    "Task & Calendar Agent creates follow-up tasks, schedules meetings, and synchronizes with Microsoft Outlook Calendar and Microsoft Teams",
+    "Business Rule Agent validates compliance, approvals, confidentiality, and organizational policies before sending responses",
+    "Reflection Agent reviews generated responses, verifies quality, and refines outputs before final approval",
+    "Human-in-the-Loop requests approval for sensitive, legal, financial, or executive communications",
+    "Automation Agent triggers downstream workflows through Azure Logic Apps and Power Automate",
+    "Notification Agent sends alerts, reminders, and follow-up notifications through Microsoft Teams and Outlook",
+    "Final approved responses are delivered automatically while dashboards track productivity, response quality, and SLA compliance"
+  ],
 
-    problemStatement:
-      "Professionals struggle with email overload and prioritization.",
+  deployment:
+    "Production-ready deployment on Microsoft Azure using Azure OpenAI, Azure AI Search, Azure API Management, Azure Functions, Azure Logic Apps, Microsoft Graph API, Azure Event Grid, Azure Service Bus, Azure SQL Database, Azure Blob Storage, Microsoft Entra ID, Azure Monitor, Azure Kubernetes Service (AKS), Docker, GitHub Actions, Azure DevOps, Terraform, and Application Insights with enterprise-grade security, scalability, governance, observability, CI/CD, and high availability.",
 
-    architecture: "/architecture/email-agent.png",
+  github: "",
 
-    workflow: [
-      "Email ingestion",
-      "Classification",
-      "Priority scoring",
-      "Auto-response generation",
-      "Scheduling follow-ups"
-    ],
+  demo: "",
 
-    deployment:
-      "Integrated with email APIs and LLM-based response engine.",
+  documentation: "",
 
-    github: "",
-    demo: "",
-    documentation: "",
-    tech: ["Python", "Email APIs", "LLMs"]
-  }
+  tech: [
+    "Python",
+    "Azure OpenAI",
+    "Azure AI Search",
+    "LangGraph",
+    "LangChain",
+    "Azure Functions",
+    "Azure API Management",
+    "Azure Logic Apps",
+    "Azure Event Grid",
+    "Azure Service Bus",
+    "Microsoft Graph API",
+    "Microsoft Outlook API",
+    "Microsoft Teams API",
+    "Azure SQL Database",
+    "Azure Cosmos DB",
+    "Azure Blob Storage",
+    "Azure Data Lake Storage Gen2",
+    "Azure Key Vault",
+    "Microsoft Entra ID",
+    "Azure Monitor",
+    "Application Insights",
+    "Azure Kubernetes Service (AKS)",
+    "Docker",
+    "GitHub Actions",
+    "Azure DevOps",
+    "Terraform",
+    "REST APIs",
+    "RAG",
+    "MCP",
+    "A2A",
+    "OpenTelemetry",
+    "Langfuse",
+    "Power Automate",
+    "Power BI"
+  ]
+}
 ];
 
 export default agenticAIProjects;
