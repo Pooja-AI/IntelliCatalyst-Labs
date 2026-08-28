@@ -32,29 +32,24 @@ function Books() {
       <div className="projects-grid">
 
         {/* LLM */}
-        <a
-          href="https://pooja-ai.github.io/LLM-Knowledge-tutor/"
-          className="project-link-card"
-        >
+        <Link to="/llm-ai-concepts" className="project-link-card">
           <div className="project-card">
             <FaDatabase className="project-icon" />
             <h3>LLM</h3>
             <span className="view-more">Open →</span>
           </div>
-        </a>
+        </Link>
+        
 
 
         {/* RAG */}
-        <a
-          href="https://pooja-ai.github.io/rag-knowledge-tutor/"
-          className="project-link-card"
-        >
+        <Link to="/rag-ai-projects" className="project-link-card">
           <div className="project-card">
             <FaDatabase className="project-icon" />
             <h3>RAG</h3>
             <span className="view-more">Open →</span>
           </div>
-        </a>
+        </Link>
 
          {/* Agentic AI */}
         <Link to="/agentic-ai-projects" className="project-link-card">

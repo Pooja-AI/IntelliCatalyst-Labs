@@ -7,6 +7,8 @@ import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Books from "./pages/Books";
 import AgenticAIProjects from "./pages/AgenticAIConcepts"
+import RAGAIConcepts from "./pages/RAGAIConcepts";
+import LLMConcepts from "./pages/LLMAIConcepts";
 
 
 // ML
@@ -64,6 +66,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/books" element={<Books />} />
         <Route path="/agentic-ai-projects" element={<AgenticAIProjects />} />
+        <Route path="/rag-ai-projects" element={<RAGAIConcepts />} />
+        <Route path="/llm-ai-concepts" element={<LLMConcepts />} />
+
 
         {/* Machine Learning */}
         <Route path="/machine-learning" element={<MachineLearning />} />

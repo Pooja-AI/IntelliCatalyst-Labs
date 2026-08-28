@@ -32,12 +32,12 @@ function AgenticAIProjects() {
       <div className="projects-grid">
 
         {/* Module 1 */}
-        <Link to="/agentic-ai/foundations" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgenticAICookbook" className="project-link-card">
           <div className="project-card">
             <FaCube className="project-icon" />
             <h3>Foundations</h3>
           </div>
-        </Link>
+        </a>
 
          
 
