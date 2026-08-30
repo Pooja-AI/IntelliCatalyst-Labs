@@ -130,7 +130,7 @@ function AgenticAIProjects() {
         </a>
 
         {/* Module 13 */}
-        <a to="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentEvaluation" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentEvaluation" className="project-link-card">
           <div className="project-card">
             <FaClipboardCheck className="project-icon" />
             <h3>Evaluation</h3>
@@ -138,12 +138,12 @@ function AgenticAIProjects() {
         </a>
 
         {/* Module 14 */}
-        <Link to="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentObservability" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentObservability" className="project-link-card">
           <div className="project-card">
             <FaChartLine className="project-icon" />
             <h3>Observability</h3>
           </div>
-        </Link>
+        </a>
 
         {/* Module 15 */}
         <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentDesignPatterns" className="project-link-card">
