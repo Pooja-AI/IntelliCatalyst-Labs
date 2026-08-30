@@ -154,36 +154,36 @@ function AgenticAIProjects() {
         </a>
 
         {/* Module 16 */}
-        <Link to="/agentic-ai/frameworks" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentFrameworks" className="project-link-card">
           <div className="project-card">
             <FaCode className="project-icon" />
             <h3>Frameworks</h3>
           </div>
-        </Link>
+        </a>
 
         {/* Module 17 */}
-        <Link to="/agentic-ai/communication-protocols" className="project-link-card">
+        <a href="/agentic-ai/communication-protocols" className="project-link-card">
           <div className="project-card">
             <FaExchangeAlt className="project-icon" />
             <h3>Communication Protocols</h3>
           </div>
-        </Link>
+        </a>
 
         {/* Module 18 */}
-        <Link to="/agentic-ai/enterprise-agentic-ai" className="project-link-card">
+        <a href="/agentic-ai/enterprise-agentic-ai" className="project-link-card">
           <div className="project-card">
             <FaBuilding className="project-icon" />
             <h3>Enterprise Agentic AI</h3>
           </div>
-        </Link>
+        </a>
 
         {/* Module 19 */}
-        <Link to="/agentic-ai/advanced-topics" className="project-link-card">
+        <a href="/agentic-ai/advanced-topics" className="project-link-card">
           <div className="project-card">
             <FaRocket className="project-icon" />
             <h3>Advanced Topics</h3>
           </div>
-        </Link>
+        </a>
 
         {/* Module 20 */}
         <a href="https://pooja-ai.github.io/IntelliCatalyst-Labs/#/agentic-ai" className="project-link-card">
