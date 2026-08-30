@@ -162,7 +162,7 @@ function AgenticAIProjects() {
         </a>
 
         {/* Module 17 */}
-        <a href="/agentic-ai/communication-protocols" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentCommunication" className="project-link-card">
           <div className="project-card">
             <FaExchangeAlt className="project-icon" />
             <h3>Communication Protocols</h3>
@@ -170,7 +170,7 @@ function AgenticAIProjects() {
         </a>
 
         {/* Module 18 */}
-        <a href="/agentic-ai/enterprise-agentic-ai" className="project-link-card">
+        <a href="https://pooja-ai.github.io/AgenticAI-knowledge-tutor/#/AgentEnterprise" className="project-link-card">
           <div className="project-card">
             <FaBuilding className="project-icon" />
             <h3>Enterprise Agentic AI</h3>
